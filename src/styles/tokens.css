@@ -1,0 +1,150 @@
+/* ==========================================================================
+   tokens.css —— SPEC 第 5 节：色彩 / 字号 / 圆角变量
+   护眼原则：大面积区域低饱和、偏暖，绝不用纯白纯黑。
+   ========================================================================== */
+
+:root {
+  /* ---- Day 模式（默认）：暖米色纸感 ---- */
+  --bg:            #F6F1E7;  /* 页面背景：暖米色，非纯白 */
+  --bg-soft:       #EFE8DA;  /* 次级区域 */
+  --surface:       #FDFAF3;  /* 卡片表面：奶油白 */
+  --surface-2:     #F3ECDD;
+  --text:          #3B3934;  /* 正文：暖深灰，非纯黑 */
+  --text-muted:    #6C665B; /* 在 bg-soft 上也达到 4.5:1 */
+  --border:        #E2D9C6;
+
+  /* 强调色：中低饱和，只用于小面积（按钮、图标、星星） */
+  --coral:         #EE9B86;  /* 主按钮 */
+  --sage:          #9BC49B;  /* 正确/完成 */
+  --sky:           #8FB8DC;  /* 信息/链接 */
+  --butter:        #F2D27E;  /* 星星/奖励 */
+  --lilac:         #BFAEDC;  /* 装饰 */
+  --peach:         #F3C4A6;  /* 温和提示（替代红色错误） */
+
+  --shadow:        0 4px 14px rgba(80, 60, 30, 0.10);
+  --shadow-lg:     0 10px 28px rgba(80, 60, 30, 0.13);
+  --radius:        24px;
+  --radius-btn:    20px;
+  --radius-sm:     12px;
+
+  /* ---- 主题氛围色（SPEC 5.1）：低饱和粉彩，用于地图站点与主题页顶部 ---- */
+  --tint-animals:  #DCE9D2;
+  --tint-fruits:   #F6E3D0;
+  --tint-colors:   #E7DDF0;
+  --tint-numbers:  #D9E6EF;
+  --tint-vehicles: #E0E5EC;
+  --tint-weather:  #DCEAF0;
+  --tint-body:     #F3E2DA;
+  --tint-food:     #F5EBD3;
+
+  /* ---- Mascot 配色（引用强调色，夜间自动随之变暗） ---- */
+  --momo-body:   var(--peach);
+  --momo-accent: var(--coral);
+  --momo-face:   var(--surface);
+  --momo-ink:    var(--text);
+
+  /* ---- 排版（SPEC 5.3） ---- */
+  --font: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont,
+          "PingFang SC", system-ui, sans-serif;
+  --font-emoji: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+
+  --fs-word:   56px;  /* 单词展示，iPad 下由媒体查询放大到 72px */
+  --fs-btn:    22px;
+  --fs-body:   20px;
+  --fs-parent: 16px;
+
+  /* ---- 触控目标（SPEC 4.3）---- */
+  --tap-min: 64px;
+  --tap-gap: 12px;
+
+  /* 动效时长，prefers-reduced-motion 下被置零 */
+  --t-page: 260ms;
+  --t-tap:  140ms;
+}
+
+/* iPad 及更宽屏幕：单词更大 */
+@media (min-width: 768px) {
+  :root {
+    --fs-word: 72px;
+    --fs-btn:  24px;
+    --fs-body: 22px;
+  }
+}
+
+/* ==========================================================================
+   Night 模式：暖深色。强调色统一降低 15% 亮度、保持同一色相。
+   ========================================================================== */
+
+[data-theme="night"] {
+  --bg:         #2B2824;
+  --bg-soft:    #332F2A;
+  --surface:    #3A352F;
+  --surface-2:  #443E37;
+  --text:       #EDE6D8;
+  --text-muted: #B3AA99;
+  --border:     #4F4840;
+
+  --coral:      #E77355;
+  --sage:       #7AB07A;
+  --sky:        #669ECF;
+  --butter:     #EDC04C;
+  --lilac:      #9E85CA;
+  --peach:      #ECA070;
+
+  --shadow:     0 4px 14px rgba(0, 0, 0, 0.30);
+  --shadow-lg:  0 10px 28px rgba(0, 0, 0, 0.38);
+
+  /* 氛围色同样压暗，避免夜间大面积亮块 */
+  --tint-animals:  #46503F;
+  --tint-fruits:   #4E4238;
+  --tint-colors:   #453E4E;
+  --tint-numbers:  #3C464E;
+  --tint-vehicles: #414549;
+  --tint-weather:  #3B474C;
+  --tint-body:     #4A403C;
+  --tint-food:     #4B453A;
+
+  /* 夜间的卡通身体单独提亮一点，否则贴在深背景上会糊掉 */
+  --momo-body: #D9976B;
+  --momo-face: #F1E8D8;
+  --momo-ink:  #2B2824;
+}
+
+/*
+  appearance = auto 时跟随系统。
+  用 :not([data-theme]) 限定，保证家长页显式设置（M4）永远优先于系统偏好。
+*/
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --bg:         #2B2824;
+    --bg-soft:    #332F2A;
+    --surface:    #3A352F;
+    --surface-2:  #443E37;
+    --text:       #EDE6D8;
+    --text-muted: #B3AA99;
+    --border:     #4F4840;
+
+    --coral:      #E77355;
+    --sage:       #7AB07A;
+    --sky:        #669ECF;
+    --butter:     #EDC04C;
+    --lilac:      #9E85CA;
+    --peach:      #ECA070;
+
+    --shadow:     0 4px 14px rgba(0, 0, 0, 0.30);
+    --shadow-lg:  0 10px 28px rgba(0, 0, 0, 0.38);
+
+    --tint-animals:  #46503F;
+    --tint-fruits:   #4E4238;
+    --tint-colors:   #453E4E;
+    --tint-numbers:  #3C464E;
+    --tint-vehicles: #414549;
+    --tint-weather:  #3B474C;
+    --tint-body:     #4A403C;
+    --tint-food:     #4B453A;
+
+    --momo-body: #D9976B;
+    --momo-face: #F1E8D8;
+    --momo-ink:  #2B2824;
+  }
+}

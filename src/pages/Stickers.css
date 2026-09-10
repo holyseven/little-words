@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Stickers —— 贴纸册 + 徽章墙（SPEC 7.8）
+   ========================================================================== */
+
+.stickers__intro {
+  font-size: 17px;
+  color: var(--text-muted);
+}
+
+.stickers__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stickers__heading {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.stickers__heading-zh {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--text-muted);
+  margin-left: 8px;
+}
+
+/* --------------------------------------------------------------------------
+   贴纸网格：已获得显示 emoji，未获得为虚线空位
+   -------------------------------------------------------------------------- */
+
+.sticker-grid {
+  display: grid;
+  /* 自动铺满，每格至少 64px（触控目标下限） */
+  grid-template-columns: repeat(auto-fill, minmax(68px, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .sticker-grid {
+    grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+    gap: 16px;
+  }
+}
+
+.sticker {
+  aspect-ratio: 1;
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  font-size: 36px;
+  line-height: 1;
+  transition: transform var(--t-tap) ease;
+}
+
+@media (min-width: 768px) {
+  .sticker {
+    font-size: 46px;
+  }
+}
+
+/* 点贴纸有弹跳（SPEC 7.8） */
+.sticker:active {
+  transform: scale(0.92);
+}
+
+.sticker.is-bounce {
+  animation: sticker-bounce 460ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes sticker-bounce {
+  0%,
+  100% {
+    transform: scale(1) rotate(0);
+  }
+  40% {
+    transform: scale(1.18) rotate(-7deg);
+  }
+  70% {
+    transform: scale(0.97) rotate(3deg);
+  }
+}
+
+/* 未获得：虚线空位 */
+.sticker--empty {
+  background: transparent;
+  border-style: dashed;
+  box-shadow: none;
+  opacity: 0.55;
+}
+
+/* --------------------------------------------------------------------------
+   徽章墙
+   -------------------------------------------------------------------------- */
+
+.badge-wall {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: 14px;
+}
+
+@media (min-width: 768px) {
+  .badge-wall {
+    grid-template-columns: repeat(auto-fill, minmax(108px, 1fr));
+    gap: 18px;
+  }
+}
+
+.badge-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-width: 0;
+  min-height: 0;
+}
+
+.badge {
+  width: 100%;
+}
+
+.badge > svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.badge-slot__label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: center;
+}
+
+/* 未获得的徽章：只留灰色轮廓 */
+.badge-slot--empty .badge {
+  opacity: 0.28;
+  filter: grayscale(1);
+}
+
+.badge-slot--empty .badge-slot__label {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* 空状态提示 */
+.stickers__empty {
+  padding: 24px 18px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 17px;
+}

@@ -1,0 +1,18 @@
+node_modules/
+dist/
+dist-ssr/
+*.local
+.DS_Store
+.vite/
+.local-certs/
+
+# 图标由 `npm run icons` 从角色 SVG 生成，属于构建产物
+public/icons/*.png
+public/favicon.svg
+
+# 注意：public/audio/*.m4a 与 src/content/audioManifest.json 要提交进仓库。
+# 它们由 `npm run audio` 用 macOS 的 `say` 生成，Linux/CI 上无法重新生成，
+# 所以当作资源纳入版本管理，而不是构建产物。
+
+# public/course-media/、public/course-posters/ 与 src/content/curriculum.json
+# 同样是需随项目保存的课程资源，不能排除；常规构建无需原始素材目录。

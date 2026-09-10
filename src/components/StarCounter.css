@@ -1,0 +1,43 @@
+.star-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  font-weight: 700;
+  min-height: var(--tap-min);
+}
+
+.star-counter__icon {
+  font-size: 28px;
+}
+
+.star-counter__num {
+  font-size: 26px;
+  min-width: 1.2em;
+  text-align: center;
+  color: var(--text);
+  display: inline-block;
+}
+
+/* 数字变动：轻微上浮 + 放大，不闪烁（SPEC 5.2） */
+.star-counter__num.is-bump {
+  animation: star-bump 420ms ease-out;
+}
+
+@keyframes star-bump {
+  0% {
+    transform: translateY(6px) scale(0.9);
+    opacity: 0.4;
+  }
+  60% {
+    transform: translateY(0) scale(1.14);
+    opacity: 1;
+  }
+  100% {
+    transform: none;
+  }
+}

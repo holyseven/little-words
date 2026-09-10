@@ -1,0 +1,20 @@
+{
+  "id": "numbers",
+  "title": "Numbers",
+  "zh": "数字",
+  "emoji": "🔢",
+  "tint": "--tint-numbers",
+  "order": 4,
+  "words": [
+    { "id": "num-one", "text": "one", "svg": "num-1", "zh": "一", "sentence": "I have one nose." },
+    { "id": "num-two", "text": "two", "svg": "num-2", "zh": "二", "sentence": "I have two eyes." },
+    { "id": "num-three", "text": "three", "svg": "num-3", "zh": "三", "sentence": "Three birds are singing." },
+    { "id": "num-four", "text": "four", "svg": "num-4", "zh": "四", "sentence": "A cat has four legs." },
+    { "id": "num-five", "text": "five", "svg": "num-5", "zh": "五", "sentence": "I have five fingers." },
+    { "id": "num-six", "text": "six", "svg": "num-6", "zh": "六", "sentence": "Six eggs are in here." },
+    { "id": "num-seven", "text": "seven", "svg": "num-7", "zh": "七", "sentence": "A week has seven days." },
+    { "id": "num-eight", "text": "eight", "svg": "num-8", "zh": "八", "sentence": "Eight fish are swimming." },
+    { "id": "num-nine", "text": "nine", "svg": "num-9", "zh": "九", "sentence": "Nine stars are up there." },
+    { "id": "num-ten", "text": "ten", "svg": "num-10", "zh": "十", "sentence": "I can count to ten." }
+  ]
+}

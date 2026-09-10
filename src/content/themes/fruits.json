@@ -1,0 +1,20 @@
+{
+  "id": "fruits",
+  "title": "Fruits",
+  "zh": "水果",
+  "emoji": "🍎",
+  "tint": "--tint-fruits",
+  "order": 2,
+  "words": [
+    { "id": "apple", "text": "apple", "emoji": "🍎", "zh": "苹果", "sentence": "The apple is red." },
+    { "id": "banana", "text": "banana", "emoji": "🍌", "zh": "香蕉", "sentence": "I eat a yellow banana." },
+    { "id": "orange", "text": "orange", "emoji": "🍊", "zh": "橙子", "sentence": "This orange is very sweet." },
+    { "id": "grapes", "text": "grapes", "emoji": "🍇", "zh": "葡萄", "sentence": "The grapes are purple." },
+    { "id": "strawberry", "text": "strawberry", "emoji": "🍓", "zh": "草莓", "sentence": "A strawberry is small and red." },
+    { "id": "watermelon", "text": "watermelon", "emoji": "🍉", "zh": "西瓜", "sentence": "The watermelon is very big." },
+    { "id": "pear", "text": "pear", "emoji": "🍐", "zh": "梨", "sentence": "I like green pears." },
+    { "id": "peach", "text": "peach", "emoji": "🍑", "zh": "桃子", "sentence": "The peach is soft." },
+    { "id": "cherry", "text": "cherry", "emoji": "🍒", "zh": "樱桃", "sentence": "Two cherries are on top." },
+    { "id": "lemon", "text": "lemon", "emoji": "🍋", "zh": "柠檬", "sentence": "The lemon tastes sour." }
+  ]
+}

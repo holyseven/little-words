@@ -1,0 +1,161 @@
+/* ==========================================================================
+   Learn —— 单词卡学习页（SPEC 7.3）
+   ========================================================================== */
+
+.learn {
+  gap: 14px;
+}
+
+.learn__progress {
+  font-size: 17px;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+/* 进度条：细、低对比 */
+.learn__bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.learn__bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--sage);
+  transition: width 320ms ease-out;
+}
+
+/* 卡片区域：占满剩余高度，左右留出箭头空间 */
+.learn__stage {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.learn__arrow {
+  flex: 0 0 auto;
+  align-self: center;
+  width: var(--tap-min);
+  height: var(--tap-min);
+  border-radius: 50%
+  ;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  font-size: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--t-tap) ease;
+}
+
+.learn__arrow:active:not(:disabled) {
+  transform: scale(0.92);
+}
+
+.learn__arrow:disabled {
+  opacity: 0.35;
+  box-shadow: none;
+}
+
+/* 手机窄屏：箭头藏起来，靠左右滑动切换 */
+@media (max-width: 420px) {
+  .learn__arrow {
+    display: none;
+  }
+}
+
+.learn__swipe {
+  flex: 1;
+  display: block;
+  min-width: 0;
+  /* 允许纵向滚动手势，横向留给我们自己处理滑动 */
+  touch-action: pan-y;
+}
+
+/* --------------------------------------------------------------------------
+   底部两个按钮（SPEC 7.3）
+   -------------------------------------------------------------------------- */
+
+.learn__actions {
+  display: flex;
+  gap: var(--tap-gap);
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.learn__actions .btn {
+  flex: 1 1 auto;
+  max-width: 260px;
+}
+
+/*
+  窄屏（iPhone 竖屏 375px）：收窄内边距，让两个按钮留在同一行。
+  堆成两行会吃掉约 70px 高度，卡片里的 emoji 就得跟着缩小。
+*/
+@media (max-width: 420px) {
+  .learn__actions {
+    flex-wrap: nowrap;
+  }
+
+  .learn__actions .btn {
+    padding: 16px 12px;
+    gap: 6px;
+    min-width: 0;
+  }
+}
+
+/* 已标记过：改为柔和的「已认识」态，不再重复给星 */
+.btn--known {
+  background: var(--sage);
+  border-color: transparent;
+  color: #2E3B2E;
+}
+
+/* --------------------------------------------------------------------------
+   总结页（SPEC 7.3）
+   -------------------------------------------------------------------------- */
+
+.summary {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  text-align: center;
+  padding: 20px;
+}
+
+.summary__title {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.summary__line {
+  font-size: 22px;
+  color: var(--text-muted);
+}
+
+.summary__stars {
+  font-size: 40px;
+  letter-spacing: 4px;
+}
+
+.summary__actions {
+  display: flex;
+  gap: var(--tap-gap);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.summary__mascot {
+  width: 132px;
+}

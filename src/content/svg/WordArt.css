@@ -1,0 +1,31 @@
+/* ==========================================================================
+   WordArt —— 单词图形的统一尺寸控制
+   emoji 用 font-size，SVG 用 width/height；两者对外表现一致。
+   ========================================================================== */
+
+.word-art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.word-art--emoji {
+  /* 尺寸由使用处的 font-size 决定 */
+  font-family: var(--font-emoji);
+  font-weight: 400;
+  -webkit-text-size-adjust: none;
+}
+
+.word-art--svg {
+  width: 100%;
+  height: 100%;
+}
+
+.word-art--svg > svg {
+  width: 100%;
+  height: 100%;
+  max-height: 100%;
+  display: block;
+  overflow: visible;
+}

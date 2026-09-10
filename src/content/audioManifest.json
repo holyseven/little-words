@@ -1,0 +1,926 @@
+{
+  "voice": "Evan (Enhanced)",
+  "sampleRate": 22050,
+  "clips": {
+    "w/cat": {
+      "hash": "7928496ef336",
+      "text": "cat",
+      "durationMs": 284
+    },
+    "s/cat": {
+      "hash": "f7b5aa00374f",
+      "text": "The cat is sleeping.",
+      "durationMs": 1033
+    },
+    "w/dog": {
+      "hash": "6aac895b86aa",
+      "text": "dog",
+      "durationMs": 579
+    },
+    "s/dog": {
+      "hash": "e3544e4d6fd9",
+      "text": "My dog can run fast.",
+      "durationMs": 1378
+    },
+    "w/elephant": {
+      "hash": "d70785e18afb",
+      "text": "elephant",
+      "durationMs": 439
+    },
+    "s/elephant": {
+      "hash": "6a6ef53e3397",
+      "text": "The elephant is very big.",
+      "durationMs": 1267
+    },
+    "w/lion": {
+      "hash": "80ead6a61079",
+      "text": "lion",
+      "durationMs": 507
+    },
+    "s/lion": {
+      "hash": "607aaf272b16",
+      "text": "The lion has a big voice.",
+      "durationMs": 1402
+    },
+    "w/monkey": {
+      "hash": "6ef36d358abe",
+      "text": "monkey",
+      "durationMs": 567
+    },
+    "s/monkey": {
+      "hash": "2c3f7bff3286",
+      "text": "A monkey loves bananas.",
+      "durationMs": 1401
+    },
+    "w/rabbit": {
+      "hash": "51367bad497b",
+      "text": "rabbit",
+      "durationMs": 452
+    },
+    "s/rabbit": {
+      "hash": "f7e0312553a0",
+      "text": "The rabbit hops away.",
+      "durationMs": 1239
+    },
+    "w/fish": {
+      "hash": "46e83e2cdcd8",
+      "text": "fish",
+      "durationMs": 484
+    },
+    "s/fish": {
+      "hash": "9c0a9670b9e4",
+      "text": "The fish swims in water.",
+      "durationMs": 1337
+    },
+    "w/bird": {
+      "hash": "f3fc19c2b4b9",
+      "text": "bird",
+      "durationMs": 491
+    },
+    "s/bird": {
+      "hash": "d8aaa5b1df44",
+      "text": "A bird sings in the tree.",
+      "durationMs": 1222
+    },
+    "w/cow": {
+      "hash": "126b9b56a2d0",
+      "text": "cow",
+      "durationMs": 287
+    },
+    "s/cow": {
+      "hash": "8e69a290edd1",
+      "text": "The cow eats green grass.",
+      "durationMs": 1319
+    },
+    "w/pig": {
+      "hash": "b398746d6d03",
+      "text": "pig",
+      "durationMs": 295
+    },
+    "s/pig": {
+      "hash": "01896e2a8617",
+      "text": "The pig is pink and round.",
+      "durationMs": 1228
+    },
+    "w/eye": {
+      "hash": "b19f5c12cf6a",
+      "text": "eye",
+      "durationMs": 235
+    },
+    "s/eye": {
+      "hash": "ea9d204845c0",
+      "text": "I see with my eye.",
+      "durationMs": 1054
+    },
+    "w/ear": {
+      "hash": "2702800f4fd6",
+      "text": "ear",
+      "durationMs": 344
+    },
+    "s/ear": {
+      "hash": "f2ffa6dedd95",
+      "text": "I hear with my ear.",
+      "durationMs": 1075
+    },
+    "w/nose": {
+      "hash": "abfe48ceffa5",
+      "text": "nose",
+      "durationMs": 511
+    },
+    "s/nose": {
+      "hash": "9f25c28be4c2",
+      "text": "My nose smells flowers.",
+      "durationMs": 1367
+    },
+    "w/mouth": {
+      "hash": "55537f85f1be",
+      "text": "mouth",
+      "durationMs": 431
+    },
+    "s/mouth": {
+      "hash": "63cd61f2eb64",
+      "text": "I eat with my mouth.",
+      "durationMs": 948
+    },
+    "w/hand": {
+      "hash": "d0a7fd0bb7b2",
+      "text": "hand",
+      "durationMs": 414
+    },
+    "s/hand": {
+      "hash": "34d6ac791800",
+      "text": "Wave your hand at me.",
+      "durationMs": 1080
+    },
+    "w/foot": {
+      "hash": "2145c059c9c9",
+      "text": "foot",
+      "durationMs": 367
+    },
+    "s/foot": {
+      "hash": "ed0b80afedcf",
+      "text": "My foot is in a shoe.",
+      "durationMs": 1142
+    },
+    "w/tooth": {
+      "hash": "a00ea286bf19",
+      "text": "tooth",
+      "durationMs": 535
+    },
+    "s/tooth": {
+      "hash": "f3ee0bb65da5",
+      "text": "Brush every tooth well.",
+      "durationMs": 1224
+    },
+    "w/leg": {
+      "hash": "3333c704e811",
+      "text": "leg",
+      "durationMs": 314
+    },
+    "s/leg": {
+      "hash": "0cd9c16681db",
+      "text": "I run with my legs.",
+      "durationMs": 1277
+    },
+    "w/arm": {
+      "hash": "fa15e6b32d73",
+      "text": "arm",
+      "durationMs": 305
+    },
+    "s/arm": {
+      "hash": "e90cbded38c2",
+      "text": "My arm is very strong.",
+      "durationMs": 1421
+    },
+    "w/hair": {
+      "hash": "c49d0771ec36",
+      "text": "hair",
+      "durationMs": 433
+    },
+    "s/hair": {
+      "hash": "fe3532f45abe",
+      "text": "Her hair is long.",
+      "durationMs": 870
+    },
+    "w/color-red": {
+      "hash": "8b44899d51c8",
+      "text": "red",
+      "durationMs": 342
+    },
+    "s/color-red": {
+      "hash": "529fbe2882c0",
+      "text": "My ball is red.",
+      "durationMs": 1026
+    },
+    "w/color-blue": {
+      "hash": "2f9ac163c7ff",
+      "text": "blue",
+      "durationMs": 440
+    },
+    "s/color-blue": {
+      "hash": "05407ebd334e",
+      "text": "The sky is blue.",
+      "durationMs": 1058
+    },
+    "w/color-yellow": {
+      "hash": "495704ff663a",
+      "text": "yellow",
+      "durationMs": 544
+    },
+    "s/color-yellow": {
+      "hash": "ff2cb37f6a98",
+      "text": "The sun is yellow.",
+      "durationMs": 828
+    },
+    "w/color-green": {
+      "hash": "2cb38d597813",
+      "text": "green",
+      "durationMs": 581
+    },
+    "s/color-green": {
+      "hash": "d6e895031a37",
+      "text": "Green leaves are on trees.",
+      "durationMs": 1272
+    },
+    "w/color-orange": {
+      "hash": "1215b1ed46e5",
+      "text": "orange",
+      "durationMs": 517
+    },
+    "s/color-orange": {
+      "hash": "ef315e1d3263",
+      "text": "I have an orange hat.",
+      "durationMs": 1129
+    },
+    "w/color-purple": {
+      "hash": "cd398545e56b",
+      "text": "purple",
+      "durationMs": 438
+    },
+    "s/color-purple": {
+      "hash": "1f5ed0b87a91",
+      "text": "Purple grapes taste sweet.",
+      "durationMs": 1473
+    },
+    "w/color-pink": {
+      "hash": "05161c063fe4",
+      "text": "pink",
+      "durationMs": 381
+    },
+    "s/color-pink": {
+      "hash": "0d3ee783a10b",
+      "text": "Her dress is pink.",
+      "durationMs": 977
+    },
+    "w/color-brown": {
+      "hash": "b39e74663a02",
+      "text": "brown",
+      "durationMs": 551
+    },
+    "s/color-brown": {
+      "hash": "17d62cf9f5ec",
+      "text": "The bear is brown.",
+      "durationMs": 924
+    },
+    "w/color-black": {
+      "hash": "a082c397a79b",
+      "text": "black",
+      "durationMs": 526
+    },
+    "s/color-black": {
+      "hash": "dfb980759dba",
+      "text": "My cat is black.",
+      "durationMs": 967
+    },
+    "w/color-white": {
+      "hash": "13efc9ebf3e2",
+      "text": "white",
+      "durationMs": 552
+    },
+    "s/color-white": {
+      "hash": "74135e16a07d",
+      "text": "The snow is white.",
+      "durationMs": 934
+    },
+    "w/bread": {
+      "hash": "731cdd9862a1",
+      "text": "bread",
+      "durationMs": 465
+    },
+    "s/bread": {
+      "hash": "2bf60681fe27",
+      "text": "I eat bread for breakfast.",
+      "durationMs": 1364
+    },
+    "w/egg": {
+      "hash": "17f900f1c19b",
+      "text": "egg",
+      "durationMs": 150
+    },
+    "s/egg": {
+      "hash": "851b56800cd9",
+      "text": "The egg is white.",
+      "durationMs": 841
+    },
+    "w/milk": {
+      "hash": "3b5987aaa31d",
+      "text": "milk",
+      "durationMs": 414
+    },
+    "s/milk": {
+      "hash": "1d4b127ca1d2",
+      "text": "I drink warm milk.",
+      "durationMs": 1025
+    },
+    "w/rice": {
+      "hash": "5fd771486e6b",
+      "text": "rice",
+      "durationMs": 623
+    },
+    "s/rice": {
+      "hash": "762126aaa39d",
+      "text": "We eat rice today.",
+      "durationMs": 1079
+    },
+    "w/cake": {
+      "hash": "f04133dc6548",
+      "text": "cake",
+      "durationMs": 402
+    },
+    "s/cake": {
+      "hash": "e3333f6f62f4",
+      "text": "The cake is very sweet.",
+      "durationMs": 1314
+    },
+    "w/pizza": {
+      "hash": "2c8a8802b39c",
+      "text": "pizza",
+      "durationMs": 495
+    },
+    "s/pizza": {
+      "hash": "28bdfdc7bd30",
+      "text": "I love hot pizza.",
+      "durationMs": 945
+    },
+    "w/cookie": {
+      "hash": "f141bdc4b406",
+      "text": "cookie",
+      "durationMs": 404
+    },
+    "s/cookie": {
+      "hash": "416b842bc3dd",
+      "text": "One cookie is left.",
+      "durationMs": 1158
+    },
+    "w/ice-cream": {
+      "hash": "968716254ec1",
+      "text": "ice cream",
+      "durationMs": 663
+    },
+    "s/ice-cream": {
+      "hash": "b66676f6e888",
+      "text": "Ice cream is very cold.",
+      "durationMs": 1344
+    },
+    "w/cheese": {
+      "hash": "ec864f0cf9eb",
+      "text": "cheese",
+      "durationMs": 615
+    },
+    "s/cheese": {
+      "hash": "81e66a624576",
+      "text": "Mice love yellow cheese.",
+      "durationMs": 1458
+    },
+    "w/juice": {
+      "hash": "caaec2289e9a",
+      "text": "juice",
+      "durationMs": 606
+    },
+    "s/juice": {
+      "hash": "683cc29307af",
+      "text": "I drink apple juice.",
+      "durationMs": 1262
+    },
+    "w/apple": {
+      "hash": "b9010a149560",
+      "text": "apple",
+      "durationMs": 392
+    },
+    "s/apple": {
+      "hash": "0c0e3b3bf4f3",
+      "text": "The apple is red.",
+      "durationMs": 869
+    },
+    "w/banana": {
+      "hash": "366f427ebe09",
+      "text": "banana",
+      "durationMs": 536
+    },
+    "s/banana": {
+      "hash": "bf18733da284",
+      "text": "I eat a yellow banana.",
+      "durationMs": 1217
+    },
+    "w/orange": {
+      "hash": "1215b1ed46e5",
+      "text": "orange",
+      "durationMs": 517
+    },
+    "s/orange": {
+      "hash": "73a9813f297a",
+      "text": "This orange is very sweet.",
+      "durationMs": 1582
+    },
+    "w/grapes": {
+      "hash": "8a1b2f1777a9",
+      "text": "grapes",
+      "durationMs": 585
+    },
+    "s/grapes": {
+      "hash": "e27b3fadd6b0",
+      "text": "The grapes are purple.",
+      "durationMs": 1044
+    },
+    "w/strawberry": {
+      "hash": "24bacd441b75",
+      "text": "strawberry",
+      "durationMs": 801
+    },
+    "s/strawberry": {
+      "hash": "d0ecaa09bd06",
+      "text": "A strawberry is small and red.",
+      "durationMs": 1650
+    },
+    "w/watermelon": {
+      "hash": "496cad32af8f",
+      "text": "watermelon",
+      "durationMs": 717
+    },
+    "s/watermelon": {
+      "hash": "bb7a54813038",
+      "text": "The watermelon is very big.",
+      "durationMs": 1478
+    },
+    "w/pear": {
+      "hash": "fd4fbd466b14",
+      "text": "pear",
+      "durationMs": 406
+    },
+    "s/pear": {
+      "hash": "f1c69d6127df",
+      "text": "I like green pears.",
+      "durationMs": 1095
+    },
+    "w/peach": {
+      "hash": "67712d9c055b",
+      "text": "peach",
+      "durationMs": 475
+    },
+    "s/peach": {
+      "hash": "bffd0f3451db",
+      "text": "The peach is soft.",
+      "durationMs": 1102
+    },
+    "w/cherry": {
+      "hash": "37bbc2604fc6",
+      "text": "cherry",
+      "durationMs": 542
+    },
+    "s/cherry": {
+      "hash": "10c91acbbf3a",
+      "text": "Two cherries are on top.",
+      "durationMs": 1220
+    },
+    "w/lemon": {
+      "hash": "c578f087b30d",
+      "text": "lemon",
+      "durationMs": 485
+    },
+    "s/lemon": {
+      "hash": "56f56962751c",
+      "text": "The lemon tastes sour.",
+      "durationMs": 1293
+    },
+    "w/num-one": {
+      "hash": "62a94fbe2c9c",
+      "text": "one",
+      "durationMs": 493
+    },
+    "s/num-one": {
+      "hash": "14f5cacf2b02",
+      "text": "I have one nose.",
+      "durationMs": 1109
+    },
+    "w/num-two": {
+      "hash": "bc14afdfdefb",
+      "text": "two",
+      "durationMs": 397
+    },
+    "s/num-two": {
+      "hash": "82e86b4c206e",
+      "text": "I have two eyes.",
+      "durationMs": 982
+    },
+    "w/num-three": {
+      "hash": "b7e228f5d0e1",
+      "text": "three",
+      "durationMs": 476
+    },
+    "s/num-three": {
+      "hash": "f5da2fa9cc8b",
+      "text": "Three birds are singing.",
+      "durationMs": 1092
+    },
+    "w/num-four": {
+      "hash": "bf438b6d6f9f",
+      "text": "four",
+      "durationMs": 516
+    },
+    "s/num-four": {
+      "hash": "3b850738bb6e",
+      "text": "A cat has four legs.",
+      "durationMs": 1540
+    },
+    "w/num-five": {
+      "hash": "65aa3c6a2266",
+      "text": "five",
+      "durationMs": 595
+    },
+    "s/num-five": {
+      "hash": "e58a7801cce4",
+      "text": "I have five fingers.",
+      "durationMs": 1117
+    },
+    "w/num-six": {
+      "hash": "bd81a7608193",
+      "text": "six",
+      "durationMs": 577
+    },
+    "s/num-six": {
+      "hash": "c462370f258d",
+      "text": "Six eggs are in here.",
+      "durationMs": 1282
+    },
+    "w/num-seven": {
+      "hash": "edf70d7d4693",
+      "text": "seven",
+      "durationMs": 524
+    },
+    "s/num-seven": {
+      "hash": "da373c626073",
+      "text": "A week has seven days.",
+      "durationMs": 1444
+    },
+    "w/num-eight": {
+      "hash": "798f646f28a9",
+      "text": "eight",
+      "durationMs": 261
+    },
+    "s/num-eight": {
+      "hash": "ddfaf0709461",
+      "text": "Eight fish are swimming.",
+      "durationMs": 1137
+    },
+    "w/num-nine": {
+      "hash": "94e1008bca35",
+      "text": "nine",
+      "durationMs": 440
+    },
+    "s/num-nine": {
+      "hash": "36c91ee088cb",
+      "text": "Nine stars are up there.",
+      "durationMs": 1428
+    },
+    "w/num-ten": {
+      "hash": "7c1bdc4dbf8c",
+      "text": "ten",
+      "durationMs": 445
+    },
+    "s/num-ten": {
+      "hash": "a3595c14feb1",
+      "text": "I can count to ten.",
+      "durationMs": 1096
+    },
+    "w/car": {
+      "hash": "d1eeefbdead7",
+      "text": "car",
+      "durationMs": 386
+    },
+    "s/car": {
+      "hash": "cdca314e069e",
+      "text": "The red car is fast.",
+      "durationMs": 1293
+    },
+    "w/bus": {
+      "hash": "56d36b56f916",
+      "text": "bus",
+      "durationMs": 421
+    },
+    "s/bus": {
+      "hash": "94d631c76e64",
+      "text": "The bus is very big.",
+      "durationMs": 1121
+    },
+    "w/bike": {
+      "hash": "bb71ed6b1b4f",
+      "text": "bike",
+      "durationMs": 487
+    },
+    "s/bike": {
+      "hash": "fde419e48ab3",
+      "text": "I ride my bike.",
+      "durationMs": 977
+    },
+    "w/train": {
+      "hash": "551010b59b19",
+      "text": "train",
+      "durationMs": 569
+    },
+    "s/train": {
+      "hash": "65492eeb7fc4",
+      "text": "The train is long.",
+      "durationMs": 905
+    },
+    "w/plane": {
+      "hash": "4914cc7d2335",
+      "text": "plane",
+      "durationMs": 541
+    },
+    "s/plane": {
+      "hash": "26b5d4eacb97",
+      "text": "The plane flies high.",
+      "durationMs": 1156
+    },
+    "w/boat": {
+      "hash": "7c5a1d763993",
+      "text": "boat",
+      "durationMs": 310
+    },
+    "s/boat": {
+      "hash": "3f5318dbd425",
+      "text": "A boat is on water.",
+      "durationMs": 1064
+    },
+    "w/truck": {
+      "hash": "6b389e9d5972",
+      "text": "truck",
+      "durationMs": 486
+    },
+    "s/truck": {
+      "hash": "278a5747c05c",
+      "text": "The truck carries boxes.",
+      "durationMs": 1504
+    },
+    "w/rocket": {
+      "hash": "35c568c3ed3b",
+      "text": "rocket",
+      "durationMs": 533
+    },
+    "s/rocket": {
+      "hash": "07c726f2724e",
+      "text": "The rocket goes to space.",
+      "durationMs": 1532
+    },
+    "w/helicopter": {
+      "hash": "ccc4b8157672",
+      "text": "helicopter",
+      "durationMs": 810
+    },
+    "s/helicopter": {
+      "hash": "e62163a18084",
+      "text": "The helicopter is loud.",
+      "durationMs": 1266
+    },
+    "w/taxi": {
+      "hash": "5a55ad8fc8ea",
+      "text": "taxi",
+      "durationMs": 576
+    },
+    "s/taxi": {
+      "hash": "af56628572ab",
+      "text": "A yellow taxi is here.",
+      "durationMs": 1407
+    },
+    "w/sunny": {
+      "hash": "f7212c891fc0",
+      "text": "sunny",
+      "durationMs": 503
+    },
+    "s/sunny": {
+      "hash": "648cabeffa23",
+      "text": "Today is sunny and warm.",
+      "durationMs": 1359
+    },
+    "w/rainy": {
+      "hash": "f86f972b2fe9",
+      "text": "rainy",
+      "durationMs": 511
+    },
+    "s/rainy": {
+      "hash": "c43979cbc9ba",
+      "text": "It is rainy outside.",
+      "durationMs": 1217
+    },
+    "w/cloudy": {
+      "hash": "aab92df5bd14",
+      "text": "cloudy",
+      "durationMs": 566
+    },
+    "s/cloudy": {
+      "hash": "b23f0ed66190",
+      "text": "The sky is cloudy today.",
+      "durationMs": 1521
+    },
+    "w/snowy": {
+      "hash": "0e59d4d0b421",
+      "text": "snowy",
+      "durationMs": 622
+    },
+    "s/snowy": {
+      "hash": "acc8009f9eda",
+      "text": "A snowy day is cold.",
+      "durationMs": 1322
+    },
+    "w/windy": {
+      "hash": "a68d8d9d4464",
+      "text": "windy",
+      "durationMs": 526
+    },
+    "s/windy": {
+      "hash": "7ec89e85bc73",
+      "text": "It is windy and cool.",
+      "durationMs": 1152
+    },
+    "w/rainbow": {
+      "hash": "d5c57dc79671",
+      "text": "rainbow",
+      "durationMs": 709
+    },
+    "s/rainbow": {
+      "hash": "f508580f38d4",
+      "text": "A rainbow has many colors.",
+      "durationMs": 1487
+    },
+    "w/storm": {
+      "hash": "22e4345ba538",
+      "text": "storm",
+      "durationMs": 686
+    },
+    "s/storm": {
+      "hash": "42169517f49a",
+      "text": "The storm is very loud.",
+      "durationMs": 1347
+    },
+    "w/moon": {
+      "hash": "9717b48169f9",
+      "text": "moon",
+      "durationMs": 515
+    },
+    "s/moon": {
+      "hash": "7a0d31257ef3",
+      "text": "The moon is bright tonight.",
+      "durationMs": 1252
+    },
+    "w/star": {
+      "hash": "55e7ba2ea032",
+      "text": "star",
+      "durationMs": 564
+    },
+    "s/star": {
+      "hash": "787c066ebd74",
+      "text": "I see a little star.",
+      "durationMs": 1167
+    },
+    "w/hot": {
+      "hash": "7c68a78b821f",
+      "text": "hot",
+      "durationMs": 325
+    },
+    "s/hot": {
+      "hash": "0d2ddbcf324a",
+      "text": "Summer days are very hot.",
+      "durationMs": 1472
+    },
+    "p/hi-let-s-learn-some-words": {
+      "hash": "13ad0e89c696",
+      "text": "Hi! Let's learn some words!",
+      "durationMs": 1881
+    },
+    "p/hi-there": {
+      "hash": "c56665c67f0b",
+      "text": "Hi there!",
+      "durationMs": 574
+    },
+    "p/let-s-play": {
+      "hash": "14f196a27d12",
+      "text": "Let's play!",
+      "durationMs": 717
+    },
+    "p/ready-to-learn": {
+      "hash": "98d52e9a403f",
+      "text": "Ready to learn?",
+      "durationMs": 735
+    },
+    "p/great-job": {
+      "hash": "1ed4d55ba4d2",
+      "text": "Great job!",
+      "durationMs": 697
+    },
+    "p/you-did-it": {
+      "hash": "f1a33a24cf8b",
+      "text": "You did it!",
+      "durationMs": 516
+    },
+    "p/awesome": {
+      "hash": "45d1dc2ec3fc",
+      "text": "Awesome!",
+      "durationMs": 464
+    },
+    "p/yes": {
+      "hash": "4670321f14fe",
+      "text": "Yes!",
+      "durationMs": 503
+    },
+    "p/try-again": {
+      "hash": "85c262c9e6b8",
+      "text": "Try again!",
+      "durationMs": 730
+    },
+    "p/almost": {
+      "hash": "1f8679520776",
+      "text": "Almost!",
+      "durationMs": 620
+    },
+    "p/listen-once-more": {
+      "hash": "81115c3bdf3b",
+      "text": "Listen once more.",
+      "durationMs": 1072
+    },
+    "p/you-finished": {
+      "hash": "a62574c90008",
+      "text": "You finished!",
+      "durationMs": 654
+    },
+    "p/amazing-work": {
+      "hash": "a554c1859320",
+      "text": "Amazing work!",
+      "durationMs": 895
+    },
+    "p/see-you-tomorrow": {
+      "hash": "046faa6c1580",
+      "text": "See you tomorrow!",
+      "durationMs": 959
+    },
+    "p/you-got-a-new-sticker": {
+      "hash": "1818d1ca3af6",
+      "text": "You got a new sticker!",
+      "durationMs": 1157
+    },
+    "p/time-to-rest-see-you-tomorrow": {
+      "hash": "a6dcbd0657dc",
+      "text": "Time to rest. See you tomorrow!",
+      "durationMs": 2087
+    },
+    "p/you-finished-animals-amazing": {
+      "hash": "0072a7becd4e",
+      "text": "You finished Animals! Amazing!",
+      "durationMs": 1984
+    },
+    "p/you-finished-fruits-amazing": {
+      "hash": "b56b1fd409d6",
+      "text": "You finished Fruits! Amazing!",
+      "durationMs": 1936
+    },
+    "p/you-finished-colors-amazing": {
+      "hash": "4f737d4c4d89",
+      "text": "You finished Colors! Amazing!",
+      "durationMs": 1902
+    },
+    "p/you-finished-numbers-amazing": {
+      "hash": "c0440f59baf4",
+      "text": "You finished Numbers! Amazing!",
+      "durationMs": 1911
+    },
+    "p/you-finished-vehicles-amazing": {
+      "hash": "c103e027abb8",
+      "text": "You finished Vehicles! Amazing!",
+      "durationMs": 2067
+    },
+    "p/you-finished-weather-amazing": {
+      "hash": "b765b45c8adb",
+      "text": "You finished Weather! Amazing!",
+      "durationMs": 1795
+    },
+    "p/you-finished-body-amazing": {
+      "hash": "94a9eb5bc977",
+      "text": "You finished Body! Amazing!",
+      "durationMs": 1744
+    },
+    "p/you-finished-food-amazing": {
+      "hash": "876d61d479e2",
+      "text": "You finished Food! Amazing!",
+      "durationMs": 1852
+    }
+  }
+}

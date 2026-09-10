@@ -1,0 +1,171 @@
+/* ==========================================================================
+   ThemePage —— 主题页（SPEC 7.2）
+   ========================================================================== */
+
+.theme-page {
+  gap: 18px;
+}
+
+/* 顶部区域为主题氛围色 */
+.theme-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: var(--radius);
+  background: var(--theme-tint, var(--surface-2));
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+}
+
+.theme-hero__emoji {
+  font-size: 56px;
+}
+
+.theme-hero__name {
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.theme-hero__zh {
+  display: block;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.theme-hero__progress {
+  margin-left: auto;
+  text-align: right;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+.theme-hero__progress b {
+  display: block;
+  font-size: 30px;
+  color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   4 个大入口卡（SPEC 7.2）
+   iPhone 竖屏 2×2；iPad 更大间距
+   -------------------------------------------------------------------------- */
+
+.activities {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+@media (min-width: 768px) {
+  .activities {
+    gap: 24px;
+  }
+}
+
+/* iPad 横屏：1×4 一行放开 */
+@media (min-width: 1024px) and (orientation: landscape) {
+  .activities {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.activity {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 148px;
+  padding: 18px 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform var(--t-tap) ease;
+}
+
+@media (min-width: 768px) {
+  .activity {
+    min-height: 190px;
+  }
+}
+
+.activity:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.activity__emoji {
+  font-size: 44px;
+}
+
+.activity__title {
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.activity__zh {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.activity__meta {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* 未开放的活动：柔和降级，不用红色也不用禁用灰 */
+.activity--soon {
+  opacity: 0.55;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.theme-page__mascot {
+  margin-top: auto;
+  align-self: flex-end;
+  /* 内容较矮时不要把角色顶到底部之外 */
+  flex: 0 0 auto;
+}
+
+/* --------------------------------------------------------------------------
+   矮屏（iPhone 竖屏 375×667）：压缩纵向占用，
+   保证 hero + 4 张卡 + 角色能在一屏内放下，不被裁掉
+   -------------------------------------------------------------------------- */
+
+@media (max-height: 720px) {
+  .theme-page .page__body {
+    gap: 12px;
+  }
+
+  .theme-hero {
+    padding: 14px 18px;
+  }
+
+  .theme-hero__emoji {
+    font-size: 44px;
+  }
+
+  .theme-hero__name {
+    font-size: 28px;
+  }
+
+  .activities {
+    gap: 12px;
+  }
+
+  .activity {
+    min-height: 116px;
+    gap: 4px;
+    padding: 12px 10px;
+  }
+
+  .activity__emoji {
+    font-size: 34px;
+  }
+
+  .theme-page__mascot .mascot__figure {
+    width: 78px;
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": "colors",
+  "title": "Colors",
+  "zh": "颜色",
+  "emoji": "🎨",
+  "tint": "--tint-colors",
+  "order": 3,
+  "words": [
+    { "id": "color-red", "text": "red", "svg": "color-red", "zh": "红色", "sentence": "My ball is red." },
+    { "id": "color-blue", "text": "blue", "svg": "color-blue", "zh": "蓝色", "sentence": "The sky is blue." },
+    { "id": "color-yellow", "text": "yellow", "svg": "color-yellow", "zh": "黄色", "sentence": "The sun is yellow." },
+    { "id": "color-green", "text": "green", "svg": "color-green", "zh": "绿色", "sentence": "Green leaves are on trees." },
+    { "id": "color-orange", "text": "orange", "svg": "color-orange", "zh": "橙色", "sentence": "I have an orange hat." },
+    { "id": "color-purple", "text": "purple", "svg": "color-purple", "zh": "紫色", "sentence": "Purple grapes taste sweet." },
+    { "id": "color-pink", "text": "pink", "svg": "color-pink", "zh": "粉色", "sentence": "Her dress is pink." },
+    { "id": "color-brown", "text": "brown", "svg": "color-brown", "zh": "棕色", "sentence": "The bear is brown." },
+    { "id": "color-black", "text": "black", "svg": "color-black", "zh": "黑色", "sentence": "My cat is black." },
+    { "id": "color-white", "text": "white", "svg": "color-white", "zh": "白色", "sentence": "The snow is white." }
+  ]
+}

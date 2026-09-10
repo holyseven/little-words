@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="400" viewBox="0 0 1080 400" role="img" aria-labelledby="title desc">
+  <title id="title">在 Safari 中添加 Little Words 到主屏幕</title>
+  <desc id="desc">操作示意：联网打开 HTTPS 页面，点击分享，选择添加到主屏幕并确认添加，等待离线缓存就绪后从主屏幕图标启动。</desc>
+  <rect width="1080" height="400" rx="24" fill="#F6F1E7"/>
+  <g fill="#3B3934" font-family="-apple-system, BlinkMacSystemFont, PingFang SC, sans-serif" text-anchor="middle">
+    <text x="540" y="45" font-size="25" font-weight="700">添加到主屏幕 · 操作示意</text>
+    <g fill="#FDFAF3" stroke="#E2D9C6" stroke-width="2">
+      <rect x="30" y="75" width="320" height="255" rx="24"/>
+      <rect x="380" y="75" width="320" height="255" rx="24"/>
+      <rect x="730" y="75" width="320" height="255" rx="24"/>
+    </g>
+    <text x="190" y="113" font-size="21" font-weight="700">1 · Safari 打开 HTTPS 页面</text>
+    <g fill="none" stroke="#3B3934" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M164 179v48h52v-48 M190 197v-58m-15 16 15-16 15 16"/>
+    </g>
+    <text x="190" y="268" font-size="22">点「分享」图标</text>
+    <text x="190" y="302" font-size="17" fill="#6C665B">通常位于 Safari 工具栏</text>
+    <text x="540" y="113" font-size="21" font-weight="700">2 · 找到添加入口</text>
+    <rect x="408" y="150" width="264" height="70" rx="15" fill="#EFE8DA"/>
+    <rect x="422" y="170" width="28" height="28" rx="5" fill="none" stroke="#3B3934" stroke-width="2"/>
+    <path d="M429 184h14m-7-7v14" stroke="#3B3934" stroke-width="2"/>
+    <text x="559" y="191" font-size="21">添加到主屏幕</text>
+    <text x="540" y="268" font-size="22">再点右上角「添加」</text>
+    <text x="540" y="302" font-size="17" fill="#6C665B">未看到入口时向下滚动分享菜单</text>
+    <text x="890" y="113" font-size="21" font-weight="700">3 · 从主屏幕启动</text>
+    <rect x="848" y="135" width="84" height="84" rx="22" fill="#EFE8DA"/>
+    <g fill="#F3C4A6" stroke="#3B3934" stroke-width="2">
+      <circle cx="868" cy="157" r="11"/><circle cx="911" cy="157" r="11"/>
+      <ellipse cx="890" cy="181" rx="29" ry="28"/>
+    </g>
+    <circle cx="880" cy="177" r="2.5"/><circle cx="900" cy="177" r="2.5"/>
+    <path d="M883 191q7 7 14 0" fill="none" stroke="#3B3934" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="890" y="250" font-size="22">Little Words</text>
+    <text x="890" y="282" font-size="18">先联网等待缓存就绪</text>
+    <text x="890" y="309" font-size="17" fill="#6C665B">再开飞行模式，关闭并重新启动</text>
+    <text x="540" y="369" font-size="18" fill="#6C665B">不同 iPadOS 版本位置可能不同；局域网 HTTP 预览不能安装离线缓存。</text>
+  </g>
+</svg>

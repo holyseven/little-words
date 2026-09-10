@@ -1,0 +1,301 @@
+/* ==========================================================================
+   global.css —— 重置、iOS 触控规则、safe-area、通用组件样式
+   ========================================================================== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* SPEC 11.2：禁长按菜单、禁点击高亮、禁选中 */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  /* manipulation：保留单击与滚动，禁掉双击缩放 */
+  touch-action: manipulation;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: var(--fs-body);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+}
+
+html {
+  /* 背景色铺满，橡皮筋回弹时不露白 */
+  background: var(--bg);
+  height: 100%;
+}
+
+body {
+  height: 100vh; /* 老浏览器兜底 */
+  height: 100dvh;
+  overflow: hidden;
+}
+
+#root {
+  /* 给出确定高度，页面内部的 flex/滚动才有可算的边界 */
+  height: 100vh; /* 老浏览器兜底 */
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  /* 页面自身管滚动（.page__body），根容器不滚，避免整页橡皮筋 */
+  overflow: hidden;
+}
+
+/* 家长页允许选择文本（SPEC 11.2） */
+.parent-page,
+.parent-page * {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+button {
+  font-family: inherit;
+  font-size: var(--fs-btn);
+  color: inherit;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  /* 触控目标 ≥ 64×64（SPEC 4.3） */
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  touch-action: manipulation;
+}
+
+button:disabled {
+  cursor: default;
+}
+
+/* 键盘可访问性：保留清晰焦点环，但不影响触控 */
+:focus-visible {
+  outline: 3px solid var(--sky);
+  outline-offset: 3px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+.emoji {
+  font-family: var(--font-emoji);
+  font-weight: 400;
+  line-height: 1;
+  /* emoji 不参与文字缩放调整，避免不同设备大小不一 */
+  -webkit-text-size-adjust: none;
+}
+
+/* --------------------------------------------------------------------------
+   页面骨架（SPEC 11.3）
+   App shell 布局：页面本身正好一屏、不滚动；需要滚动的区域用 .page__body。
+   这样 standalone 下不会出现整页橡皮筋，右下角的角色也能稳定停在视口内。
+   （注意：.page 带进入动画，会成为 fixed 子元素的包含块，所以覆盖层用
+   position: absolute 相对 .page 定位，不要用 fixed。）
+   -------------------------------------------------------------------------- */
+
+.page {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding:
+    calc(env(safe-area-inset-top) + 12px)
+    calc(env(safe-area-inset-right) + 16px)
+    calc(env(safe-area-inset-bottom) + 16px)
+    calc(env(safe-area-inset-left) + 16px);
+  background: var(--bg);
+}
+
+/* 页面内唯一的滚动区域：内容超出一屏时在这里滚，而不是整页滚 */
+.page__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+
+/* 页面进入：淡入 + 轻微上移（200–300ms，SPEC 5.2） */
+.page-enter {
+  animation: page-in var(--t-page) ease-out both;
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  gap: var(--tap-gap);
+  min-height: var(--tap-min);
+}
+
+.page-header__spacer {
+  flex: 1;
+}
+
+/* --------------------------------------------------------------------------
+   通用按钮
+   -------------------------------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 26px;
+  border-radius: var(--radius-btn);
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 700;
+  box-shadow: var(--shadow);
+  border: 2px solid var(--border);
+  transition:
+    transform var(--t-tap) ease,
+    filter var(--t-tap) ease;
+}
+
+.btn--primary {
+  background: var(--coral);
+  border-color: transparent;
+  color: var(--text);
+}
+
+[data-theme='night'] .btn--primary {
+  color: #201D1A;
+}
+
+.btn--soft {
+  background: var(--surface-2);
+}
+
+/* 只在支持 hover 的设备（Mac）上做悬停，触屏不残留 hover 态 */
+@media (hover: hover) {
+  .btn:hover:not(:disabled) {
+    filter: brightness(1.03);
+  }
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+}
+
+/* 圆形图标按钮（返回、家长入口、听一次） */
+.icon-btn {
+  width: var(--tap-min);
+  height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  font-size: 28px;
+  transition: transform var(--t-tap) ease;
+}
+
+.icon-btn:active {
+  transform: scale(0.92);
+}
+
+/* --------------------------------------------------------------------------
+   卡片
+   -------------------------------------------------------------------------- */
+
+.card {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px
+  ;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --------------------------------------------------------------------------
+   SPEC 5.2 / 13：尊重 prefers-reduced-motion —— 只保留淡入淡出
+   -------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --t-page: 160ms;
+    --t-tap: 0ms;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* 淡入保留，但去掉位移 */
+  .page-enter {
+    animation: page-fade 160ms ease-out both !important;
+  }
+
+  .btn:active:not(:disabled), .icon-btn:active, .station:active .station__disc,
+  .word-card__art:active, .word-card__text:active, .sticker:active, .activity:active:not(:disabled) {
+    transform: none;
+  }
+  .audio-hint:active:not(:disabled) { transform: translateX(-50%); }
+
+  @keyframes page-fade {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+}

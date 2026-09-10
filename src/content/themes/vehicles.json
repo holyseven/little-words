@@ -1,0 +1,20 @@
+{
+  "id": "vehicles",
+  "title": "Vehicles",
+  "zh": "交通工具",
+  "emoji": "🚗",
+  "tint": "--tint-vehicles",
+  "order": 5,
+  "words": [
+    { "id": "car", "text": "car", "emoji": "🚗", "zh": "汽车", "sentence": "The red car is fast." },
+    { "id": "bus", "text": "bus", "emoji": "🚌", "zh": "公交车", "sentence": "The bus is very big." },
+    { "id": "bike", "text": "bike", "emoji": "🚲", "zh": "自行车", "sentence": "I ride my bike." },
+    { "id": "train", "text": "train", "emoji": "🚆", "zh": "火车", "sentence": "The train is long." },
+    { "id": "plane", "text": "plane", "emoji": "✈️", "zh": "飞机", "sentence": "The plane flies high." },
+    { "id": "boat", "text": "boat", "emoji": "⛵", "zh": "船", "sentence": "A boat is on water." },
+    { "id": "truck", "text": "truck", "emoji": "🚚", "zh": "卡车", "sentence": "The truck carries boxes." },
+    { "id": "rocket", "text": "rocket", "emoji": "🚀", "zh": "火箭", "sentence": "The rocket goes to space." },
+    { "id": "helicopter", "text": "helicopter", "emoji": "🚁", "zh": "直升机", "sentence": "The helicopter is loud." },
+    { "id": "taxi", "text": "taxi", "emoji": "🚕", "zh": "出租车", "sentence": "A yellow taxi is here." }
+  ]
+}

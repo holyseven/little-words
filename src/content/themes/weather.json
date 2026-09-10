@@ -1,0 +1,20 @@
+{
+  "id": "weather",
+  "title": "Weather",
+  "zh": "天气",
+  "emoji": "🌤️",
+  "tint": "--tint-weather",
+  "order": 6,
+  "words": [
+    { "id": "sunny", "text": "sunny", "emoji": "☀️", "zh": "晴天", "sentence": "Today is sunny and warm." },
+    { "id": "rainy", "text": "rainy", "emoji": "🌧️", "zh": "雨天", "sentence": "It is rainy outside." },
+    { "id": "cloudy", "text": "cloudy", "emoji": "☁️", "zh": "多云", "sentence": "The sky is cloudy today." },
+    { "id": "snowy", "text": "snowy", "emoji": "❄️", "zh": "下雪", "sentence": "A snowy day is cold." },
+    { "id": "windy", "text": "windy", "emoji": "🌬️", "zh": "有风", "sentence": "It is windy and cool." },
+    { "id": "rainbow", "text": "rainbow", "emoji": "🌈", "zh": "彩虹", "sentence": "A rainbow has many colors." },
+    { "id": "storm", "text": "storm", "emoji": "⛈️", "zh": "暴风雨", "sentence": "The storm is very loud." },
+    { "id": "moon", "text": "moon", "emoji": "🌙", "zh": "月亮", "sentence": "The moon is bright tonight." },
+    { "id": "star", "text": "star", "emoji": "⭐", "zh": "星星", "sentence": "I see a little star." },
+    { "id": "hot", "text": "hot", "emoji": "🌡️", "zh": "热", "sentence": "Summer days are very hot." }
+  ]
+}

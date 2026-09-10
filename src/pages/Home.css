@@ -1,0 +1,205 @@
+/* ==========================================================================
+   Home —— 关卡地图（SPEC 7.1）
+   M0 只有 Animals 一个站点；M2 补齐 8 个站点与锁定/完成状态。
+   ========================================================================== */
+
+.home {
+  gap: 16px;
+}
+
+.home__top {
+  display: flex;
+  align-items: center;
+  gap: var(--tap-gap);
+  flex-wrap: wrap;
+}
+
+.home__title {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.home__title-zh {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+/* 地图区域：可纵向滚动 */
+.map {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin-top: 8px;
+  padding: 8px 0 24px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.map__inner {
+  position: relative;
+  /* 高度由 Home.tsx 按站点坐标算出并内联设置（含底部留白），
+     这里只兜一个下限，防止内容为空时塌成 0 */
+  min-height: 420px;
+}
+
+.map__path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* --------------------------------------------------------------------------
+   站点
+   -------------------------------------------------------------------------- */
+
+.station {
+  position: absolute;
+  /* 以中心点定位 */
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-width: 0;
+  min-height: 0;
+}
+
+.station__disc {
+  position: relative;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+  background: var(--station-tint, var(--surface-2));
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform var(--t-tap) ease;
+}
+
+@media (min-width: 768px) {
+  .station__disc {
+    width: 124px;
+    height: 124px;
+    font-size: 56px;
+  }
+}
+
+.station:active .station__disc {
+  transform: scale(0.94);
+}
+
+/* available：轻微呼吸（2.8s 一次，远低于 3Hz） */
+.station--available .station__disc {
+  animation: station-breathe 2.8s ease-in-out infinite;
+}
+
+@keyframes station-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.045);
+  }
+}
+
+/* locked：灰色轮廓 + 小锁 */
+.station--locked .station__disc {
+  background: transparent;
+  border-style: dashed;
+  border-color: var(--border);
+  opacity: 0.7;
+  font-size: 34px;
+}
+
+.station--locked .station__label {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* completed：徽章挂在圆盘右上角 */
+.station__badge {
+  position: absolute;
+  top: -10px;
+  right: -14px;
+  width: 46px;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .station__badge {
+    width: 56px;
+    top: -12px;
+    right: -16px;
+  }
+}
+
+.station--completed .station__disc {
+  border-color: var(--sage);
+}
+
+.station__label {
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.station__label-zh {
+  display: block;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--text-muted);
+  text-align: center;
+}
+
+.station__stars {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   角色固定在右下角。
+   用 absolute 而非 fixed：.page 带 transform 动画会成为包含块，
+   fixed 在 iOS 上相对它定位，位置会跑到视口外。
+   -------------------------------------------------------------------------- */
+
+.home__mascot {
+  position: absolute;
+  right: calc(env(safe-area-inset-right) + 12px);
+  bottom: calc(env(safe-area-inset-bottom) + 8px);
+  z-index: 10;
+}
+
+/* 音频未解锁时的提示按钮（SPEC 10.2） */
+.audio-hint {
+  position: absolute;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom) + 18px);
+  transform: translateX(-50%);
+  z-index: 20;
+  white-space: nowrap;
+}
+
+/* 按下时保持水平居中，只做缩放 */
+.audio-hint:active:not(:disabled) {
+  transform: translateX(-50%) scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .station--available .station__disc {
+    animation: none;
+  }
+}

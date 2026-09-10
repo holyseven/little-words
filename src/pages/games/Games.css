@@ -1,0 +1,86 @@
+.game { gap: 12px; }
+.game__progress { font-size: 18px; font-weight: 700; white-space: nowrap; }
+.game__center { align-items: center; justify-content: safe center; gap: 20px; text-align: center; padding: 16px 0; }
+.game__center h1 { font-size: clamp(30px, 5vw, 42px); }
+.game__center > .mascot { flex: 0 0 auto; }
+.game__intro-icon { font-size: 80px; }
+.game__hint { color: var(--text-muted); font-size: 20px; text-align: center; }
+.game__earned { font-size: 48px; font-weight: 700; }
+.game__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+.memory__scroll { padding: 4px; }
+.memory__board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(4, minmax(80px, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 820px;
+  min-height: 356px;
+  flex: 1;
+  max-height: 820px;
+  margin: auto;
+}
+.memory__board--large { grid-template-columns: repeat(4, minmax(0, 1fr)); max-width: 1000px; }
+.memory__card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 64px;
+  min-height: 80px;
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  background: var(--memory-tint);
+  box-shadow: var(--shadow);
+  transition: background 220ms, border-color 220ms;
+  overflow: hidden;
+}
+.memory__card:active:not(:disabled) { transform: scale(.97); }
+.memory__back { width: 70%; height: 70%; max-height: 120px; fill: var(--text-muted); opacity: .65; }
+.memory__card.is-open { background: var(--surface); }
+.memory__card.is-matched { border-color: var(--sage); box-shadow: inset 0 0 0 2px var(--sage), var(--shadow); }
+.memory__face { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 8px; animation: memory-face 220ms ease-out; }
+.memory__face .word-art { font-size: clamp(48px, 9vmin, 96px); }
+.memory__face .word-art--svg { max-height: 110px; }
+.memory__word { font-size: clamp(22px, 3.5vw, 36px); font-weight: 700; line-height: 1.2; overflow-wrap: anywhere; hyphens: auto; }
+.memory__matched { position: absolute; right: 6px; top: 2px; color: var(--text-muted); font-size: 18px; }
+@keyframes memory-face { from { opacity: .3; } to { opacity: 1; } }
+
+.bubbles__body { gap: 10px; }
+.bubbles__target { flex: 0 0 auto; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; width: 100%; padding: 8px; border-radius: 24px; background: var(--surface); border: 2px solid var(--border); }
+.bubbles__target .emoji { font-size: 32px; }
+.bubbles__target strong { font-size: var(--fs-word); line-height: 1.15; overflow-wrap: anywhere; max-width: 100%; }
+.bubbles__target.is-speaking { border-color: var(--sky); }
+.bubbles__field {
+  position: relative;
+  flex: 1 0 270px;
+  min-height: 270px;
+  width: 100%;
+  max-width: 1100px;
+  align-self: center;
+  overflow: hidden;
+  border-radius: 24px;
+  background: linear-gradient(var(--bg), var(--bg-soft));
+  touch-action: none;
+}
+.bubbles__bubble { position: absolute; top: 0; left: 0; width: clamp(76px, 21vw, 112px); height: clamp(76px, 21vw, 112px); border-radius: 50%; will-change: transform; touch-action: none; }
+.bubbles__skin { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 14%; border: 3px solid var(--sky); border-radius: 50%; background: var(--surface); background: color-mix(in srgb, var(--surface) 75%, transparent); box-shadow: inset 4px 5px 0 var(--surface), var(--shadow); }
+.bubbles__skin .word-art { font-size: clamp(40px, 12vw, 64px); pointer-events: none; }
+.bubbles__skin.is-wrong { border-color: var(--peach); animation: bubble-wiggle 600ms ease; }
+.bubbles__skin.is-popped { animation: bubble-pop 400ms ease-out forwards; pointer-events: none; }
+@keyframes bubble-wiggle { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-6deg); } 65% { transform: rotate(5deg); } }
+@keyframes bubble-pop { to { transform: scale(1.12); opacity: 0; } }
+
+@media (min-width: 768px) {
+  .memory__board { gap: 16px; }
+  .memory__card { border-radius: 24px; }
+}
+@media (max-height: 500px) {
+  .memory__instruction { display: none; }
+  .game__center { justify-content: flex-start; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .memory__card:active:not(:disabled) { transform: none; }
+  .bubbles__skin.is-popped { opacity: 0; }
+}

@@ -1,0 +1,268 @@
+/* ==========================================================================
+   Mascot —— 角色容器、气泡、状态动画（SPEC 7.7）
+   所有动画频率 < 3Hz（SPEC 5.2）
+   ========================================================================== */
+
+.mascot {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+/* 气泡在左、角色在右（右下角摆放时更自然） */
+.mascot--right {
+  flex-direction: row;
+}
+
+.mascot__figure {
+  position: relative;
+  flex: 0 0 auto;
+  pointer-events: auto;
+  background: none;
+  border: none;
+  box-shadow: none;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  /* 点角色也能让它说话 */
+  cursor: pointer;
+}
+
+.momo {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+/* 尺寸随屏幕 96–160px（SPEC 7.7） */
+.mascot__figure {
+  width: 96px;
+}
+
+@media (min-width: 768px) {
+  .mascot__figure {
+    width: 132px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mascot__figure {
+    width: 160px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   idle：轻微上下呼吸（3.6s 一次） + 随机眨眼
+   -------------------------------------------------------------------------- */
+
+.momo__body {
+  transform-origin: 60px 120px;
+  animation: momo-breathe 3.6s ease-in-out infinite;
+}
+
+@keyframes momo-breathe {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(-2px) scaleY(1.015);
+  }
+}
+
+.momo__eyes {
+  transform-origin: 60px 38px;
+  /* 4.4s 一次，眨眼只占最后 6% —— 观感是「偶尔眨一下」 */
+  animation: momo-blink 4.4s ease-in-out infinite;
+}
+
+@keyframes momo-blink {
+  0%,
+  92%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+.momo__eyes-closed,
+.momo__zzz {
+  display: none;
+}
+
+.momo__head {
+  transform-origin: 60px 60px;
+}
+
+.momo__arm {
+  transform-origin: 60px 84px;
+  transition: transform 260ms ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   happy：跳起 + 举手臂（1s 后回 idle）
+   -------------------------------------------------------------------------- */
+
+.mascot--happy .momo__body {
+  animation: momo-jump 1s ease-out;
+}
+
+@keyframes momo-jump {
+  0% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-14px) scaleY(1.04);
+  }
+  55% {
+    transform: translateY(0) scaleY(0.97);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.mascot--happy .momo__arm--left {
+  transform: rotate(-38deg) translate(-2px, -6px);
+}
+
+.mascot--happy .momo__arm--right {
+  transform: rotate(38deg) translate(2px, -6px);
+}
+
+/* --------------------------------------------------------------------------
+   encourage：点头 + 身体前倾（0.8s）
+   -------------------------------------------------------------------------- */
+
+.mascot--encourage .momo__head {
+  animation: momo-nod 0.8s ease-in-out;
+}
+
+@keyframes momo-nod {
+  0%,
+  100% {
+    transform: rotate(0) translateY(0);
+  }
+  30% {
+    transform: rotate(-6deg) translateY(3px);
+  }
+  65% {
+    transform: rotate(3deg) translateY(1px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   sleepy：闭眼 + z z z
+   -------------------------------------------------------------------------- */
+
+.mascot--sleepy .momo__eyes {
+  display: none;
+}
+
+.mascot--sleepy .momo__eyes-closed {
+  display: block;
+}
+
+.mascot--sleepy .momo__zzz {
+  display: block;
+  animation: momo-zzz 2.4s ease-in-out infinite;
+}
+
+@keyframes momo-zzz {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-4px);
+  }
+}
+
+.mascot--sleepy .momo__body {
+  animation-duration: 5s;
+}
+
+/* --------------------------------------------------------------------------
+   气泡
+   -------------------------------------------------------------------------- */
+
+.bubble {
+  position: relative;
+  max-width: min(58vw, 320px);
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  pointer-events: none;
+  animation: bubble-in 240ms ease-out both;
+  margin-bottom: 14px;
+}
+
+@keyframes bubble-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 小尾巴指向角色 */
+.bubble::after {
+  content: '';
+  position: absolute;
+  right: -9px;
+  bottom: 18px;
+  width: 16px;
+  height: 16px;
+  background: var(--surface);
+  border-right: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  transform: rotate(-45deg);
+  border-bottom-right-radius: 4px;
+}
+
+.bubble__en {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* 中文小字：英文的 40–50%（SPEC 5.3） */
+.bubble__zh {
+  margin-top: 4px;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* reduced-motion：只留淡入，去掉呼吸/眨眼/跳跃 */
+@media (prefers-reduced-motion: reduce) {
+  .momo__body,
+  .momo__eyes,
+  .mascot--happy .momo__body,
+  .mascot--encourage .momo__head,
+  .mascot--sleepy .momo__zzz {
+    animation: none !important;
+  }
+
+  .momo__arm {
+    transition: none !important;
+  }
+
+  .mascot--sleepy .momo__zzz {
+    display: block;
+    opacity: 0.8;
+  }
+}

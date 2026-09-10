@@ -1,0 +1,20 @@
+{
+  "id": "food",
+  "title": "Food",
+  "zh": "食物",
+  "emoji": "🍞",
+  "tint": "--tint-food",
+  "order": 8,
+  "words": [
+    { "id": "bread", "text": "bread", "emoji": "🍞", "zh": "面包", "sentence": "I eat bread for breakfast." },
+    { "id": "egg", "text": "egg", "emoji": "🥚", "zh": "鸡蛋", "sentence": "The egg is white." },
+    { "id": "milk", "text": "milk", "emoji": "🥛", "zh": "牛奶", "sentence": "I drink warm milk." },
+    { "id": "rice", "text": "rice", "emoji": "🍚", "zh": "米饭", "sentence": "We eat rice today." },
+    { "id": "cake", "text": "cake", "emoji": "🎂", "zh": "蛋糕", "sentence": "The cake is very sweet." },
+    { "id": "pizza", "text": "pizza", "emoji": "🍕", "zh": "披萨", "sentence": "I love hot pizza." },
+    { "id": "cookie", "text": "cookie", "emoji": "🍪", "zh": "饼干", "sentence": "One cookie is left." },
+    { "id": "ice-cream", "text": "ice cream", "emoji": "🍦", "zh": "冰淇淋", "sentence": "Ice cream is very cold." },
+    { "id": "cheese", "text": "cheese", "emoji": "🧀", "zh": "奶酪", "sentence": "Mice love yellow cheese." },
+    { "id": "juice", "text": "juice", "emoji": "🧃", "zh": "果汁", "sentence": "I drink apple juice." }
+  ]
+}

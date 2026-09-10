@@ -1,0 +1,80 @@
+{
+  "id": "animals",
+  "title": "Animals",
+  "zh": "动物",
+  "emoji": "🐾",
+  "tint": "--tint-animals",
+  "order": 1,
+  "words": [
+    {
+      "id": "cat",
+      "text": "cat",
+      "emoji": "🐱",
+      "zh": "猫",
+      "sentence": "The cat is sleeping."
+    },
+    {
+      "id": "dog",
+      "text": "dog",
+      "emoji": "🐶",
+      "zh": "狗",
+      "sentence": "My dog can run fast."
+    },
+    {
+      "id": "elephant",
+      "text": "elephant",
+      "emoji": "🐘",
+      "zh": "大象",
+      "sentence": "The elephant is very big."
+    },
+    {
+      "id": "lion",
+      "text": "lion",
+      "emoji": "🦁",
+      "zh": "狮子",
+      "sentence": "The lion has a big voice."
+    },
+    {
+      "id": "monkey",
+      "text": "monkey",
+      "emoji": "🐵",
+      "zh": "猴子",
+      "sentence": "A monkey loves bananas."
+    },
+    {
+      "id": "rabbit",
+      "text": "rabbit",
+      "emoji": "🐰",
+      "zh": "兔子",
+      "sentence": "The rabbit hops away."
+    },
+    {
+      "id": "fish",
+      "text": "fish",
+      "emoji": "🐟",
+      "zh": "鱼",
+      "sentence": "The fish swims in water."
+    },
+    {
+      "id": "bird",
+      "text": "bird",
+      "emoji": "🐦",
+      "zh": "鸟",
+      "sentence": "A bird sings in the tree."
+    },
+    {
+      "id": "cow",
+      "text": "cow",
+      "emoji": "🐮",
+      "zh": "奶牛",
+      "sentence": "The cow eats green grass."
+    },
+    {
+      "id": "pig",
+      "text": "pig",
+      "emoji": "🐷",
+      "zh": "猪",
+      "sentence": "The pig is pink and round."
+    }
+  ]
+}

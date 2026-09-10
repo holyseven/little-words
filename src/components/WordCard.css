@@ -1,0 +1,195 @@
+/* ==========================================================================
+   WordCard —— 单词大卡（SPEC 7.3）
+   ========================================================================== */
+
+.word-card {
+  flex: 1;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px 20px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg);
+  /* 卡片内不出现横向溢出 */
+  overflow: hidden;
+}
+
+/* 卡片切换：轻微滑动 + 淡入（SPEC 7.3） */
+.word-card.is-enter-next {
+  animation: card-in-next var(--t-page) ease-out both;
+}
+
+.word-card.is-enter-prev {
+  animation: card-in-prev var(--t-page) ease-out both;
+}
+
+@keyframes card-in-next {
+  from {
+    opacity: 0;
+    transform: translateX(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes card-in-prev {
+  from {
+    opacity: 0;
+    transform: translateX(-22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   图形区：emoji ≥ 120px（SPEC 7.3）
+   -------------------------------------------------------------------------- */
+
+.word-card__art {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 150px;
+  padding: 8px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  transition: transform var(--t-tap) ease;
+}
+
+/* emoji 走 font-size；SVG 走高度（.word-art--svg 已设 width/height: 100%） */
+.word-card__emoji {
+  font-size: 120px;
+  line-height: 1;
+}
+
+.word-card__art .word-art--svg {
+  height: 150px;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .word-card__art {
+    min-height: 220px;
+  }
+
+  .word-card__emoji {
+    font-size: 180px;
+  }
+
+  .word-card__art .word-art--svg {
+    height: 220px;
+  }
+}
+
+.word-card__art:active {
+  transform: scale(0.95);
+}
+
+/* 朗读中：轻微放大脉动一次（无闪烁） */
+.word-card__art.is-speaking .word-card__emoji {
+  animation: art-pulse 700ms ease-in-out;
+}
+
+@keyframes art-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   文字区
+   -------------------------------------------------------------------------- */
+
+.word-card__text {
+  display: flex;
+  max-width: 100%;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  transition: transform var(--t-tap) ease;
+}
+
+.word-card__text:active {
+  transform: scale(0.97);
+}
+
+.word-card__word {
+  font-size: var(--fs-word);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--text);
+  line-height: 1.1;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+/* 中文为英文的 40–50%（SPEC 5.3） */
+.word-card__zh {
+  font-size: calc(var(--fs-word) * 0.42);
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.word-card__hint {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* 例句：点单词后出现。占位高度固定，出现时不会把上方内容顶动 */
+.word-card__sentence {
+  min-height: 30px;
+  max-width: 90%;
+  text-align: center;
+  font-size: 20px;
+  color: var(--text-muted);
+  animation: sentence-in 240ms ease-out both;
+}
+
+@media (min-width: 768px) {
+  .word-card__sentence {
+    font-size: 24px;
+  }
+}
+
+@keyframes sentence-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* 已标记「我认识了」的角标 */
+.word-card__known {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 26px;
+}
+
+.word-card {
+  position: relative;
+}

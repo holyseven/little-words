@@ -1,0 +1,20 @@
+{
+  "id": "body",
+  "title": "Body",
+  "zh": "身体",
+  "emoji": "🙂",
+  "tint": "--tint-body",
+  "order": 7,
+  "words": [
+    { "id": "eye", "text": "eye", "emoji": "👁️", "zh": "眼睛", "sentence": "I see with my eye." },
+    { "id": "ear", "text": "ear", "emoji": "👂", "zh": "耳朵", "sentence": "I hear with my ear." },
+    { "id": "nose", "text": "nose", "emoji": "👃", "zh": "鼻子", "sentence": "My nose smells flowers." },
+    { "id": "mouth", "text": "mouth", "emoji": "👄", "zh": "嘴", "sentence": "I eat with my mouth." },
+    { "id": "hand", "text": "hand", "emoji": "✋", "zh": "手", "sentence": "Wave your hand at me." },
+    { "id": "foot", "text": "foot", "emoji": "🦶", "zh": "脚", "sentence": "My foot is in a shoe." },
+    { "id": "tooth", "text": "tooth", "emoji": "🦷", "zh": "牙齿", "sentence": "Brush every tooth well." },
+    { "id": "leg", "text": "leg", "emoji": "🦵", "zh": "腿", "sentence": "I run with my legs." },
+    { "id": "arm", "text": "arm", "emoji": "💪", "zh": "手臂", "sentence": "My arm is very strong." },
+    { "id": "hair", "text": "hair", "svg": "hair", "zh": "头发", "sentence": "Her hair is long." }
+  ]
+}

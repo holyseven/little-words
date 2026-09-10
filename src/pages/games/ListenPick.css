@@ -1,0 +1,361 @@
+/* ==========================================================================
+   ListenPick —— 听音选图（SPEC 7.4）
+   ========================================================================== */
+
+.listen {
+  gap: 14px;
+}
+
+.listen__progress {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.listen__bar {
+  height: 8px;
+  border-radius: 999px;
+  background: var(--bg-soft);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.listen__bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--sage);
+  transition: width 320ms ease-out;
+}
+
+/* --------------------------------------------------------------------------
+   开局：▶ Start（用于解锁音频，SPEC 7.4）
+   -------------------------------------------------------------------------- */
+
+.listen__start {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  text-align: center;
+  min-height: 0;
+  overflow-y: auto;
+}
+.listen__start > * { flex-shrink: 0; }
+
+.listen__start-title {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.listen__start-zh {
+  font-size: 17px;
+  color: var(--text-muted);
+}
+
+.listen__start .btn {
+  padding: 22px 44px;
+  font-size: 26px;
+}
+
+/* --------------------------------------------------------------------------
+   题目区
+   -------------------------------------------------------------------------- */
+
+.listen__stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 16px;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 4px;
+}
+
+/* 大 🔊 按钮：可重听（SPEC 7.4） */
+.listen__replay {
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 18px 30px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow);
+  transition: transform var(--t-tap) ease;
+}
+
+.listen__replay:active {
+  transform: scale(0.95);
+}
+
+.listen__replay-icon {
+  font-size: 52px;
+  line-height: 1;
+}
+
+@media (min-width: 768px) {
+  .listen__replay-icon {
+    font-size: 64px;
+  }
+}
+
+.listen__replay-label {
+  font-size: 15px;
+  color: var(--text-muted);
+}
+
+/* 朗读中：轻微脉动一次（无闪烁，SPEC 5.2） */
+.listen__replay.is-speaking .listen__replay-icon {
+  animation: replay-pulse 700ms ease-in-out;
+}
+
+@keyframes replay-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4 个选项：iPhone 2×2；iPad 横屏 1×4（SPEC 5.4）
+   -------------------------------------------------------------------------- */
+
+.options {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  /* 两行等高，且限制单行最大高度：否则 emoji 会浮在一张巨大的空卡中间 */
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: var(--tap-gap);
+  min-height: 0;
+  /* 卡片不铺满整块剩余空间，居中留白比拉伸好看；宽高比接近方形 */
+  max-height: 560px;
+  max-width: 560px;
+  align-self: center;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .options {
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .options {
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: minmax(0, 1fr);
+    /*
+      横屏一行四张，每张宽约 195px。不封顶高度的话会被拉成 195×400 的细长条，
+      emoji 浮在大片空白中间。压到 260px 让卡片接近方形。
+    */
+    max-height: 260px;
+    max-width: none;
+    /* 右侧给角色留位置，避免压住第 4 张卡 */
+    padding-right: 120px;
+  }
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 108px;
+  padding: 12px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  box-shadow: var(--shadow);
+  transition:
+    transform 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+/*
+  emoji 跟着卡片大小走：卡片高度的一半左右最协调。
+  用 cqmin 需要容器查询支持，这里用 vmin + 上下限，iOS 16 也稳。
+*/
+.option__emoji {
+  font-size: clamp(56px, 13vmin, 104px);
+  line-height: 1;
+}
+
+/* SVG 图形（Colors / Numbers / hair）按高度约束，宽度自适应 */
+.option .word-art--svg {
+  height: clamp(56px, 13vmin, 104px);
+  max-width: 92%;
+}
+
+@media (min-width: 1024px) and (orientation: landscape) {
+  .option__emoji {
+    font-size: clamp(56px, 11vmin, 96px);
+  }
+
+  .option .word-art--svg {
+    height: clamp(56px, 11vmin, 96px);
+  }
+}
+
+.option:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+/* 答对：放大 + sage 描边（SPEC 7.4） */
+.option--correct {
+  border-color: var(--sage);
+  transform: scale(1.06);
+  box-shadow: var(--shadow-lg);
+}
+
+/*
+  答错：轻微抖动 + 桃色描边（SPEC 5.2 —— 不用红色、不用红叉）。
+  抖动幅度和频率都刻意压低，不做成"报错"的感觉。
+*/
+.option--wrong {
+  border-color: var(--peach);
+  animation: option-shake 400ms ease-in-out;
+}
+
+@keyframes option-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-7px);
+  }
+  45% {
+    transform: translateX(6px);
+  }
+  70% {
+    transform: translateX(-3px);
+  }
+}
+
+/* 第 2 次答错后：正确项柔和发光提示，点中即过（SPEC 7.4） */
+.option--hint {
+  border-color: var(--sage);
+  animation: option-glow 1.6s ease-in-out infinite;
+}
+
+@keyframes option-glow {
+  0%,
+  100% {
+    box-shadow: var(--shadow);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(155, 196, 155, 0.4);
+  }
+}
+
+/* 已答完的选项：柔和淡出，但不隐藏（孩子仍能看到刚才的图） */
+.option:disabled:not(.option--correct):not(.option--hint):not(.option--wrong) {
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   角色：固定在题目区右下，不遮挡选项
+   -------------------------------------------------------------------------- */
+
+.listen__mascot {
+  position: absolute;
+  right: calc(env(safe-area-inset-right) + 8px);
+  bottom: calc(env(safe-area-inset-bottom) + 4px);
+  z-index: 10;
+  pointer-events: none;
+}
+
+.listen__mascot .mascot__figure {
+  width: 76px;
+}
+
+/* 窄屏藏起角色，避免压住选项 */
+@media (max-width: 420px) {
+  .listen__mascot {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .listen__mascot .mascot__figure {
+    width: 104px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   局末总结（SPEC 7.4）
+   -------------------------------------------------------------------------- */
+
+.listen__result {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+  padding: 16px;
+  min-height: 0;
+  overflow-y: auto;
+}
+.listen__result > * { flex-shrink: 0; }
+
+@media (max-height: 600px) {
+  .listen__stage { flex-direction: row; align-items: flex-start; justify-content: flex-start; }
+  .listen__replay { flex: 0 0 112px; align-self: flex-start; padding: 14px; }
+  .listen__stage .options { flex: 1 0 0; align-self: flex-start; grid-template-rows: repeat(2, 108px); max-height: none; }
+  .listen__mascot { display: none; }
+  .listen__start, .listen__result { justify-content: flex-start; }
+}
+
+.listen__result-mascot {
+  width: 132px;
+}
+
+.listen__score {
+  font-size: 56px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.listen__score-label {
+  font-size: 20px;
+  color: var(--text-muted);
+}
+
+.listen__stars {
+  font-size: 34px;
+  letter-spacing: 3px;
+  max-width: 90%;
+  line-height: 1.3;
+}
+
+.listen__result-actions {
+  display: flex;
+  gap: var(--tap-gap);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .option--hint,
+  .option--wrong,
+  .listen__replay.is-speaking .listen__replay-icon {
+    animation: none;
+  }
+
+  .option--correct {
+    transform: none;
+  }
+}

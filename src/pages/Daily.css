@@ -1,0 +1,29 @@
+.daily-page { gap: 16px; }
+.daily-page h1 { font-size: clamp(22px, 3vw, 30px); }
+.daily-content { align-items: center; padding: 16px 0 24px; }
+.daily-content > * { flex-shrink: 0; }
+.daily-mascot { padding-top: 20px; }
+.daily-tasks { display: flex; flex-direction: column; width: min(100%, 760px); gap: 16px; }
+.daily-task { display: flex; align-items: center; gap: 16px; padding: 20px; border: 2px solid var(--border); border-radius: 24px; background: var(--surface); text-align: left; }
+.daily-task > .emoji { font-size: 40px; }
+.daily-task > span:nth-child(2) { flex: 1; }
+.daily-task b { font-size: 22px; }
+.daily-task small { display: block; color: var(--text-muted); font-size: 18px; }
+.daily-task strong { white-space: nowrap; }
+.daily-task.is-complete { border-color: var(--sage); }
+.daily-bonus { font-size: 48px; font-weight: 700; }
+.daily-review { align-items: center; justify-content: safe center; padding: 20px 0; }
+.daily-review > * { flex-shrink: 0; }
+.daily-review h2 { font-size: var(--fs-word); overflow-wrap: anywhere; max-width: 100%; }
+.daily-review-art { width: 180px; height: 180px; }
+.daily-review-art .word-art { font-size: 140px; }
+.goodnight { gap: 16px; }
+.goodnight-content { align-items: center; justify-content: safe center; gap: 22px; text-align: center; padding: 70px 0 24px; }
+.goodnight-content > * { flex-shrink: 0; }
+.goodnight-content h1 { font-size: 42px; }
+.goodnight-extra { display: flex; align-items: center; gap: 16px; padding: 24px; max-width: 560px; background: var(--surface); border-radius: 24px; }
+.daily-home { display: flex; align-items: center; gap: 14px; padding: 14px 20px; background: var(--surface); border: 2px solid var(--border); border-radius: 22px; text-align: left; flex-shrink: 0; }
+.daily-home__dots { margin-left: auto; display: flex; gap: 8px; }
+.daily-home__dots i { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--text-muted); }
+.daily-home__dots i.is-done { background: var(--sage); }
+@media (max-width: 420px) { .daily-task { padding: 16px 12px; gap: 12px; } .daily-page .page-header { flex-wrap: wrap; } }

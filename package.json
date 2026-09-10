@@ -1,0 +1,38 @@
+{
+  "name": "little-words",
+  "private": true,
+  "version": "1.1.0",
+  "type": "module",
+  "description": "Little Words — 儿童英语启蒙离线 Web App",
+  "scripts": {
+    "icons": "node scripts/gen-icons.mjs",
+    "audio": "node scripts/gen-audio.mjs",
+    "dev": "npm run icons && vite --host",
+    "build": "node scripts/validate-content.mjs && npm run icons && tsc --noEmit && node scripts/build.mjs",
+    "preview": "vite preview --host",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "course:import": "node scripts/import-course.mjs"
+  },
+  "dependencies": {
+    "canvas-confetti": "1.9.4",
+    "idb-keyval": "6.2.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "@types/canvas-confetti": "1.9.0",
+    "@types/node": "20.17.9",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "@vitejs/plugin-react": "4.3.4",
+    "typescript": "5.6.3",
+    "vite": "5.4.21",
+    "vite-plugin-pwa": "0.21.1",
+    "vitest": "2.1.9"
+  },
+  "engines": {
+    "node": ">=18.19.0"
+  }
+}
