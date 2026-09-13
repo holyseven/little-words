@@ -48,7 +48,8 @@ export default defineConfig({
         // 核心资源预缓存保证离线冷启动；课程媒体由家长单独下载。
         // m4a 是预生成的人声片段（scripts/gen-audio.mjs），必须一起缓存。
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,json,woff2,m4a}'],
-        globIgnores: ['course-media/**'],
+        // 语音模型约 39MB，首次跟读时再下载，避免首屏安装被拖慢。
+        globIgnores: ['course-media/**', 'speech-model/**', 'speech-runtime/**'],
         runtimeCaching: [{
           urlPattern: /\/course-media\/[^/]+\.(?:mp3|m4a|mp4)$/,
           handler: 'CacheFirst',
@@ -57,6 +58,18 @@ export default defineConfig({
             cacheableResponse: { statuses: [200] },
             rangeRequests: true,
           },
+        }, {
+          urlPattern: /\/speech-model\/model\.tar\.gz$/,
+          handler: 'CacheFirst',
+          options: {
+            cacheName: 'little-words-speech-model-v1',
+            cacheableResponse: { statuses: [200] },
+            expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 365 },
+          },
+        }, {
+          urlPattern: /\/speech-runtime\/vosk\.js$/,
+          handler: 'CacheFirst',
+          options: { cacheName: 'little-words-speech-runtime-v1', cacheableResponse: { statuses: [200] } },
         }],
         // hash 路由下所有导航请求都回退到 index.html
         navigateFallback: `${base}index.html`,
