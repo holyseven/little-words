@@ -21,6 +21,8 @@ import { useVoice } from '../hooks/useVoice'
 import { useSfx } from '../hooks/useSfx'
 import { useAudioUnlocked } from '../hooks/useAudioUnlocked'
 import { NotFound } from './NotFound'
+import { InlineWordRepeat, type InlineWordRepeatHandle } from '../components/InlineWordRepeat'
+import { burstCelebrate, burstSmall } from '../components/Confetti'
 
 /** 横向滑动切卡的阈值：小于它当作误触 */
 const SWIPE_PX = 48
@@ -54,6 +56,7 @@ export function Learn({ themeId, startWordId }: Props) {
   const pointerStart = useRef<{ id: number; x: number; y: number } | null>(null)
   const advanceTimer = useRef<number>()
   const advancing = useRef(false)
+  const repeatRef = useRef<InlineWordRepeatHandle>(null)
   useEffect(() => () => clearTimeout(advanceTimer.current), [])
 
   const words = theme?.words ?? []
@@ -80,6 +83,7 @@ export function Learn({ themeId, startWordId }: Props) {
    */
   const speakNow = useCallback(
     (fn: () => void) => {
+      repeatRef.current?.cancel()
       window.clearTimeout(autoSpeakTimer.current)
       if (word) spokenFor.current = word.id
       if (!unlocked) unlock()
@@ -103,6 +107,7 @@ export function Learn({ themeId, startWordId }: Props) {
   const go = useCallback(
     (delta: number) => {
       if (total === 0) return
+      repeatRef.current?.cancel()
       clearTimeout(advanceTimer.current)
       advancing.current = false
       setDirection(delta > 0 ? 'next' : 'prev')
@@ -155,6 +160,7 @@ export function Learn({ themeId, startWordId }: Props) {
   // BigButton 自带 tap 音，这里只处理业务逻辑
   const handleKnow = () => {
     if (!word || advancing.current) return
+    repeatRef.current?.cancel()
     advancing.current = true
 
     const firstTime = markLearned(theme.id, word.id)
@@ -258,9 +264,22 @@ export function Learn({ themeId, startWordId }: Props) {
       </div>
 
       <div className="learn__actions">
-        <BigButton variant="soft" icon="🎙️" onClick={() => word && navigate(`/theme/${theme.id}/repeat?word=${encodeURIComponent(word.id)}`)}>
-          跟读这个词
-        </BigButton>
+        <InlineWordRepeat key={word.id} ref={repeatRef} word={word.text} showZh={settings.showZh} onSuccess={() => {
+          // 每次答对随机选择一组轻量反馈，避免连续练习总是同一套动画。
+          const effect = Math.floor(Math.random() * 4)
+          if (effect === 0) { sfx.celebrate(); burstSmall() }
+          else if (effect === 1) { sfx.sticker(); burstCelebrate() }
+          else if (effect === 2) { sfx.correct(); burstSmall() }
+          else { sfx.pop(); burstSmall() }
+        }} onBeforeStart={() => {
+          // 跟读成功后的庆祝音效也需要在 iOS 的首次用户手势中解锁。
+          unlock()
+          window.clearTimeout(autoSpeakTimer.current)
+          clearTimeout(advanceTimer.current)
+          advancing.current = false
+          spokenFor.current = word.id
+          stop()
+        }} />
         <BigButton variant="soft" icon="🔊" onClick={handleListenAgain}>
           再听一次
         </BigButton>

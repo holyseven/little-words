@@ -116,18 +116,23 @@ function noise(ctx: AudioContext, o: NoiseOptions): void {
   src.stop(stop + 0.02)
 }
 
-/** 取到可用且已解锁的 AudioContext，否则返回 null（静默跳过） */
-function ready(): AudioContext | null {
-  if (!enabled || !isAudioUnlocked()) return null
-
+/**
+ * 在共享 AudioContext 真正运行后才排声音。
+ *
+ * 跟读识别是在麦克风回调和 Worker 中异步完成的，iOS Safari 可能在这段
+ * 时间里把 AudioContext 留在 suspended。之前虽然调用了 resume()，却立刻
+ * 排了 oscillator；Safari 会悄悄丢掉这批声音。这里把排声动作放进 resume
+ * 的完成回调，同时保留设置开关和解锁检查。
+ */
+function whenReady(play: (ctx: AudioContext) => void): void {
+  if (!enabled || !isAudioUnlocked()) return
   const ctx = getAudioContext()
-  if (!ctx) return null
-
-  // 系统中断（来电、切后台）后可能又变回 suspended
-  if (ctx.state === 'suspended') {
-    void ctx.resume().catch(() => undefined)
+  if (!ctx) return
+  const run = () => {
+    if (enabled && isAudioUnlocked() && ctx.state === 'running') play(ctx)
   }
-  return ctx
+  if (ctx.state === 'running') run()
+  else void ctx.resume().then(run).catch(() => undefined)
 }
 
 /* -------------------------------------------------------------------------- */
@@ -142,18 +147,16 @@ const C6 = 1046.5
 
 /** 每次点击的轻柔反馈：正弦波 660Hz，60ms */
 export function playTap(): void {
-  const ctx = ready()
-  if (!ctx) return
-  tone(ctx, { freq: 660, duration: 0.06, type: 'sine', gain: 0.22 })
+  whenReady((ctx) => tone(ctx, { freq: 660, duration: 0.06, type: 'sine', gain: 0.22 }))
 }
 
 /** 答对：三角波琶音 C5→E5→G5，每音 90ms */
 export function playCorrect(): void {
-  const ctx = ready()
-  if (!ctx) return
-  const step = 0.09
-  ;[C5, E5, G5].forEach((freq, i) => {
-    tone(ctx, { freq, duration: step, type: 'triangle', gain: 0.26, delay: i * step })
+  whenReady((ctx) => {
+    const step = 0.09
+    ;[C5, E5, G5].forEach((freq, i) => {
+      tone(ctx, { freq, duration: step, type: 'triangle', gain: 0.26, delay: i * step })
+    })
   })
 }
 
@@ -162,44 +165,44 @@ export function playCorrect(): void {
  * 刻意做得很轻柔 —— SPEC 4.2「零挫败」，不能让孩子觉得被否定。
  */
 export function playWrong(): void {
-  const ctx = ready()
-  if (!ctx) return
-  tone(ctx, { freq: 220, toFreq: 180, duration: 0.15, type: 'triangle', gain: 0.2 })
+  whenReady((ctx) => tone(ctx, { freq: 220, toFreq: 180, duration: 0.15, type: 'triangle', gain: 0.2 }))
 }
 
 /** 庆祝：快速上行琶音 C5-E5-G5-C6 + 高频「闪光」噪声 300ms */
 export function playCelebrate(): void {
-  const ctx = ready()
-  if (!ctx) return
-  const step = 0.075
-  ;[C5, E5, G5, C6].forEach((freq, i) => {
-    tone(ctx, { freq, duration: step, type: 'triangle', gain: 0.24, delay: i * step })
+  whenReady((ctx) => {
+    const step = 0.075
+    ;[C5, E5, G5, C6].forEach((freq, i) => {
+      tone(ctx, { freq, duration: step, type: 'triangle', gain: 0.24, delay: i * step })
+    })
+    // 闪光：高频窄带噪声，叠在琶音上方
+    noise(ctx, { duration: 0.3, gain: 0.1, filterHz: 6000, q: 0.8, delay: step })
   })
-  // 闪光：高频窄带噪声，叠在琶音上方
-  noise(ctx, { duration: 0.3, gain: 0.1, filterHz: 6000, q: 0.8, delay: step })
 }
 
 /** 泡泡破裂：带通白噪声 40ms + 正弦 900Hz→300Hz 下滑 */
 export function playPop(): void {
-  const ctx = ready()
-  if (!ctx) return
-  noise(ctx, { duration: 0.04, gain: 0.22, filterHz: 1400, q: 1.4 })
-  tone(ctx, { freq: 900, toFreq: 300, duration: 0.07, type: 'sine', gain: 0.2 })
+  whenReady((ctx) => {
+    noise(ctx, { duration: 0.04, gain: 0.22, filterHz: 1400, q: 1.4 })
+    tone(ctx, { freq: 900, toFreq: 300, duration: 0.07, type: 'sine', gain: 0.2 })
+  })
 }
 
 /** 翻牌：正弦 400Hz→800Hz 上滑 80ms */
 export function playFlip(): void {
-  const ctx = ready()
-  if (!ctx) return
-  tone(ctx, { freq: 400, toFreq: 800, duration: 0.08, type: 'sine', gain: 0.2 })
+  whenReady((ctx) => tone(ctx, { freq: 400, toFreq: 800, duration: 0.08, type: 'sine', gain: 0.2 }))
 }
 
 /** 获得贴纸：celebrate + 铃声（正弦 1320Hz 衰减 400ms） */
 export function playSticker(): void {
-  const ctx = ready()
-  if (!ctx) return
-  playCelebrate()
-  tone(ctx, { freq: 1320, duration: 0.4, type: 'sine', gain: 0.16, delay: 0.12 })
+  whenReady((ctx) => {
+    const step = 0.075
+    ;[C5, E5, G5, C6].forEach((freq, i) => {
+      tone(ctx, { freq, duration: step, type: 'triangle', gain: 0.24, delay: i * step })
+    })
+    noise(ctx, { duration: 0.3, gain: 0.1, filterHz: 6000, q: 0.8, delay: step })
+    tone(ctx, { freq: 1320, duration: 0.4, type: 'sine', gain: 0.16, delay: 0.12 })
+  })
 }
 
 export type SfxName = 'tap' | 'correct' | 'wrong' | 'celebrate' | 'pop' | 'flip' | 'sticker'

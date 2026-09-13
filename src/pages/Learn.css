@@ -96,20 +96,32 @@
   max-width: 260px;
 }
 
+.learn__repeat-status { order: 1; flex: 0 0 100%; min-height: 24px; font-size: 16px; color: var(--text-muted); text-align: center; }
+.learn__repeat-celebration { display: inline-block; margin-right: 8px; letter-spacing: 2px; animation: repeat-celebration-pop 620ms ease-out both; }
+@keyframes repeat-celebration-pop { 0% { transform: scale(.65) translateY(5px); opacity: 0; } 55% { transform: scale(1.15) translateY(-2px); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .learn__repeat-celebration { animation: none; } }
+.learn__repeat-level { display: inline-block; width: 64px; height: 10px; overflow: hidden; border-radius: 8px; margin-right: 10px; background: var(--border); }
+.learn__repeat-level > span { display: block; height: 100%; background: var(--sage); }
+.btn--listening { background: var(--sage); }
+
 /*
-  窄屏（iPhone 竖屏 375px）：收窄内边距，让两个按钮留在同一行。
-  堆成两行会吃掉约 70px 高度，卡片里的 emoji 就得跟着缩小。
+  窄屏：三个操作按钮在同一行，反馈独占下一行，权限错误也始终可见。
 */
 @media (max-width: 420px) {
   .learn__actions {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
   }
 
   .learn__actions .btn {
-    padding: 16px 12px;
-    gap: 6px;
+    padding: 8px 4px;
+    gap: 2px;
+    flex-direction: column;
+    font-size: 16px;
     min-width: 0;
+    flex: 1 1 0;
   }
+
+  .learn__repeat-status { font-size: 14px; }
 }
 
 /* 已标记过：改为柔和的「已认识」态，不再重复给星 */

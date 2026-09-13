@@ -26,7 +26,6 @@ import { useDailyTimer } from './hooks/useDailyTimer'
 import { CourseUnitPage, CourseExtras } from './pages/Course'
 import { CoursePlayer } from './pages/CoursePlayer'
 import { CourseRepeat } from './pages/CourseRepeat'
-import { WordRepeat } from './pages/WordRepeat'
 
 function Routes() {
   const route = useRoute()
@@ -74,7 +73,7 @@ function Routes() {
     case 'learn':
       return <Learn key={`${dataEpoch}:${route.themeId}:${route.wordId ?? ''}`} themeId={route.themeId} startWordId={route.wordId} />
     case 'word-repeat':
-      return <WordRepeat themeId={route.themeId} wordId={route.wordId} />
+      return <Learn key={`${dataEpoch}:${route.themeId}:${route.wordId}`} themeId={route.themeId} startWordId={route.wordId} />
     case 'game':
       if (route.game === 'listen') return <ListenPick key={`${dataEpoch}:${route.themeId}`} themeId={route.themeId} />
       if (route.game === 'memory') return <MemoryFlip key={`memory:${route.themeId}`} themeId={route.themeId} />
