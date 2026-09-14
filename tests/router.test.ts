@@ -15,7 +15,7 @@ describe('parseRoute', () => {
     expect(parseRoute('/theme/animals/learn')).toEqual({ name: 'learn', themeId: 'animals' })
   })
 
-  it('三个游戏', () => {
+  it('游戏入口', () => {
     expect(parseRoute('/theme/animals/game/listen')).toEqual({
       name: 'game',
       themeId: 'animals',
@@ -23,6 +23,7 @@ describe('parseRoute', () => {
     })
     expect(parseRoute('/theme/animals/game/memory')).toMatchObject({ game: 'memory' })
     expect(parseRoute('/theme/animals/game/bubble')).toMatchObject({ game: 'bubble' })
+    expect(parseRoute('/theme/animals/game/speak')).toMatchObject({ game: 'speak' })
   })
 
   it('未知游戏名落到 notfound', () => {

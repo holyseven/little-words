@@ -1,7 +1,7 @@
 /**
  * 主题页（SPEC 7.2）
  *
- * 顶部氛围色区块 + 进度 + Learn / Listen / Memory / Bubbles 四个入口。
+ * 顶部氛围色区块 + 进度 + Learn / Listen / Memory / Bubbles / Picture Speak 五个入口。
  */
 
 import './ThemePage.css'
@@ -64,6 +64,10 @@ export function ThemePage({ themeId }: Props) {
       key: 'bubble', emoji: '🫧', title: 'Bubbles', zh: '泡泡射击',
       path: `/theme/${theme.id}/game/bubble`,
       meta: tp.best.bubble !== undefined ? `最好 ${tp.best.bubble}/10` : undefined,
+    },
+    {
+      key: 'speak', emoji: '🗣️', title: 'Picture Speak', zh: '看图开口',
+      path: `/theme/${theme.id}/game/speak`,
     },
   ]
 

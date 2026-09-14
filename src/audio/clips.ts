@@ -132,8 +132,18 @@ export async function playClip(key: string, opts: PlayOptions = {}): Promise<voi
     return
   }
 
+  // 首次点击的音频恢复是异步的；确认设备已就绪再播放。
   if (ctx.state === 'suspended') {
-    void ctx.resume().catch(() => undefined)
+    try {
+      await ctx.resume()
+    } catch {
+      // 下面的状态检查会转入 TTS 兜底，不让播放流程卡住。
+    }
+  }
+  if (requestId !== generation) return
+  if (ctx.state !== 'running') {
+    fallback(opts)
+    return
   }
 
   const buf = await load(key)

@@ -64,10 +64,10 @@
   }
 }
 
-/* iPad 横屏：1×4 一行放开 */
+/* iPad 横屏：一行放开 */
 @media (min-width: 1024px) and (orientation: landscape) {
   .activities {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 

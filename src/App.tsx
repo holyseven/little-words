@@ -14,6 +14,7 @@ import { Stickers } from './pages/Stickers'
 import { ListenPick } from './pages/games/ListenPick'
 import { MemoryFlip } from './pages/games/MemoryFlip'
 import { BubblePop } from './pages/games/BubblePop'
+import { PictureSpeak } from './pages/games/PictureSpeak'
 import { NotFound } from './pages/NotFound'
 import { RewardOverlay } from './components/RewardOverlay'
 import { stopClip } from './audio/clips'
@@ -77,6 +78,7 @@ function Routes() {
     case 'game':
       if (route.game === 'listen') return <ListenPick key={`${dataEpoch}:${route.themeId}`} themeId={route.themeId} />
       if (route.game === 'memory') return <MemoryFlip key={`memory:${route.themeId}`} themeId={route.themeId} />
+      if (route.game === 'speak') return <PictureSpeak key={`speak:${route.themeId}`} themeId={route.themeId} />
       return <BubblePop key={`bubble:${route.themeId}`} themeId={route.themeId} />
     case 'stickers':
       return <Stickers />

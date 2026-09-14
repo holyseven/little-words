@@ -35,6 +35,47 @@ function deliver(word: string, ok = true) {
 }
 
 describe('人声异步加载与游戏切换', () => {
+  it('首次播放等待音频恢复，恢复后只播放一次', async () => {
+    let resume!: () => void
+    Object.assign(context, {
+      state: 'suspended',
+      resume: () => new Promise<void>((resolve) => {
+        resume = () => { Object.assign(context, { state: 'running' }); resolve() }
+      }),
+    })
+    const { playClip } = await import('../src/audio/clips')
+    const playing = playClip('w/cat')
+    expect(sources).toHaveLength(0)
+    expect(requests.size).toBe(0)
+    resume()
+    await Promise.resolve()
+    deliver('cat')
+    await playing
+    expect(sources).toHaveLength(1)
+    expect(sources[0].start).toHaveBeenCalledOnce()
+  })
+
+  it.each([true, false])('等待音频恢复时取消，不能再播放或兜底（恢复成功：%s）', async (succeeds) => {
+    let settle!: () => void
+    Object.assign(context, {
+      state: 'suspended',
+      resume: () => new Promise<void>((resolve, reject) => {
+        settle = () => {
+          if (succeeds) { Object.assign(context, { state: 'running' }); resolve() }
+          else reject(new Error('Audio unavailable'))
+        }
+      }),
+    })
+    const { playClip, stopClip } = await import('../src/audio/clips')
+    const playing = playClip('w/cat', { fallbackText: 'cat' })
+    stopClip()
+    settle()
+    await playing
+    expect(requests.size).toBe(0)
+    expect(sources).toHaveLength(0)
+    expect(speech.speak).not.toHaveBeenCalled()
+  })
+
   it('连续翻牌时，旧单词先解码完成也不能抢播', async () => {
     const { playClip } = await import('../src/audio/clips')
     const old = playClip('w/cat')

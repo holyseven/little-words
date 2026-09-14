@@ -14,7 +14,7 @@ export type Route =
   | { name: 'theme'; themeId: string }
   | { name: 'learn'; themeId: string; wordId?: string }
   | { name: 'word-repeat'; themeId: string; wordId: string }
-  | { name: 'game'; themeId: string; game: 'listen' | 'memory' | 'bubble' }
+  | { name: 'game'; themeId: string; game: 'listen' | 'memory' | 'bubble' | 'speak' }
   | { name: 'stickers' }
   | { name: 'daily' }
   | { name: 'parent' }
@@ -59,7 +59,7 @@ export function parseRoute(path: string): Route {
     }
     if (parts[2] === 'game' && parts[3]) {
       const game = parts[3]
-      if (game === 'listen' || game === 'memory' || game === 'bubble') {
+      if (game === 'listen' || game === 'memory' || game === 'bubble' || game === 'speak') {
         return { name: 'game', themeId, game }
       }
     }
