@@ -8,57 +8,56 @@
 
 .restaurant__body > * { flex: 0 0 auto; }
 .restaurant__instruction { color: var(--text-muted); font-size: clamp(19px, 3vw, 25px); font-weight: 700; }
+.restaurant__counter { position: relative; display: grid; grid-template-columns: minmax(150px, .9fr) minmax(220px, 1.1fr); grid-template-rows: 1fr auto; align-items: center; width: min(100%, 720px); min-height: 290px; padding: 18px 24px 14px; border: 3px solid var(--border); border-radius: 30px; background: linear-gradient(165deg, var(--surface), var(--surface-2)); box-shadow: var(--shadow); overflow: hidden; transition: border-color 180ms, transform 180ms, background 180ms; }
+.restaurant__counter::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 23%; background: color-mix(in srgb, var(--tint-food) 55%, var(--surface)); border-top: 3px solid var(--border); }
+.restaurant__counter.is-over { border-color: var(--sky); background: color-mix(in srgb, var(--surface) 88%, var(--sky)); }
+.restaurant__counter[class*="is-feedback-"] { border-color: var(--peach); animation: restaurant-shake 420ms ease; }
+.restaurant__counter.is-eating { border-color: var(--coral); }
+.restaurant__counter.is-served { border-color: var(--sage); background: color-mix(in srgb, var(--surface) 88%, var(--sage)); }
+.restaurant__monster { position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; }
+.restaurant__monster-art { width: min(100%, 190px); height: auto; overflow: visible; }
+.restaurant__monster-art.is-eating .restaurant__mouth { animation: monster-chew 260ms ease-in-out infinite alternate; transform-origin: 120px 158px; }
+.restaurant__monster-art.is-happy { animation: monster-happy 650ms ease-out; }
+.restaurant__bubble { position: relative; z-index: 1; align-self: start; display: flex; flex-direction: column; gap: 3px; padding: 13px 17px; border: 2px solid var(--border); border-radius: 20px; background: var(--surface); font-size: clamp(17px, 3vw, 22px); font-weight: 700; }
+.restaurant__bubble::before { content: ''; position: absolute; left: -14px; top: 20px; border-width: 8px 14px 8px 0; border-style: solid; border-color: transparent var(--border) transparent transparent; }
+.restaurant__bubble span { color: var(--text-muted); font-size: 16px; font-weight: 400; }
+.restaurant__completed-order { margin-top: 5px; color: var(--text); font-size: 15px; font-weight: 700; }
+.restaurant__tray { position: relative; z-index: 1; grid-column: 1 / -1; justify-self: center; align-self: end; display: flex; align-items: center; justify-content: center; gap: 7px; width: min(100%, 360px); min-height: 92px; padding: 10px 18px; border-radius: 44%; background: #fffdf7; border: 8px solid #d8b878; box-shadow: 0 5px 0 rgb(119 83 30 / 15%); }
+.restaurant__tray-hint { color: var(--text-muted); font-size: 16px; }
+.restaurant__serving { display: flex; align-items: center; justify-content: center; width: 56px; height: 56px; border: 3px solid #d8b878; border-radius: 50%; background: #fff8e8; box-shadow: none; }
+.restaurant__serving .word-art { font-size: 42px; }
+.restaurant__menu { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; width: min(100%, 620px); }
+.restaurant__food { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; min-height: 96px; padding: 8px; border: 3px solid var(--border); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); transition: transform 160ms, border-color 160ms, opacity 160ms; touch-action: none; }
+.restaurant__food .word-art { font-size: clamp(48px, 10vw, 70px); }
+.restaurant__food-hint { color: var(--text-muted); font-size: 13px; }
+.restaurant__food:active, .restaurant__food.is-dragging { transform: scale(.92); border-color: var(--sky); opacity: .75; }
+.restaurant__controls { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; width: min(100%, 620px); }
+.restaurant__controls .btn { padding: 16px 20px; }
+.restaurant__feedback { min-height: 24px; color: var(--text-muted); font-size: 15px; }
+.restaurant__drag-preview { position: fixed; z-index: 1500; width: 76px; height: 76px; display: flex; align-items: center; justify-content: center; pointer-events: none; filter: drop-shadow(0 5px 4px rgb(60 45 20 / 20%)); }
+.restaurant__drag-preview .word-art { font-size: 62px; }
+.restaurant__intro .restaurant__monster-art { width: 150px; }
+@keyframes monster-chew { from { transform: scaleY(1); } to { transform: scaleY(.83); } }
+@keyframes monster-happy { 0%, 100% { transform: translateY(0) rotate(0); } 35% { transform: translateY(-9px) rotate(-4deg); } 70% { transform: translateY(0) rotate(4deg); } }
+@keyframes restaurant-shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
 
-.restaurant__counter {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  grid-template-rows: 1fr auto;
-  align-items: center;
-  width: min(100%, 620px);
-  min-height: 300px;
-  padding: 20px 24px 16px;
-  border: 3px solid var(--border);
-  border-radius: 30px;
-  background: linear-gradient(165deg, var(--surface), var(--surface-2));
-  box-shadow: var(--shadow);
-  overflow: hidden;
-  transition: border-color 180ms, transform 180ms;
+@media (max-height: 650px) {
+  .restaurant__counter { min-height: 230px; padding: 10px 18px; }
+  .restaurant__monster-art { width: 140px; }
+  .restaurant__tray { min-height: 74px; padding: 6px 12px; }
+  .restaurant__serving { width: 46px; height: 46px; }
+  .restaurant__serving .word-art { font-size: 34px; }
+  .restaurant__food { min-height: 74px; }
 }
 
-.restaurant__counter::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 22%;
-  background: color-mix(in srgb, var(--tint-food) 55%, var(--surface));
-  border-top: 3px solid var(--border);
-}
-
-.restaurant__counter.is-wrong { border-color: var(--peach); animation: restaurant-shake 420ms ease; }
-.restaurant__counter.is-served { border-color: var(--sage); }
-.restaurant__counter.is-served .restaurant__plate { transform: translateY(-12px) scale(1.08); }
-.restaurant__monster { position: relative; z-index: 1; font-size: clamp(82px, 18vmin, 130px); line-height: 1; transition: transform 300ms; }
-.restaurant__monster.is-happy { transform: translateY(-8px) rotate(-5deg) scale(1.08); }
-.restaurant__bubble { position: relative; z-index: 1; align-self: start; padding: 12px 16px; border: 2px solid var(--border); border-radius: 20px; background: var(--surface); font-size: clamp(17px, 3vw, 22px); font-weight: 700; }
-.restaurant__plate { position: relative; z-index: 1; grid-column: 1 / -1; justify-self: center; align-self: end; width: 150px; height: 110px; display: flex; align-items: center; justify-content: center; padding: 15px; border-radius: 50%; background: #fffdf7; border: 8px solid #d8b878; box-shadow: 0 5px 0 rgb(119 83 30 / 15%); transition: transform 480ms cubic-bezier(.2,.8,.2,1); }
-.restaurant__plate .word-art { font-size: 62px; }
-.restaurant__table { position: absolute; z-index: 2; bottom: 4px; left: 50%; font-size: 28px; transform: translateX(-50%); }
-.restaurant__controls { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; width: min(100%, 620px); }
-.restaurant__controls > .btn { padding: 16px 12px; }
-.restaurant__controls > .learn__repeat-status { grid-column: 1 / -1; flex: none; order: 1; min-height: 24px; }
-@keyframes restaurant-shake { 25% { transform: translateX(-7px); } 75% { transform: translateX(7px); } }
-
-@media (max-height: 600px) {
-  .restaurant__counter { min-height: 220px; padding: 12px 18px 10px; }
-  .restaurant__monster { font-size: 78px; }
-  .restaurant__plate { width: 120px; height: 84px; }
-  .restaurant__plate .word-art { font-size: 48px; }
+@media (max-width: 560px) {
+  .restaurant__counter { grid-template-columns: 1fr 1.2fr; padding-inline: 12px; }
+  .restaurant__bubble { padding: 10px 12px; }
+  .restaurant__bubble::before { left: -10px; border-width: 6px 10px 6px 0; }
+  .restaurant__menu { gap: 9px; }
+  .restaurant__food { border-radius: 17px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .restaurant__counter.is-wrong { animation: none; }
-  .restaurant__monster { transition: none; }
+  .restaurant__monster-art.is-eating .restaurant__mouth, .restaurant__monster-art.is-happy, .restaurant__counter[class*="is-feedback-"] { animation: none; }
 }
