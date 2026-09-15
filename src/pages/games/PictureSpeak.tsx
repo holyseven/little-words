@@ -39,7 +39,7 @@ export function PictureSpeak({ themeId }: Props) {
 
   useEffect(() => () => { repeat.current?.cancel(); stop(); clearConfetti() }, [stop])
 
-  if (!theme || words.length === 0 || !word) return <NotFound />
+  if (!theme || words.length === 0) return <NotFound />
 
   const startListening = () => {
     unlock()
@@ -85,16 +85,19 @@ export function PictureSpeak({ themeId }: Props) {
     )
   }
 
+  if (!word) return <NotFound />
+
   return (
     <GameScreen themeId={theme.id} label={`${settings.showZh ? '看图开口' : 'Picture Speak'}  ·  ${index + 1}/${words.length}`} className="picture-speak">
       <div className="page__body picture-speak__body">
         <p className="picture-speak__instruction">{settings.showZh ? '小动物躲在蛋里，说出它的名字吧' : 'A little animal is hiding in the egg. Say its name!'}</p>
         <section className={`picture-speak__card ${outcome === 'correct' ? 'is-correct' : ''}`} aria-live="polite">
-          <div className={`picture-speak__egg ${outcome === 'correct' ? 'is-hatched' : ''}`}>
-            <WordArt word={word} className="picture-speak__art" />
+          <div key={word.id} className={`picture-speak__egg ${outcome === 'correct' ? 'is-hatched' : ''}`}>
+            <div className="picture-speak__animal">
+              <WordArt word={word} className="picture-speak__art" />
+            </div>
             <span className="picture-speak__shell picture-speak__shell--top" aria-hidden="true" />
             <span className="picture-speak__shell picture-speak__shell--bottom" aria-hidden="true" />
-            <span className="picture-speak__crack" aria-hidden="true">⌁</span>
           </div>
           {outcome === 'correct' && (
             <div className="picture-speak__answer">
@@ -103,6 +106,7 @@ export function PictureSpeak({ themeId }: Props) {
             </div>
           )}
         </section>
+        <div className="picture-speak__controls">
         {outcome !== 'correct' && (
           <BigButton variant="soft" icon="🔊" onClick={() => { unlock(); sayWord(word) }}>
             {settings.showZh ? '听提示' : 'Hear a hint'}
@@ -122,6 +126,7 @@ export function PictureSpeak({ themeId }: Props) {
             {settings.showZh ? (index + 1 >= words.length ? '完成挑战' : '下一个') : (index + 1 >= words.length ? 'Finish' : 'Next')}
           </BigButton>
         )}
+        </div>
       </div>
     </GameScreen>
   )
