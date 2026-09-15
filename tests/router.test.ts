@@ -24,6 +24,7 @@ describe('parseRoute', () => {
     expect(parseRoute('/theme/animals/game/memory')).toMatchObject({ game: 'memory' })
     expect(parseRoute('/theme/animals/game/bubble')).toMatchObject({ game: 'bubble' })
     expect(parseRoute('/theme/animals/game/speak')).toMatchObject({ game: 'speak' })
+    expect(parseRoute('/theme/food/game/restaurant')).toMatchObject({ game: 'restaurant' })
   })
 
   it('未知游戏名落到 notfound', () => {

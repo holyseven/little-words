@@ -5,7 +5,7 @@ import { clearConfetti } from './Confetti'
 
 type State = 'idle' | 'loading' | 'requesting' | 'listening' | 'recognizing' | 'matched' | 'unmatched' | 'error'
 export interface InlineWordRepeatHandle { cancel: () => void }
-interface Props { word: string; showZh: boolean; onBeforeStart: () => void; onSuccess?: () => void; buttonText?: string }
+interface Props { word: string; showZh: boolean; onBeforeStart: () => void; onSuccess?: () => void; onFailure?: () => void; buttonText?: string }
 interface Session {
   audio: AudioContext | null
   stream: MediaStream | null
@@ -67,7 +67,7 @@ function release(session: Session) {
 }
 
 /** 这里只检测声响，不识别单词，也不把信号强弱换算成发音分数。 */
-export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, showZh, onBeforeStart, onSuccess, buttonText }, ref) {
+export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, showZh, onBeforeStart, onSuccess, onFailure, buttonText }, ref) {
   const session = useRef<Session | null>(null)
   const [state, setState] = useState<State>('idle')
   const [error, setError] = useState('')
@@ -127,6 +127,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     if (matched) setSuccessMessage(Math.floor(Math.random() * SUCCESS_MESSAGES.length))
     if (!heard) setError(showZh ? '没有检测到清晰的声音，请靠近麦克风再试一次。' : 'No clear voice was detected. Move closer to the microphone and try again.')
     if (matched) onSuccess?.()
+    else if (heard) onFailure?.()
   }
 
   const start = async () => {

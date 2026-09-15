@@ -69,6 +69,10 @@ export function ThemePage({ themeId }: Props) {
       key: 'speak', emoji: '🗣️', title: 'Picture Speak', zh: '看图开口',
       path: `/theme/${theme.id}/game/speak`,
     },
+    ...(theme.id === 'food' ? [{
+      key: 'restaurant', emoji: '👾', title: 'Monster Restaurant', zh: '怪兽餐厅',
+      path: `/theme/${theme.id}/game/restaurant`,
+    }] : []),
   ]
 
   const open = (path: string) => {
