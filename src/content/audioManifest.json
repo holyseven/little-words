@@ -882,6 +882,146 @@
       "text": "Time to rest. See you tomorrow!",
       "durationMs": 2087
     },
+    "p/one-apple-please": {
+      "hash": "d65d89cc713a",
+      "text": "One apple, please!",
+      "durationMs": 1291
+    },
+    "p/two-apples-please": {
+      "hash": "0a423012d7de",
+      "text": "Two apples, please!",
+      "durationMs": 1392
+    },
+    "p/three-apples-please": {
+      "hash": "f7c7d5b6423f",
+      "text": "Three apples, please!",
+      "durationMs": 1550
+    },
+    "p/one-banana-please": {
+      "hash": "903f646ba530",
+      "text": "One banana, please!",
+      "durationMs": 1459
+    },
+    "p/two-bananas-please": {
+      "hash": "f08fc4549287",
+      "text": "Two bananas, please!",
+      "durationMs": 1399
+    },
+    "p/three-bananas-please": {
+      "hash": "e66cb209f6a1",
+      "text": "Three bananas, please!",
+      "durationMs": 1544
+    },
+    "p/one-orange-please": {
+      "hash": "1be1299c09bd",
+      "text": "One orange, please!",
+      "durationMs": 1427
+    },
+    "p/two-oranges-please": {
+      "hash": "a8c5c9b86af8",
+      "text": "Two oranges, please!",
+      "durationMs": 1466
+    },
+    "p/three-oranges-please": {
+      "hash": "309a20a97373",
+      "text": "Three oranges, please!",
+      "durationMs": 1623
+    },
+    "p/one-pear-please": {
+      "hash": "709fd4256a19",
+      "text": "One pear, please!",
+      "durationMs": 1367
+    },
+    "p/two-pears-please": {
+      "hash": "fdf5cea85ebe",
+      "text": "Two pears, please!",
+      "durationMs": 1320
+    },
+    "p/three-pears-please": {
+      "hash": "43646b027806",
+      "text": "Three pears, please!",
+      "durationMs": 1391
+    },
+    "p/one-peach-please": {
+      "hash": "8bdac361c6ab",
+      "text": "One peach, please!",
+      "durationMs": 1451
+    },
+    "p/two-peaches-please": {
+      "hash": "eb9c4c83e456",
+      "text": "Two peaches, please!",
+      "durationMs": 1386
+    },
+    "p/three-peaches-please": {
+      "hash": "9ee8ef3b0598",
+      "text": "Three peaches, please!",
+      "durationMs": 1480
+    },
+    "p/one-lemon-please": {
+      "hash": "8adb0f0c9b87",
+      "text": "One lemon, please!",
+      "durationMs": 1349
+    },
+    "p/two-lemons-please": {
+      "hash": "e7a78b29bb0a",
+      "text": "Two lemons, please!",
+      "durationMs": 1303
+    },
+    "p/three-lemons-please": {
+      "hash": "460e81915304",
+      "text": "Three lemons, please!",
+      "durationMs": 1400
+    },
+    "p/one-strawberry-please": {
+      "hash": "6a3833efde58",
+      "text": "One strawberry, please!",
+      "durationMs": 1624
+    },
+    "p/two-strawberries-please": {
+      "hash": "83d17d538e75",
+      "text": "Two strawberries, please!",
+      "durationMs": 1624
+    },
+    "p/three-strawberries-please": {
+      "hash": "2104b1efbbd4",
+      "text": "Three strawberries, please!",
+      "durationMs": 1629
+    },
+    "p/one-cookie-please": {
+      "hash": "038df7deb8b6",
+      "text": "One cookie, please!",
+      "durationMs": 1365
+    },
+    "p/two-cookies-please": {
+      "hash": "2664bcae54da",
+      "text": "Two cookies, please!",
+      "durationMs": 1356
+    },
+    "p/three-cookies-please": {
+      "hash": "6ca85a804085",
+      "text": "Three cookies, please!",
+      "durationMs": 1419
+    },
+    "p/one-egg-please": {
+      "hash": "1ab56d4654e1",
+      "text": "One egg, please!",
+      "durationMs": 1122
+    },
+    "p/two-eggs-please": {
+      "hash": "058a895db1fd",
+      "text": "Two eggs, please!",
+      "durationMs": 1093
+    },
+    "p/three-eggs-please": {
+      "hash": "4f8d831332d3",
+      "text": "Three eggs, please!",
+      "durationMs": 1217
+    },
+    "p/yummy-thank-you": {
+      "hash": "0624deee26b7",
+      "text": "Yummy! Thank you!",
+      "durationMs": 1154
+    },
     "p/you-finished-animals-amazing": {
       "hash": "0072a7becd4e",
       "text": "You finished Animals! Amazing!",

@@ -34,6 +34,37 @@ export const phrases = {
   /** 获得贴纸（SPEC 7.8） */
   sticker: [{ en: 'You got a new sticker!', zh: '你得到一张新贴纸！' }],
   rest: [{ en: 'Time to rest. See you tomorrow!', zh: '该休息啦。明天见！' }],
+  /** 怪兽餐厅：预生成整句点餐和回应，保证 iPad 离线时也有声音。 */
+  restaurant: [
+    { en: 'One apple, please!', zh: '请给我一个苹果！' },
+    { en: 'Two apples, please!', zh: '请给我两个苹果！' },
+    { en: 'Three apples, please!', zh: '请给我三个苹果！' },
+    { en: 'One banana, please!', zh: '请给我一个香蕉！' },
+    { en: 'Two bananas, please!', zh: '请给我两个香蕉！' },
+    { en: 'Three bananas, please!', zh: '请给我三个香蕉！' },
+    { en: 'One orange, please!', zh: '请给我一个橙子！' },
+    { en: 'Two oranges, please!', zh: '请给我两个橙子！' },
+    { en: 'Three oranges, please!', zh: '请给我三个橙子！' },
+    { en: 'One pear, please!', zh: '请给我一个梨！' },
+    { en: 'Two pears, please!', zh: '请给我两个梨！' },
+    { en: 'Three pears, please!', zh: '请给我三个梨！' },
+    { en: 'One peach, please!', zh: '请给我一个桃子！' },
+    { en: 'Two peaches, please!', zh: '请给我两个桃子！' },
+    { en: 'Three peaches, please!', zh: '请给我三个桃子！' },
+    { en: 'One lemon, please!', zh: '请给我一个柠檬！' },
+    { en: 'Two lemons, please!', zh: '请给我两个柠檬！' },
+    { en: 'Three lemons, please!', zh: '请给我三个柠檬！' },
+    { en: 'One strawberry, please!', zh: '请给我一颗草莓！' },
+    { en: 'Two strawberries, please!', zh: '请给我两颗草莓！' },
+    { en: 'Three strawberries, please!', zh: '请给我三颗草莓！' },
+    { en: 'One cookie, please!', zh: '请给我一块饼干！' },
+    { en: 'Two cookies, please!', zh: '请给我两块饼干！' },
+    { en: 'Three cookies, please!', zh: '请给我三块饼干！' },
+    { en: 'One egg, please!', zh: '请给我一个鸡蛋！' },
+    { en: 'Two eggs, please!', zh: '请给我两个鸡蛋！' },
+    { en: 'Three eggs, please!', zh: '请给我三个鸡蛋！' },
+    { en: 'Yummy! Thank you!', zh: '好吃！谢谢你！' },
+  ],
 } satisfies Record<string, Phrase[]>
 
 export type PhraseKind = keyof typeof phrases

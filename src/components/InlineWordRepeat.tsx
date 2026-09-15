@@ -17,6 +17,7 @@ interface Session {
   timer: ReturnType<typeof setTimeout> | null
   soundMs: number
   finalText: string
+  partialText: string
   finishing: boolean
   sampleRate: number
   resultWaiter: { resolve: () => void; timer: ReturnType<typeof setTimeout> } | null
@@ -105,21 +106,26 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     if (current.recognizer && current.soundMs >= 120) {
       setState('recognizing')
       // 短单词需要清晰的语音边界；补静音只送入模型内存，不保存孩子的声音。
-      current.recognizer.acceptWaveformFloat(new Float32Array(Math.floor(current.sampleRate * 0.35)), current.sampleRate)
-      current.recognizer.retrieveFinalResult()
-      // Vosk 在 Worker 中异步计算最终结果。低性能设备上 450ms 不够，
-      // 过早销毁识别器会把本来识别成功的单词误判为空结果。
+      // Vosk 在 Worker 中异步计算最终结果。低性能 iPad 上识别首个
+      // 音频块可能需要几秒；先安装 waiter，再发结束消息，避免结果刚好
+      // 回来时 waiter 还没有挂上而只能等超时。
       await new Promise<void>((resolve) => {
         current.resultWaiter = {
           resolve,
-          timer: setTimeout(resolve, 1800),
+          timer: setTimeout(resolve, 3200),
         }
+        current.recognizer?.acceptWaveformFloat(new Float32Array(Math.floor(current.sampleRate * 0.35)), current.sampleRate)
+        current.recognizer?.retrieveFinalResult()
       })
     }
     if (session.current !== current) return
     const expected = word.trim().toLowerCase()
-    const recognized = current.finalText.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim()
-    const matched = current.soundMs >= 120 && recognized.split(' ').some((token) => token === expected)
+    const normalize = (value: string) => value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim()
+    // A short word can still be present in Vosk's last partial result when the
+    // worker is busy flushing the final endpoint. Keep that partial as a
+    // fallback instead of throwing away a correct first attempt.
+    const recognizedTexts = [normalize(current.finalText), normalize(current.partialText)].filter(Boolean)
+    const matched = current.soundMs >= 120 && recognizedTexts.some((value) => value.split(' ').some((token) => token === expected))
     const heard = current.soundMs >= 120
     dispose()
     setLevel(0)
@@ -139,7 +145,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       setError(showZh ? '请用 HTTPS，或在这台 Mac 上用 localhost 打开后重试。' : 'Open using HTTPS or localhost on this Mac to use the microphone.')
       return
     }
-    const current: Session = { audio: null, stream: null, source: null, processor: null, sink: null, recognizer: null, frame: null, timer: null, soundMs: 0, finalText: '', finishing: false, sampleRate: 16000, resultWaiter: null }
+    const current: Session = { audio: null, stream: null, source: null, processor: null, sink: null, recognizer: null, frame: null, timer: null, soundMs: 0, finalText: '', partialText: '', finishing: false, sampleRate: 16000, resultWaiter: null }
     session.current = current
     let modelLoaded = false
     // 必须在点击手势还有效时创建并恢复 AudioContext。iOS Safari 在等待
@@ -153,7 +159,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       modelLoaded = true
       if (session.current !== current) return
       setState('requesting')
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } })
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, sampleRate: 16000, echoCancellation: true, noiseSuppression: true } })
       if (session.current !== current) {
         stream.getTracks().forEach((track) => track.stop())
         return
@@ -171,13 +177,20 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       current.sampleRate = 16000
       current.recognizer.acceptWaveformFloat(new Float32Array(Math.floor(16000 * 0.35)), 16000)
       current.recognizer.on('result', (message) => {
-        const text = message.result?.text ?? ''
+        const text = message.result?.text?.trim() ?? ''
         if (text) current.finalText = text
-        if (current.finishing && current.resultWaiter) {
+        // Ignore empty endpoint results while flushing. They can be emitted
+        // for the preceding silence before the actual final hypothesis; if
+        // they resolve the waiter we tear down the recognizer too early.
+        if (text && current.finishing && current.resultWaiter) {
           clearTimeout(current.resultWaiter.timer)
           current.resultWaiter.resolve()
           current.resultWaiter = null
         }
+      })
+      current.recognizer.on('partialresult', (message) => {
+        const text = message.result?.partial ?? ''
+        if (text) current.partialText = text
       })
       current.processor = current.audio.createScriptProcessor(4096, 1, 1)
       current.sink = current.audio.createGain()
