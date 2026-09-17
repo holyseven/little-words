@@ -7,6 +7,7 @@ import './styles/global.css'
 import { App } from './App'
 import { installAudioUnlock } from './audio/audioUnlock'
 import { initTTS } from './audio/tts'
+import { installUpdateChecks } from './pwa/updates'
 
 // 尽早绑上 window 级监听：孩子第一次点屏幕就完成音频解锁（SPEC 10.2）
 installAudioUnlock()
@@ -18,15 +19,17 @@ if (!window.location.hash) {
 }
 
 /**
- * Service Worker：autoUpdate + skipWaiting，下次冷启动自动用新版本，
+ * Service Worker：启动和恢复前台时检查，autoUpdate + skipWaiting 自动应用新版本，
  * 不弹更新提示打扰孩子（SPEC 11.4）。
  */
 const swReady = { registered: false }
 
-const updateSW = registerSW({
+let removeUpdateChecks: (() => void) | undefined
+registerSW({
   immediate: true,
-  onRegisteredSW() {
-    swReady.registered = true
+  onRegisteredSW(_url, registration) {
+    swReady.registered = !!registration
+    if (registration) removeUpdateChecks = installUpdateChecks(registration)
   },
   onRegisterError(err) {
     console.warn('[sw] 注册失败', err)
@@ -35,7 +38,7 @@ const updateSW = registerSW({
 
 // 供家长页（M4）读取离线状态
 ;(window as unknown as { __swReady?: typeof swReady }).__swReady = swReady
-void updateSW
+import.meta.hot?.dispose(() => removeUpdateChecks?.())
 
 const rootEl = document.getElementById('root')
 if (!rootEl) throw new Error('#root 不存在')

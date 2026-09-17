@@ -2,6 +2,17 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { readFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+
+function buildRevision(): string {
+  if (process.env.GITHUB_SHA) return process.env.GITHUB_SHA.slice(0, 7)
+  try {
+    return execFileSync('git', ['rev-parse', '--short=7', 'HEAD'], {
+      encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim()
+  } catch { return 'local' }
+}
+const revision = buildRevision()
 
 // GitHub Pages 部署到子路径时，构建前设置 BASE_PATH=/<仓库名>/
 // 例：BASE_PATH=/little-words/ npm run build
@@ -12,9 +23,14 @@ const https = process.env.HTTPS_CERT_FILE && process.env.HTTPS_KEY_FILE
 
 export default defineConfig({
   base,
+  define: { 'import.meta.env.VITE_BUILD_ID': JSON.stringify(revision) },
 
   plugins: [
     react(),
+    {
+      name: 'app-build-version',
+      transformIndexHtml: () => [{ tag: 'meta', attrs: { name: 'little-words-build', content: revision } }],
+    },
 
     VitePWA({
       // 孩子在用，不弹「有新版本，是否刷新」打扰他们：下次冷启动直接生效

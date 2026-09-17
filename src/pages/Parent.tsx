@@ -14,7 +14,16 @@ import { unlockAudio } from '../audio/audioUnlock'
 import { useVoice } from '../hooks/useVoice'
 import pkg from '../../package.json'
 import { CourseDownloads } from '../components/CourseDownloads'
+import { checkForAppUpdate, type AppUpdateStatus } from '../pwa/updates'
 import './Parent.css'
+
+const updateMessages: Record<AppUpdateStatus, string> = {
+  current: '已检查更新，目前没有待安装的新版本。',
+  updating: '发现新版本，正在更新，完成后会自动刷新。',
+  offline: '目前离线，请连接网络后再检查。',
+  unavailable: '更新服务尚未就绪，请联网刷新后再试。',
+  error: '暂时无法检查更新，请稍后重试。',
+}
 
 export function Parent() {
   const { parentAuthorized, authorizeParent } = useApp()
@@ -36,6 +45,8 @@ function ParentSettings() {
   const [pending, setPending] = useState<ReturnType<typeof parseBackup> | null>(null)
   const [resetStep, setResetStep] = useState(0)
   const [busy, setBusy] = useState(false)
+  const [checkingUpdate, setCheckingUpdate] = useState(false)
+  const [updateMessage, setUpdateMessage] = useState('')
   const [offline, setOffline] = useState({ online: navigator.onLine, ready: false, usage: 0 })
   const file = useRef<HTMLInputElement>(null)
   useEffect(() => {
@@ -95,6 +106,17 @@ function ParentSettings() {
       setPending(null); setResetStep(0)
     } finally { setBusy(false) }
   }
+  const checkUpdate = async () => {
+    if (checkingUpdate) return
+    setCheckingUpdate(true)
+    setUpdateMessage('正在检查更新…')
+    try {
+      await flushProgress()
+      setUpdateMessage(updateMessages[await checkForAppUpdate()])
+    } catch {
+      setUpdateMessage('暂时无法检查更新，请稍后重试。')
+    } finally { setCheckingUpdate(false) }
+  }
   return <main className="page page-enter parent-page">
     <header className="page-header"><BackButton to="/" /><h1>家长空间</h1></header>
     <div className="page__body parent-content">
@@ -135,6 +157,12 @@ function ParentSettings() {
       </section>
       {message && <p className="parent-message" role="status">{message}</p>}
       <section className="parent-section"><h2>关于与离线状态</h2><p>Little Words · {pkg.version}</p><p>网络：{offline.online ? '已连接' : '离线'}</p><p>离线缓存：{offline.ready ? 'Service Worker 已就绪' : '尚未就绪'}</p><p>持久化存储：{settings.persisted ? '已获准' : '未获准，建议定期导出备份'}</p><p>站点存储占用：{(offline.usage / 1024 / 1024).toFixed(1)} MB</p>
+        <p>版本标记：{import.meta.env.DEV ? '本地开发预览' : import.meta.env.VITE_BUILD_ID}</p>
+        {!import.meta.env.DEV && <>
+          <div className="parent-actions"><BigButton disabled={checkingUpdate} onClick={() => void checkUpdate()}>{checkingUpdate ? '正在检查…' : '检查更新'}</BigButton></div>
+          <p className="parent-help">联网后检查最新版本；学习进度和已下载的课程会保留。</p>
+          {updateMessage && <p role="status">{updateMessage}</p>}
+        </>}
         {!offline.ready && <p>开发模式不安装离线缓存。iPad 离线使用需要首次联网打开 HTTPS 构建版本，等待缓存完成，再添加到主屏幕。</p>}
         <p>进度只保存在本机，没有账号、广告或数据上报。</p>
       </section>
