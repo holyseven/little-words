@@ -141,7 +141,7 @@ function ParentSettings() {
         {voices.length === 0 ? <p role="status">设备未安装可用英文语音，请在 设置→辅助功能→朗读内容 中下载。已打包的录音仍可使用。</p>
           : <BigButton onClick={() => { unlockAudio(); stopClip(); setVoiceName(settings.voiceName); speak('The cat is sleeping.', { rate: settings.rate }) }}>试听备用语音</BigButton>}
         <label className="parent-row">跟读评估<select value={settings.repeatEngine} onChange={(e) => updateSettings({ repeatEngine: e.target.value as 'azure' | 'vosk' })}><option value="azure">在线音素评估（默认）</option><option value="vosk">本地离线识别</option></select></label>
-        <p className="parent-help">默认先尝试在线评估，能更细地看音素；网络或在线服务不可用时会自动用本地 Vosk，不保存录音。在线试用需要在本地代理配置 Azure 密钥，GitHub Pages 会自动使用本地模式。</p>
+        <p className="parent-help">默认先尝试在线评估，能更细地看音素；网络或在线服务不可用时会自动用本地 Vosk，不保存录音。当前网页使用 Azure 限额试用密钥，在线评估不可用时仍可离线练习。</p>
       </section>
       <section className="parent-section"><h2>家长门</h2><p>当前验证方式：{settings.parentPin ? '4 位 PIN' : '随机加法'}。离开家长空间或切到后台后需要重新验证。</p>
         <label className="parent-row">新 PIN<input aria-label="新 PIN" type="password" inputMode="numeric" autoComplete="off" maxLength={4} value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))} /></label>

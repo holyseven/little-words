@@ -1,9 +1,9 @@
 /**
  * Azure Pronunciation Assessment 的轻量 REST 客户端。
  *
- * 浏览器只请求同源的 /api/pronunciation 代理，订阅密钥留在本地代理或
- * Edge Function 中，不进入静态网页。代理未配置、离线或请求失败时，调用方
- * 会回退到 Vosk。本文件只保存本次练习的 PCM，不创建录音文件。
+ * 默认从网页直接请求 Azure；没有前端 key 时再请求同源的 /api/pronunciation
+ * 代理。前端 key 适合本项目的限额试用，代理模式仍可用于本地安全实验。
+ * 请求失败时调用方会回退到 Vosk。本文件只保存本次练习的 PCM，不创建录音文件。
  */
 
 export interface AzurePhonemeScore {
@@ -24,6 +24,32 @@ export interface AzurePronunciationResult {
 
 export const AZURE_PROXY_PATH = (import.meta.env.VITE_PRONUNCIATION_PROXY_URL as string | undefined)?.trim()
   || `${import.meta.env.BASE_URL}api/pronunciation`
+
+const directKey = (import.meta.env.VITE_AZURE_SPEECH_KEY as string | undefined)?.trim()
+const directRegion = (import.meta.env.VITE_AZURE_SPEECH_REGION as string | undefined)?.trim()
+const directEndpoint = (import.meta.env.VITE_AZURE_SPEECH_ENDPOINT as string | undefined)?.trim()
+
+function assessmentHeader(expected: string): string {
+  const value = JSON.stringify({
+    ReferenceText: expected,
+    GradingSystem: 'HundredMark',
+    Granularity: 'Phoneme',
+    Dimension: 'Comprehensive',
+    EnableMiscue: 'True',
+  })
+  // btoa is available in all target browsers; UTF-8 is not needed because the
+  // reference text is an English word.
+  return btoa(value)
+}
+
+function directAzureUrl(): string | null {
+  if (!directKey || !directRegion) return null
+  const endpoint = directEndpoint?.replace(/\/$/, '') || `https://${directRegion}.stt.speech.microsoft.com`
+  const path = endpoint.includes('.cognitiveservices.azure.com')
+    ? '/stt/speech/recognition/conversation/cognitiveservices/v1'
+    : '/speech/recognition/conversation/cognitiveservices/v1'
+  return `${endpoint}${path}?language=en-US&format=detailed`
+}
 
 function normalizedTokens(value: string): string[] {
   return value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim().split(' ').filter(Boolean)
@@ -59,7 +85,7 @@ function number(value: unknown): number | undefined {
 }
 
 /**
- * 调用项目的同源代理。生产部署没有代理时会返回 404，调用方应转用 Vosk。
+ * 直接模式把 Azure key 放在浏览器请求里；没有 key 时才使用项目的同源代理。
  */
 export async function assessAzurePronunciation(
   samples: Float32Array,
@@ -67,11 +93,15 @@ export async function assessAzurePronunciation(
   signal?: AbortSignal,
 ): Promise<AzurePronunciationResult> {
   if (samples.length === 0) throw new Error('No speech samples')
-  const response = await fetch(AZURE_PROXY_PATH, {
+  const directUrl = directAzureUrl()
+  const response = await fetch(directUrl ?? AZURE_PROXY_PATH, {
     method: 'POST',
     headers: {
       'Content-Type': 'audio/wav; codecs=audio/pcm; samplerate=16000',
-      'X-Pronunciation-Reference': expected,
+      Accept: 'application/json',
+      ...(directUrl
+        ? { 'Ocp-Apim-Subscription-Key': directKey!, 'Pronunciation-Assessment': assessmentHeader(expected) }
+        : { 'X-Pronunciation-Reference': expected }),
     },
     body: pcmToWav(samples, 16000),
     signal,

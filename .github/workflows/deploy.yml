@@ -36,6 +36,10 @@ jobs:
         run: npm run build
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
+          # 这是有意注入公开网页的试用密钥；Azure 资源请设置免费额度/预算上限。
+          VITE_AZURE_SPEECH_KEY: ${{ secrets.AZURE_SPEECH_KEY }}
+          VITE_AZURE_SPEECH_REGION: ${{ secrets.AZURE_SPEECH_REGION }}
+          VITE_AZURE_SPEECH_ENDPOINT: ${{ secrets.AZURE_SPEECH_ENDPOINT }}
 
       - uses: actions/configure-pages@v5
 
