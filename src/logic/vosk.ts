@@ -1,6 +1,7 @@
 export interface Recognizer {
-  on(event: 'result', listener: (message: { result?: { text?: string } }) => void): void
+  on(event: 'result', listener: (message: { result?: { text?: string; result?: Array<{ word: string; conf: number }> } }) => void): void
   on(event: 'partialresult', listener: (message: { result?: { partial?: string } }) => void): void
+  setWords(words: boolean): void
   acceptWaveformFloat(samples: Float32Array, sampleRate: number): void
   retrieveFinalResult(): void
   remove(): void

@@ -1,11 +1,12 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { loadVoskModel } from '../logic/vosk'
 import type { Recognizer } from '../logic/vosk'
+import { decideRepeat, type RepeatRecognitionWord } from '../logic/repeat'
 import { clearConfetti } from './Confetti'
 
-type State = 'idle' | 'loading' | 'requesting' | 'listening' | 'recognizing' | 'matched' | 'unmatched' | 'error'
+type State = 'idle' | 'loading' | 'requesting' | 'listening' | 'recognizing' | 'matched' | 'matched-soft' | 'unmatched' | 'error'
 export interface InlineWordRepeatHandle { cancel: () => void }
-interface Props { word: string; showZh: boolean; onBeforeStart: () => void; onSuccess?: () => void; onFailure?: () => void; buttonText?: string }
+interface Props { word: string; candidates?: string[]; showZh: boolean; onBeforeStart: () => void; onSuccess?: () => void; onFailure?: () => void; buttonText?: string }
 interface Session {
   audio: AudioContext | null
   stream: MediaStream | null
@@ -17,6 +18,7 @@ interface Session {
   timer: ReturnType<typeof setTimeout> | null
   soundMs: number
   finalText: string
+  finalWords: RepeatRecognitionWord[]
   partialText: string
   finishing: boolean
   sampleRate: number
@@ -67,8 +69,8 @@ function release(session: Session) {
   if (session.audio && session.audio.state !== 'closed') void session.audio.close().catch(() => {})
 }
 
-/** 这里只检测声响，不识别单词，也不把信号强弱换算成发音分数。 */
-export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, showZh, onBeforeStart, onSuccess, onFailure, buttonText }, ref) {
+/** 只判断是否听到目标词，不把解码置信度或信号强弱换算成发音分数。 */
+export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, candidates, showZh, onBeforeStart, onSuccess, onFailure, buttonText }, ref) {
   const session = useRef<Session | null>(null)
   const [state, setState] = useState<State>('idle')
   const [error, setError] = useState('')
@@ -119,17 +121,12 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       })
     }
     if (session.current !== current) return
-    const expected = word.trim().toLowerCase()
-    const normalize = (value: string) => value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim()
-    // A short word can still be present in Vosk's last partial result when the
-    // worker is busy flushing the final endpoint. Keep that partial as a
-    // fallback instead of throwing away a correct first attempt.
-    const recognizedTexts = [normalize(current.finalText), normalize(current.partialText)].filter(Boolean)
-    const matched = current.soundMs >= 120 && recognizedTexts.some((value) => value.split(' ').some((token) => token === expected))
+    const decision = decideRepeat({ soundMs: current.soundMs, finalText: current.finalText, finalWords: current.finalWords, partialText: current.partialText }, word)
+    const matched = decision.matched
     const heard = current.soundMs >= 120
     dispose()
     setLevel(0)
-    setState(matched ? 'matched' : heard ? 'unmatched' : 'error')
+    setState(matched ? decision.uncertain ? 'matched-soft' : 'matched' : heard ? 'unmatched' : 'error')
     if (matched) setSuccessMessage(Math.floor(Math.random() * SUCCESS_MESSAGES.length))
     if (!heard) setError(showZh ? '没有检测到清晰的声音，请靠近麦克风再试一次。' : 'No clear voice was detected. Move closer to the microphone and try again.')
     if (matched) onSuccess?.()
@@ -145,7 +142,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       setError(showZh ? '请用 HTTPS，或在这台 Mac 上用 localhost 打开后重试。' : 'Open using HTTPS or localhost on this Mac to use the microphone.')
       return
     }
-    const current: Session = { audio: null, stream: null, source: null, processor: null, sink: null, recognizer: null, frame: null, timer: null, soundMs: 0, finalText: '', partialText: '', finishing: false, sampleRate: 16000, resultWaiter: null }
+    const current: Session = { audio: null, stream: null, source: null, processor: null, sink: null, recognizer: null, frame: null, timer: null, soundMs: 0, finalText: '', finalWords: [], partialText: '', finishing: false, sampleRate: 16000, resultWaiter: null }
     session.current = current
     let modelLoaded = false
     // 必须在点击手势还有效时创建并恢复 AudioContext。iOS Safari 在等待
@@ -173,12 +170,17 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       const samples = new Float32Array(node.fftSize)
       current.source = current.audio.createMediaStreamSource(stream)
       current.source.connect(node)
-      current.recognizer = new model.KaldiRecognizer(16000, JSON.stringify([word.trim().toLowerCase(), '[unk]']))
+      const vocabulary = [...new Set([word.trim().toLowerCase(), ...(candidates ?? []).map((candidate) => candidate.trim().toLowerCase()).filter(Boolean), '[unk]'])]
+      current.recognizer = new model.KaldiRecognizer(16000, JSON.stringify(vocabulary))
       current.sampleRate = 16000
+      current.recognizer.setWords(true)
       current.recognizer.acceptWaveformFloat(new Float32Array(Math.floor(16000 * 0.35)), 16000)
       current.recognizer.on('result', (message) => {
         const text = message.result?.text?.trim() ?? ''
-        if (text) current.finalText = text
+        if (text) {
+          current.finalText = text
+          current.finalWords = (message.result?.result ?? []).map((item) => ({ word: item.word, conf: item.conf }))
+        }
         // Ignore empty endpoint results while flushing. They can be emitted
         // for the preceding silence before the actual final hypothesis; if
         // they resolve the waiter we tear down the recognizer too early.
@@ -252,6 +254,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     : listening ? text('正在听，说完会自动结束。', 'Listening. This will finish automatically.')
       : state === 'recognizing' ? text('正在判断这个单词…', 'Checking the word…')
           : state === 'matched' ? text(SUCCESS_MESSAGES[successMessage].zh, SUCCESS_MESSAGES[successMessage].en)
+          : state === 'matched-soft' ? text('听到了！再清楚一点就更棒啦！', 'I heard it! A little clearer would be even better!')
           : state === 'unmatched' ? text('这次没有识别到目标单词，再试一次。', 'The target word was not recognized. Try again.')
           : state === 'error' ? error : text('首次跟读会加载约 39MB 的本机模型，之后可离线使用。', 'The first repeat loads a ~39MB local model; later repeats work offline.')
 
@@ -263,7 +266,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     </button>
     <div className="learn__repeat-status" id={statusId} role="status">
       {listening && <span className="learn__repeat-level" aria-hidden="true"><span style={{ width: `${level}%` }} /></span>}
-      {state === 'matched' && <span className="learn__repeat-celebration" aria-hidden="true">{SUCCESS_MESSAGES[successMessage].emoji}</span>}
+      {(state === 'matched' || state === 'matched-soft') && <span className="learn__repeat-celebration" aria-hidden="true">{SUCCESS_MESSAGES[successMessage].emoji}</span>}
       {message}
     </div>
   </>

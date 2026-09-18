@@ -116,6 +116,7 @@ export function PictureSpeak({ themeId, backTo }: Props) {
           key={word.id}
           ref={repeat}
           word={word.text}
+          candidates={theme.words.map((candidate) => candidate.text)}
           showZh={settings.showZh}
           onBeforeStart={startListening}
           onSuccess={onSuccess}

@@ -1,7 +1,23 @@
 import { describe, expect, it } from 'vitest'
-import { analyzeRepeat, repeatFeedback } from '../src/logic/repeat'
+import { analyzeRepeat, decideRepeat, repeatFeedback } from '../src/logic/repeat'
 
 describe('跟读练习本地反馈', () => {
+  it('最终结果优先于 partial，避免中途猜中后最终改词仍然通过', () => {
+    const result = decideRepeat({ soundMs: 800, finalText: 'dog', finalWords: [{ word: 'dog', conf: 0.91 }], partialText: 'cat' }, 'cat')
+    expect(result.matched).toBe(false)
+    expect(result.source).toBe('final')
+  })
+
+  it('没有最终结果时允许 partial 兜底，但标记为温和提醒', () => {
+    const result = decideRepeat({ soundMs: 800, finalText: '', finalWords: [], partialText: 'cat' }, 'cat')
+    expect(result).toMatchObject({ matched: true, uncertain: true, source: 'partial' })
+  })
+
+  it('低置信度命中仍然通过，但不把它当成清晰命中', () => {
+    const result = decideRepeat({ soundMs: 800, finalText: 'cat', finalWords: [{ word: 'cat', conf: 0.31 }], partialText: '' }, 'cat')
+    expect(result).toMatchObject({ matched: true, uncertain: true, source: 'final', confidence: 0.31 })
+  })
+
   it('空录音提示提高音量', () => {
     const result = analyzeRepeat(new Float32Array(16000), 16000, 2)
     expect(result.score).toBe(0)

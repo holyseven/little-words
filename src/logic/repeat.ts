@@ -6,6 +6,56 @@ export interface RepeatAnalysis {
   label: 'quiet' | 'short' | 'ready' | 'great'
 }
 
+export interface RepeatRecognitionWord {
+  word: string
+  conf?: number
+}
+
+export interface RepeatRecognitionEvidence {
+  soundMs: number
+  finalText: string
+  finalWords: RepeatRecognitionWord[]
+  partialText: string
+}
+
+export interface RepeatRecognitionDecision {
+  matched: boolean
+  /** 目标词被猜中但证据偏弱；给鼓励和轻提示，不当作失败。 */
+  uncertain: boolean
+  source: 'final' | 'partial' | 'none'
+  confidence?: number
+}
+
+function normalizedTokens(value: string): string[] {
+  return value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim().split(' ').filter(Boolean)
+}
+
+/**
+ * 只做“听到了目标词吗”的宽容判定：最终结果优先，partial 只能在没有
+ * 任何最终词时兜底。conf 是解码置信度，不是发音标准度，只用来标记
+ * 一次需要轻声提醒的 uncertain 结果。
+ */
+export function decideRepeat(evidence: RepeatRecognitionEvidence, expected: string): RepeatRecognitionDecision {
+  if (evidence.soundMs < 120) return { matched: false, uncertain: false, source: 'none' }
+  const target = expected.trim().toLowerCase()
+  const finalWords = evidence.finalWords.filter((item) => item.word.trim())
+  const finalTokens = finalWords.map((item) => item.word.trim().toLowerCase())
+  const finalTextTokens = normalizedTokens(evidence.finalText)
+
+  if (finalWords.length > 0 || finalTextTokens.length > 0) {
+    const matched = finalWords.length > 0 ? finalTokens.includes(target) : finalTextTokens.includes(target)
+    if (!matched) return { matched: false, uncertain: false, source: 'final' }
+    const confidences = finalWords.filter((item) => item.word.trim().toLowerCase() === target && item.conf !== undefined).map((item) => item.conf!)
+    const confidence = confidences.length ? Math.max(...confidences) : undefined
+    return { matched: true, uncertain: confidence !== undefined && confidence < 0.5, source: 'final', confidence }
+  }
+
+  const partialMatched = normalizedTokens(evidence.partialText).includes(target)
+  return partialMatched
+    ? { matched: true, uncertain: true, source: 'partial' }
+    : { matched: false, uncertain: false, source: 'none' }
+}
+
 /** 评估录音是否适合继续练习，不冒充音素级发音评分。 */
 export function analyzeRepeat(samples: Float32Array, sampleRate: number, referenceDuration: number): RepeatAnalysis {
   const duration = samples.length / sampleRate
