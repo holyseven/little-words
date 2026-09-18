@@ -131,7 +131,10 @@ export function Home() {
 
       <button className="daily-home" onClick={() => { sfx.tap(); navigate('/daily') }} aria-label={`今日任务，完成 ${progress.daily.done.length} 个，共 3 个`}><span className="emoji" aria-hidden="true">🌱</span><b>{settings.showZh ? '今日小任务' : 'Today’s goals'}</b><span className="daily-home__dots" aria-hidden="true">{progress.daily.tasks.map((task) => <i key={task.id} className={progress.daily.done.includes(task.id) ? 'is-done' : ''} />)}</span></button>
 
-      <div className="course-tabs" role="group" aria-label="选择学习内容">{(['course', 'words'] as const).map((tab) => <button className="btn" key={tab} aria-pressed={section === tab} onClick={() => { sfx.tap(); setSection(tab); try { sessionStorage.setItem('little-words-home', tab) } catch { /* 隐私模式仍可切换。 */ } }}>{tab === 'course' ? (settings.showZh ? '📖 课本同步' : '📖 Textbook') : (settings.showZh ? '🌳 单词乐园' : '🌳 Word garden')}</button>)}</div>
+      <div className="course-tabs" role="group" aria-label="选择学习内容">
+        {(['course', 'words'] as const).map((tab) => <button className="btn" key={tab} aria-pressed={section === tab} onClick={() => { sfx.tap(); setSection(tab); try { sessionStorage.setItem('little-words-home', tab) } catch { /* 隐私模式仍可切换。 */ } }}>{tab === 'course' ? (settings.showZh ? '📖 课本同步' : '📖 Textbook') : (settings.showZh ? '🌳 单词乐园' : '🌳 Word garden')}</button>)}
+        <button className="btn course-tabs__games" onClick={() => { sfx.tap(); navigate('/games') }} aria-label={settings.showZh ? '游戏乐园' : 'Game park'}>{settings.showZh ? '🎡 游戏乐园' : '🎡 Game park'}</button>
+      </div>
 
       {section === 'course' ? <div className="home__course-scroll"><CourseHome /></div> : <div className="map">
         <div className="map__inner" style={{ height: MAP_HEIGHT }}>

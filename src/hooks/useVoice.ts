@@ -6,7 +6,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-import { clipId, hasClip, phraseId, playClip, preloadClips, stopClip } from '../audio/clips'
+import { clipId, hasClip, phraseId, playClip, playClipSequence, preloadClips, stopClip } from '../audio/clips'
 import type { Word } from '../content/types'
 
 export function useVoice() {
@@ -19,22 +19,30 @@ export function useVoice() {
     mounted.current = true
     return () => {
       mounted.current = false
+      playId.current++
       stopClip()
     }
   }, [])
 
-  const play = useCallback((key: string, fallbackText: string, onEnd?: () => void) => {
+  const beginPlayback = useCallback((onEnd?: () => void) => {
     const id = ++playId.current
     setSpeaking(true)
 
-    void playClip(key, {
-      fallbackText,
+    return {
       onEnd: () => {
-        if (mounted.current && playId.current === id) setSpeaking(false)
+        if (!mounted.current || playId.current !== id) return
+        setSpeaking(false)
         onEnd?.()
       },
-    })
+      onCancel: () => {
+        if (mounted.current && playId.current === id) setSpeaking(false)
+      },
+    }
   }, [])
+
+  const play = useCallback((key: string, fallbackText: string, onEnd?: () => void) => {
+    void playClip(key, { fallbackText, ...beginPlayback(onEnd) })
+  }, [beginPlayback])
 
   /** 朗读单词本身 */
   const sayWord = useCallback(
@@ -42,6 +50,17 @@ export function useVoice() {
       play(clipId('w', word.id), word.text, onEnd)
     },
     [play],
+  )
+
+  /** 按顺序朗读一组单词，直到整组完成都保持 speaking。 */
+  const sayWords = useCallback(
+    (words: Pick<Word, 'id' | 'text'>[], onEnd?: () => void) => {
+      void playClipSequence(
+        words.map((word) => ({ key: clipId('w', word.id), fallbackText: word.text })),
+        beginPlayback(onEnd),
+      )
+    },
+    [beginPlayback],
   )
 
   /** 朗读例句 */
@@ -66,5 +85,5 @@ export function useVoice() {
     setSpeaking(false)
   }, [])
 
-  return { sayWord, saySentence, sayPhrase, stop, speaking, preloadClips, hasClip }
+  return { sayWord, sayWords, saySentence, sayPhrase, stop, speaking, preloadClips, hasClip }
 }

@@ -19,12 +19,12 @@ import { useSfx } from '../../hooks/useSfx'
 import { useVoice } from '../../hooks/useVoice'
 import { NotFound } from '../NotFound'
 
-interface Props { themeId: string }
+interface Props { themeId: string; backTo?: string }
 type Outcome = 'waiting' | 'correct'
 
 const ROUND_SIZE = 6
 
-export function PictureSpeak({ themeId }: Props) {
+export function PictureSpeak({ themeId, backTo }: Props) {
   const theme = getTheme(themeId)
   const { settings } = useApp()
   const { unlock } = useAudioUnlocked()
@@ -71,14 +71,14 @@ export function PictureSpeak({ themeId }: Props) {
 
   if (index >= words.length) {
     return (
-      <GameScreen themeId={theme.id} label={settings.showZh ? '看图开口 · 完成' : 'Picture Speak · Done'} className="picture-speak">
+      <GameScreen themeId={theme.id} backTo={backTo} label={settings.showZh ? '看图开口 · 完成' : 'Picture Speak · Done'} className="picture-speak">
         <div className="page__body game__center picture-speak__done">
           <span className="emoji game__intro-icon" aria-hidden="true">🎉</span>
           <h1>{settings.showZh ? '完成啦！' : 'You did it!'}</h1>
           <p>{settings.showZh ? `你练习了 ${words.length} 个单词` : `You practiced ${words.length} words`}</p>
           <div className="game__actions">
             <BigButton icon="🔁" onClick={() => { setIndex(0); setOutcome('waiting') }}>{settings.showZh ? '再来一次' : 'Play again'}</BigButton>
-            <BigButton variant="primary" icon="🏠" onClick={() => navigate(`/theme/${theme.id}`)}>{settings.showZh ? '回主题' : 'Back to theme'}</BigButton>
+            <BigButton variant="primary" icon="🏠" onClick={() => navigate(backTo ?? `/theme/${theme.id}`)}>{backTo ? (settings.showZh ? '回游戏乐园' : 'Back to game park') : (settings.showZh ? '回主题' : 'Back to theme')}</BigButton>
           </div>
         </div>
       </GameScreen>
@@ -88,9 +88,9 @@ export function PictureSpeak({ themeId }: Props) {
   if (!word) return <NotFound />
 
   return (
-    <GameScreen themeId={theme.id} label={`${settings.showZh ? '看图开口' : 'Picture Speak'}  ·  ${index + 1}/${words.length}`} className="picture-speak">
+    <GameScreen themeId={theme.id} backTo={backTo} label={`${settings.showZh ? '看图开口' : 'Picture Speak'}  ·  ${index + 1}/${words.length}`} className="picture-speak">
       <div className="page__body picture-speak__body">
-        <p className="picture-speak__instruction">{settings.showZh ? '小动物躲在蛋里，说出它的名字吧' : 'A little animal is hiding in the egg. Say its name!'}</p>
+        <p className="picture-speak__instruction">{settings.showZh ? '小伙伴躲在蛋里，说出它的名字吧' : 'A little friend is hiding in the egg. Say its name!'}</p>
         <section className={`picture-speak__card ${outcome === 'correct' ? 'is-correct' : ''}`} aria-live="polite">
           <div key={word.id} className={`picture-speak__egg ${outcome === 'correct' ? 'is-hatched' : ''}`}>
             <div className="picture-speak__animal">

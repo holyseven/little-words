@@ -10,13 +10,13 @@ import { usePageVisible } from '../hooks/useGameLoop'
 import { navigate } from '../router'
 import '../pages/games/Games.css'
 
-export function GameScreen({ themeId, label, className = '', children }: {
-  themeId: string; label: string; className?: string; children: ReactNode
+export function GameScreen({ themeId, label, className = '', children, backTo }: {
+  themeId: string; label: string; className?: string; children: ReactNode; backTo?: string
 }) {
   const { progress } = useApp()
   return <main className={`page page-enter game ${className}`}>
     <header className="page-header">
-      <BackButton to={`/theme/${themeId}`} icon="back" />
+      <BackButton to={backTo ?? `/theme/${themeId}`} icon="back" />
       <span className="game__progress" role="status">{label}</span>
       <div className="page-header__spacer" />
       <StarCounter stars={progress.stars} />
@@ -38,8 +38,8 @@ export function GameIntro({ icon, title, description, zh, start }: {
   </div>
 }
 
-export function GameResult({ themeId, stars, summary, zh, restart }: {
-  themeId: string; stars: number; summary: string; zh: string; restart: () => void
+export function GameResult({ themeId, stars, summary, zh, restart, backTo }: {
+  themeId: string; stars: number; summary: string; zh: string; restart: () => void; backTo?: string
 }) {
   const { settings, reward } = useApp()
   const mascot = useRef<MascotHandle>(null)
@@ -65,8 +65,8 @@ export function GameResult({ themeId, stars, summary, zh, restart }: {
     <p className="game__earned" aria-label={`获得 ${stars} 颗星`}>⭐ +{stars}</p>
     <div className="game__actions">
       <BigButton icon="🔁" onClick={restart}>{settings.showZh ? '再玩一次' : 'Play again'}</BigButton>
-      <BigButton variant="primary" icon="🏠" onClick={() => navigate(`/theme/${themeId}`)}>
-        {settings.showZh ? '回主题' : 'Back to theme'}
+      <BigButton variant="primary" icon="🏠" onClick={() => navigate(backTo ?? `/theme/${themeId}`)}>
+        {backTo ? (settings.showZh ? '回游戏乐园' : 'Back to game park') : (settings.showZh ? '回主题' : 'Back to theme')}
       </BigButton>
     </div>
   </div>

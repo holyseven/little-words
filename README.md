@@ -8,7 +8,7 @@
 
 ---
 
-## 当前进度：v1.1.0 · M0–M5 + 一年级上册课本同步
+## 当前进度：v1.2.0 · M0–M5 + 一年级上册课本同步 + 游戏乐园
 
 已按用户要求连续完成剩余里程碑。家长功能、每日任务、时长限制及最终界面打磨均已实现；自动化验证记录如下。iPad / iPhone Safari 真机验收与 iPad 第 6 代 / A10 帧率仍待实测，下方未勾选项目保留真实状态。
 
@@ -19,7 +19,7 @@
 - 首页关卡地图（Animals 一个可用站点，其余 7 个 locked 占位）→ 主题页 → Learn 单词卡
 - 陪伴角色 Momo（内联 SVG）：idle 呼吸 + 随机眨眼，进入首页打招呼
 - **人声用预生成音频**（macOS `Evan (Enhanced)` 渲染，见下节）+ iOS 音频解锁
-- PWA：manifest、图标自动生成、Service Worker 预缓存核心产物（含单词乐园音频）；v1.1 的课程材料另由家长下载
+- PWA：manifest、图标自动生成、Service Worker 预缓存核心产物（含单词乐园音频）；课程材料另由家长下载
 - iOS 专项：禁双击/捏合缩放、禁长按菜单、`safe-area` 内边距、`100dvh`
 - 进度持久化到 IndexedDB，得星立即落盘
 
@@ -78,6 +78,13 @@
 - 老师提供的 **61 份材料全部接入**：44 段音频、17 个动画，共 52.76 MiB。按单元、文件名页码与材料种类整理；6 个复习合集和 9 个附录单独展示。
 - 音视频提供大号播放/暂停、重听、上一段/下一段和位置拖动；动画使用原片画面封面、原生全屏。默认原速，也可设为 0.85× / 0.7×。主动点播、结束停留、后台与离页暂停。
 - 完整学习一段首次 +1 星：实际播放覆盖至少 90%，且等到片段结束才结算。拖到结尾不能冒领；重复播放不重复发首次奖励，也不会把单词自动记为掌握。
+
+**M8（游戏乐园，2026-09-18）**
+
+- 首页新增「游戏乐园」，可以先选游戏再选主题；主题页也提供快捷入口，主题选择不受地图解锁限制。
+- **单词小火车**：先听 2 个、再听 4 轮 3 个单词，按顺序点图片上车；答对每轮 +1 星，完成一局额外 +5 星。
+- **英语寻宝**：森林场景放置同主题图片，听完整英文提示后找目标；找对后宝物飞入宝箱，完成一局额外 +5 星。80 个词各有离线提示音，颜色、数字和天气使用自然文案（如 “Find red!”、“Find a sunny day!”）。
+- 新游戏支持 iPad 触控、后台/奖励暂停、减少动态效果和离线语音，不保存录音，也不需要联网。
 - 默认课程每日任务为「听课文、看动画、听单词」各一段；当天实际覆盖达到要求并播完才完成任务，全部完成 +10 星每天一次。已有当天任务保持原样，切换单元或来源从明天的任务生效。
 - 家长页可下载当前单元或整册、暂停/重试、删除下载。逐文件校验大小和 SHA-256；缓存完整文件并支持离线 Range 跳转。删除下载保留星星与记录，备份包含新进度与设置，兼容旧存档。
 - 课程计入每日限时，到点立即停止。中文开关、外观和已有奖励继续生效；课本媒体速度独立于单词乐园语速。
@@ -90,9 +97,9 @@
 - 当前接入 Vosk Browser + 英文小模型（约 39MB），在浏览器 Worker 内离线识别当前目标词；首次使用需要下载并缓存模型。它只能判断“听起来像不像目标词”，不等于音素标准度，也不显示星星或清晰度分数。
 - 课本本次保留原始音视频播放，先隐藏旧整段跟读入口；逐词跟读须等待词表和句段校对。
 
-**本轮验证（2026-09-09）**
+**本轮验证（2026-09-18）**
 
-- `npm test`：14 个文件、132 项测试通过；内容校验、TypeScript、生产构建通过。
+- `npm test`：18 个文件、182 项测试通过；内容校验、TypeScript、生产构建通过。
 - 独立 Chrome 实际操作：音视频播放/暂停/续播、后台暂停、拖动、原地图入口、20 个课程页面/横竖屏尺寸组合；关闭中文后的窄屏界面与视频全屏进出通过。
 - 生产版完整下载 61 份材料（55,327,436 字节）并逐份校验。断网冷启动、设置保持、M4A 音频播放/解码、视频播放/跳转、206 Range 响应通过。
 - 实际播完三个课程每日任务，3 颗首次星星 + 10 颗每日奖励只结算一次；导出包含课程数据；删除全部下载保留进度。
@@ -443,7 +450,7 @@ src/
 │   ├── Stickers.tsx      贴纸册 + 徽章墙
 │   ├── ThemePage.tsx · Learn.tsx · NotFound.tsx
 │   ├── DailyDone.tsx · GoodNight.tsx · Parent.tsx
-│   └── games/            ListenPick · MemoryFlip · BubblePop
+│   └── games/            ListenPick · MemoryFlip · BubblePop · WordTrain · EnglishTreasure
 └── hooks/                useVoice · useSfx · useAudioUnlocked · useGameLoop · useGameProgress · useDailyTimer
 
 scripts/
@@ -454,7 +461,7 @@ scripts/
 ├── build.mjs             构建包装（处理 Node 18 的 crypto 问题）
 └── lib/                  wav.mjs（WAV 读写）· audio-post.mjs（裁静音/归一化/淡入淡出）
 
-tests/                    content · router · audio · clipsPlayback · sfx · pickWords · rewards · memory · bubbles · daily · backup · appearance · course（129 个单测）
+tests/                    content · router · audio · clipsPlayback · sfx · pickWords · rewards · memory · bubbles · daily · backup · appearance · course · wordTrain · treasure（182 个单测）
 
 public/
 ├── icons/                构建产物，已 gitignore

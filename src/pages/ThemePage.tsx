@@ -1,7 +1,7 @@
 /**
  * 主题页（SPEC 7.2）
  *
- * 顶部氛围色区块 + 进度 + Learn / Listen / Memory / Bubbles / Picture Speak 五个入口。
+ * 顶部氛围色区块 + 进度 + 学词、听音、记忆、泡泡及游戏乐园快捷入口。
  */
 
 import './ThemePage.css'
@@ -14,6 +14,7 @@ import { StarCounter } from '../components/StarCounter'
 import { Mascot } from '../components/Mascot/Mascot'
 import { useSfx } from '../hooks/useSfx'
 import { NotFound } from './NotFound'
+import { parkGames } from '../content/games'
 
 interface Props {
   themeId: string
@@ -65,14 +66,15 @@ export function ThemePage({ themeId }: Props) {
       path: `/theme/${theme.id}/game/bubble`,
       meta: tp.best.bubble !== undefined ? `最好 ${tp.best.bubble}/10` : undefined,
     },
-    {
-      key: 'speak', emoji: '🗣️', title: 'Picture Speak', zh: '看图开口',
-      path: `/theme/${theme.id}/game/speak`,
-    },
-    ...(theme.id === 'food' ? [{
-      key: 'restaurant', emoji: '👾', title: 'Monster Restaurant', zh: '怪兽餐厅',
-      path: `/theme/${theme.id}/game/restaurant`,
-    }] : []),
+    ...parkGames
+      .filter((game) => game.themes.length === 0 || (game.themes as readonly string[]).includes(theme.id))
+      .map((game) => ({
+        key: game.id,
+        emoji: game.emoji,
+        title: game.title,
+        zh: game.zh,
+        path: `/theme/${theme.id}/game/${game.id}`,
+      })),
   ]
 
   const open = (path: string) => {

@@ -150,6 +150,14 @@ async function collectClips() {
     clips.push({ id: `p/${slug(text)}`, text, rate: RATE_SENTENCE })
   }
 
+  // 寻宝提示按完整句子生成，和游戏使用同一份文本，避免运行时 TTS。
+  const treasurePrompts = JSON.parse(await readFile(join(root, 'src', 'content', 'treasurePrompts.json'), 'utf8'))
+  for (const text of Object.values(treasurePrompts)) {
+    if (seen.has(text)) continue
+    seen.add(text)
+    clips.push({ id: `p/${slug(text)}`, text, rate: RATE_SENTENCE })
+  }
+
   return clips
 }
 
@@ -291,6 +299,5 @@ main().catch((err) => {
   console.error(`\n[audio] 失败：${err.message}`)
   process.exit(1)
 })
-
 
 

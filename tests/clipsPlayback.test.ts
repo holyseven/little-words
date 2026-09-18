@@ -5,7 +5,7 @@ vi.mock('../src/audio/tts', () => speech)
 let context: object
 vi.mock('../src/audio/audioUnlock', () => ({ getAudioContext: () => context, isAudioUnlocked: () => true }))
 
-const sources: { start: ReturnType<typeof vi.fn> }[] = []
+const sources: { start: ReturnType<typeof vi.fn>; stop: ReturnType<typeof vi.fn>; onended: (() => void) | null }[] = []
 let requests: Map<string, (response: object) => void>
 
 beforeEach(() => {
@@ -28,7 +28,10 @@ beforeEach(() => {
     },
   }
 })
-afterEach(() => vi.unstubAllGlobals())
+afterEach(() => {
+  vi.unstubAllGlobals()
+  vi.useRealTimers()
+})
 
 function deliver(word: string, ok = true) {
   requests.get(`/audio/w/${word}.m4a`)!({ ok, arrayBuffer: () => Promise.resolve(new ArrayBuffer(8)) })
@@ -105,5 +108,159 @@ describe('人声异步加载与游戏切换', () => {
     deliver('cat', false)
     await playing
     expect(speech.speak).not.toHaveBeenCalled()
+  })
+})
+
+describe('整组单词串行朗读', () => {
+  beforeEach(() => vi.useFakeTimers())
+
+  it('按顺序播放，词间留 250ms，整组只完成一次', async () => {
+    const { playClipSequence, stopClip } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    const onCancel = vi.fn()
+    const playing = playClipSequence([{ key: 'w/cat' }, { key: 'w/dog' }], { onEnd, onCancel })
+    deliver('cat')
+    await playing
+    expect(sources).toHaveLength(1)
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    const firstEnd = sources[0].onended!
+    firstEnd()
+    firstEnd()
+    expect(onEnd).not.toHaveBeenCalled()
+    await vi.advanceTimersByTimeAsync(249)
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    await vi.advanceTimersByTimeAsync(1)
+    deliver('dog')
+    await vi.advanceTimersByTimeAsync(0)
+    expect(sources).toHaveLength(2)
+    const lastEnd = sources[1].onended!
+    lastEnd()
+    lastEnd()
+    expect(onEnd).toHaveBeenCalledOnce()
+    stopClip()
+    expect(onCancel).not.toHaveBeenCalled()
+  })
+
+  it('词间暂停时取消，剩余词不会重新开始', async () => {
+    const { playClipSequence, stopClip } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    const onCancel = vi.fn()
+    const playing = playClipSequence([{ key: 'w/cat' }, { key: 'w/dog' }], { onEnd, onCancel })
+    deliver('cat')
+    await playing
+    sources[0].onended!()
+    stopClip()
+    stopClip()
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    expect(onEnd).not.toHaveBeenCalled()
+    expect(onCancel).toHaveBeenCalledOnce()
+  })
+
+  it('另一个角色开始讲话时取消旧序列，旧序列不会在插话后复活', async () => {
+    const { playClipSequence, playClip } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    const onCancel = vi.fn()
+    const playing = playClipSequence([{ key: 'w/cat' }, { key: 'w/dog' }], { onEnd, onCancel })
+    deliver('cat')
+    await playing
+    sources[0].onended!()
+    const other = playClip('w/cow')
+    deliver('cow')
+    await other
+    sources[1].onended!()
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    expect(sources).toHaveLength(2)
+    expect(onEnd).not.toHaveBeenCalled()
+    expect(onCancel).toHaveBeenCalledOnce()
+  })
+
+  it('等待解码时取消，解码完成不能开始播放或排下一词', async () => {
+    let completeDecode!: () => void
+    Object.assign(context, {
+      decodeAudioData: (_bytes: ArrayBuffer, resolve: (buffer: object) => void) => {
+        completeDecode = () => resolve({ duration: 1 })
+      },
+    })
+    const { playClipSequence, stopClip } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    const playing = playClipSequence([{ key: 'w/cat' }, { key: 'w/dog' }], { onEnd })
+    deliver('cat')
+    await vi.advanceTimersByTimeAsync(0)
+    stopClip()
+    completeDecode()
+    await playing
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(sources).toHaveLength(0)
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    expect(onEnd).not.toHaveBeenCalled()
+  })
+
+  it('重播的新序列抢占旧序列，旧片段结束回调也不能继续旧队列', async () => {
+    const { playClipSequence } = await import('../src/audio/clips')
+    const oldEnd = vi.fn()
+    const newEnd = vi.fn()
+    const old = playClipSequence([{ key: 'w/cat' }, { key: 'w/dog' }], { onEnd: oldEnd })
+    deliver('cat')
+    await old
+    const staleEnd = sources[0].onended!
+    const latest = playClipSequence([{ key: 'w/cow' }, { key: 'w/pig' }], { onEnd: newEnd })
+    expect(sources[0].stop).toHaveBeenCalledOnce()
+    staleEnd()
+    deliver('cow')
+    await latest
+    sources[1].onended!()
+    await vi.advanceTimersByTimeAsync(250)
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    deliver('pig')
+    await vi.advanceTimersByTimeAsync(0)
+    sources[2].onended!()
+    expect(oldEnd).not.toHaveBeenCalled()
+    expect(newEnd).toHaveBeenCalledOnce()
+  })
+
+  it('TTS 同步完成也逐项播放，不递归、不重复完成', async () => {
+    speech.speak.mockImplementation((_text: string, opts: { onEnd?: () => void }) => {
+      opts.onEnd?.()
+      opts.onEnd?.()
+    })
+    const { playClipSequence } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    await playClipSequence([
+      { key: 'missing/one', fallbackText: 'one' },
+      { key: 'missing/two', fallbackText: 'two' },
+      { key: 'missing/three', fallbackText: 'three' },
+    ], { onEnd })
+    expect(speech.speak).toHaveBeenCalledTimes(1)
+    expect(onEnd).not.toHaveBeenCalled()
+    await vi.advanceTimersByTimeAsync(500)
+    expect(speech.speak.mock.calls.map(([text]) => text)).toEqual(['one', 'two', 'three'])
+    expect(onEnd).toHaveBeenCalledOnce()
+  })
+
+  it('TTS 被取消后才返回结束事件，不会排入后续词', async () => {
+    let staleEnd!: () => void
+    speech.speak.mockImplementation((_text: string, opts: { onEnd: () => void }) => { staleEnd = opts.onEnd })
+    const { playClipSequence, stopClip } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    await playClipSequence([
+      { key: 'missing/one', fallbackText: 'one' },
+      { key: 'w/cat' },
+    ], { onEnd })
+    stopClip()
+    staleEnd()
+    await vi.advanceTimersByTimeAsync(1000)
+    expect(requests.size).toBe(0)
+    expect(onEnd).not.toHaveBeenCalled()
+  })
+
+  it('空序列立即完成一次', async () => {
+    const { playClipSequence } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    await playClipSequence([], { onEnd })
+    await vi.runAllTimersAsync()
+    expect(onEnd).toHaveBeenCalledOnce()
+    expect(sources).toHaveLength(0)
   })
 })

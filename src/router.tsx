@@ -8,13 +8,15 @@
  */
 
 import { useCallback, useEffect, useState } from 'react'
+import { isParkGameId, type ParkGameId } from './content/games'
 
 export type Route =
   | { name: 'home' }
+  | { name: 'games'; game?: ParkGameId }
   | { name: 'theme'; themeId: string }
   | { name: 'learn'; themeId: string; wordId?: string }
   | { name: 'word-repeat'; themeId: string; wordId: string }
-  | { name: 'game'; themeId: string; game: 'listen' | 'memory' | 'bubble' | 'speak' | 'restaurant' }
+  | { name: 'game'; themeId: string; game: 'listen' | 'memory' | 'bubble' | ParkGameId; fromGames?: true }
   | { name: 'stickers' }
   | { name: 'daily' }
   | { name: 'parent' }
@@ -34,6 +36,10 @@ export function parseRoute(path: string): Route {
   const parts = path.split('?')[0]!.split('/').filter(Boolean)
 
   if (parts.length === 0) return { name: 'home' }
+  if (parts[0] === 'games' && parts.length === 1) {
+    const game = new URLSearchParams(path.split('?')[1]).get('game')
+    return isParkGameId(game) ? { name: 'games', game } : { name: 'games' }
+  }
 
   if (parts[0] === 'stickers') return { name: 'stickers' }
   if (parts[0] === 'daily') return { name: 'daily' }
@@ -59,8 +65,8 @@ export function parseRoute(path: string): Route {
     }
     if (parts[2] === 'game' && parts[3]) {
       const game = parts[3]
-      if (game === 'listen' || game === 'memory' || game === 'bubble' || game === 'speak' || game === 'restaurant') {
-        return { name: 'game', themeId, game }
+      if (game === 'listen' || game === 'memory' || game === 'bubble' || isParkGameId(game)) {
+        return { name: 'game', themeId, game, ...(new URLSearchParams(path.split('?')[1]).get('from') === 'games' ? { fromGames: true as const } : {}) }
       }
     }
   }

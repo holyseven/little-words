@@ -46,7 +46,7 @@ function Monster({ mood = 'hungry' }: { mood?: 'hungry' | 'eating' | 'happy' }) 
 }
 
 /** Listening and counting game. Pointer capture supports iPad touch dragging. */
-export function MonsterRestaurant({ themeId }: { themeId: string }) {
+export function MonsterRestaurant({ themeId, backTo }: { themeId: string; backTo?: string }) {
   const { settings, reward, addStars } = useApp()
   const { unlock } = useAudioUnlocked()
   const { sayPhrase, stop } = useVoice()
@@ -221,7 +221,7 @@ export function MonsterRestaurant({ themeId }: { themeId: string }) {
     full: text('餐盘放满啦，先放回一些吧', 'The plate is full. Put something back first'),
   }
 
-  if (phase === 'start') return <GameScreen themeId={themeId} label={text('怪兽餐厅', 'Monster Restaurant')} className="restaurant">
+  if (phase === 'start') return <GameScreen themeId={themeId} backTo={backTo} label={text('怪兽餐厅', 'Monster Restaurant')} className="restaurant">
     <div className="page__body game__center restaurant__intro">
       <Monster />
       <h1>{text('怪兽餐厅', 'Monster Restaurant')}</h1>
@@ -231,12 +231,12 @@ export function MonsterRestaurant({ themeId }: { themeId: string }) {
     </div>
   </GameScreen>
 
-  if (phase === 'done') return <GameScreen themeId={themeId} label={text('怪兽餐厅 · 完成', 'Monster Restaurant · Done')} className="restaurant">
-    <GameResult themeId={themeId} stars={score.current + 5} summary={score.current + ' happy customers!'} zh={'完成 ' + score.current + ' 单，额外奖励 5 颗星'} restart={start} />
+  if (phase === 'done') return <GameScreen themeId={themeId} backTo={backTo} label={text('怪兽餐厅 · 完成', 'Monster Restaurant · Done')} className="restaurant">
+    <GameResult themeId={themeId} backTo={backTo} stars={score.current + 5} summary={score.current + ' happy customers!'} zh={'完成 ' + score.current + ' 单，额外奖励 5 颗星'} restart={start} />
   </GameScreen>
 
   if (!order) return <NotFound />
-  return <GameScreen themeId={themeId} label={text('怪兽餐厅', 'Monster Restaurant') + ' · ' + (index + 1) + '/' + orders.length} className="restaurant">
+  return <GameScreen themeId={themeId} backTo={backTo} label={text('怪兽餐厅', 'Monster Restaurant') + ' · ' + (index + 1) + '/' + orders.length} className="restaurant">
     <div className={'page__body restaurant__body' + (paused ? ' is-paused' : '')}>
       <p className="restaurant__instruction">{instruction}</p>
       <section ref={dropZone} className={'restaurant__counter is-' + phase + (overTray ? ' is-over' : '') + (feedback !== 'idle' ? ' is-feedback-' + feedback : '')} aria-label={text('把食物拖给小怪兽', 'Drop food here for the monster')}>

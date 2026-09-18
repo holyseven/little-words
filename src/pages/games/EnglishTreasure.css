@@ -1,0 +1,59 @@
+.treasure__body { align-items: center; gap: 14px; padding: 8px 0 16px; }
+.treasure__body > * { flex: 0 0 auto; }
+.treasure__briefing { display: flex; align-items: center; gap: 12px; width: min(100%, 1000px); padding: 4px 8px; }
+.treasure__guide { font-size: 42px; }
+.treasure__briefing > div:first-of-type { display: flex; flex-direction: column; gap: 4px; }
+.treasure__briefing strong { font-size: clamp(19px, 2.7vw, 25px); }
+.treasure__briefing span:not(.treasure__guide) { color: var(--text-muted); }
+.treasure__gems { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 5px; margin-left: auto; max-width: 180px; font-size: 27px; }
+.treasure__gems span { color: #dedbce !important; transition: color 200ms, transform 200ms; }
+.treasure__gems span.is-collected { color: #749aa9 !important; text-shadow: 1px 2px 0 #d3e7e9; transform: scale(1.05); }
+
+.treasure__map { position: relative; isolation: isolate; width: min(100%, 1000px); height: clamp(340px, 53vh, 500px); border: 3px solid #cad4b7; border-radius: 28px; overflow: hidden; background: #d6e5b8; box-shadow: 0 7px 0 #cad4b745; }
+.treasure__landscape { position: absolute; width: 100%; height: 100%; inset: 0; pointer-events: none; }
+.treasure__map-label { position: absolute; z-index: 1; top: 12px; left: 16px; font-size: 15px; color: #597353; font-weight: 700; letter-spacing: 1px; }
+.treasure__object { position: absolute; z-index: 2; display: flex; align-items: center; justify-content: center; width: clamp(76px, 13vw, 118px); height: clamp(76px, 13vw, 118px); min-width: 64px; min-height: 64px; transform: translate(-50%, -50%); border: 0; padding: 8px; border-radius: 50%; background: rgb(255 253 236 / 35%); touch-action: manipulation; -webkit-tap-highlight-color: transparent; cursor: pointer; transition: background 150ms; }
+.treasure__object:disabled { opacity: 1; cursor: default; }
+.treasure__object:focus-visible { outline: 4px solid #7b9cb0; outline-offset: 2px; background: #fff5cf; }
+.treasure__object:active:not(:disabled) { background: #fff5cfb3; }
+.treasure__object-art { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; filter: drop-shadow(0 4px 1px #53613b26); }
+.treasure__object-art .word-art, .treasure__flying .word-art { font-size: clamp(52px, 9vw, 82px); width: 100%; height: 100%; }
+.treasure__object-art.is-wrong { animation: treasure-wiggle 480ms ease; }
+.treasure__object.is-collected { opacity: 0; pointer-events: none; }
+.treasure__map-chest { position: absolute; width: clamp(85px, 14vw, 145px); height: clamp(75px, 12vw, 125px); left: 83%; top: 84%; transform: translate(-50%, -50%); z-index: 3; }
+.treasure__chest-art { display: block; width: 100%; height: 100%; overflow: visible; }
+.treasure__chest-lid { transform-box: fill-box; transform-origin: 50% 100%; transition: transform 500ms ease; }
+.treasure__chest-treasure { opacity: 0; transition: opacity 500ms; }
+.treasure__chest-art.is-open .treasure__chest-lid { transform: translateY(-26px) rotate(-8deg); }
+.treasure__chest-art.is-open .treasure__chest-treasure { opacity: 1; }
+.treasure__map.is-found .treasure__map-chest { filter: drop-shadow(0 0 16px #fff2a6); }
+.treasure__flying { position: absolute; z-index: 4; width: clamp(60px, 11vw, 100px); height: clamp(60px, 11vw, 100px); transform: translate(-50%, -50%); pointer-events: none; animation: treasure-collect 900ms 100ms cubic-bezier(.35,.04,.58,1) forwards; }
+.treasure__controls { display: flex; justify-content: center; width: 100%; }
+.treasure__controls .btn { min-width: min(100%, 260px); }
+.treasure__feedback { min-height: 28px; text-align: center; color: var(--text-muted); margin: 0; }
+.treasure__intro { gap: 16px; }
+.treasure__intro-scene { position: relative; isolation: isolate; width: min(100%, 420px); height: 230px; flex: 0 0 auto; border: 3px solid #cad4b7; border-radius: 30px; overflow: hidden; }
+.treasure__intro-scene .treasure__chest-art { position: absolute; width: 140px; height: 130px; top: 88px; left: 52%; }
+.treasure__compass { position: absolute; top: 60px; left: 14%; font-size: 88px; transform: rotate(-15deg); }
+.treasure__finished-chest { width: 135px; height: 112px; flex: 0 0 auto; align-self: center; margin-top: 16px; }
+.treasure__body.is-paused *, .treasure__body.is-paused *::before, .treasure__body.is-paused *::after { animation-play-state: paused !important; }
+
+@keyframes treasure-wiggle { 25% { transform: rotate(-9deg); } 65% { transform: rotate(7deg); } }
+@keyframes treasure-collect { 15% { transform: translate(-50%, -80%) scale(1.08); } 80% { opacity: 1; } 100% { left: 83%; top: 80%; opacity: 0; transform: translate(-50%, -50%) scale(.18); } }
+@media (max-width: 520px) {
+  .treasure__briefing { flex-wrap: wrap; gap: 8px; }
+  .treasure__guide { font-size: 32px; }
+  .treasure__gems { width: 100%; max-width: none; justify-content: center; font-size: 23px; }
+  .treasure__map { border-radius: 22px; }
+  .treasure__map-label { font-size: 12px; }
+  .treasure__briefing > div:first-of-type > span { font-size: 15px; }
+}
+@media (max-height: 650px) and (min-width: 700px) {
+  .treasure__body { gap: 10px; }
+  .treasure__map { height: 325px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .treasure__object-art.is-wrong, .treasure__flying { animation: none; }
+  .treasure__flying { display: none; }
+  .treasure__chest-lid, .treasure__chest-treasure, .treasure__gems span { transition: none; }
+}

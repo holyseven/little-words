@@ -69,7 +69,8 @@
  .course-video-grid { grid-template-columns: 1fr; }
  .course-heading > .emoji { font-size: 54px; }
  .course-unit-card { padding: 18px; }
- .course-tabs > button { padding: 12px; font-size: 20px; }
+ .course-tabs { gap: 8px; }
+ .course-tabs > button { min-width: 0; padding: 12px 7px; font-size: 17px; }
  .repeat-step { align-items: flex-start; flex-wrap: wrap; }
  .repeat-step > div { flex-basis: calc(100% - 64px); }
  .repeat-step > .btn { width: 100%; }

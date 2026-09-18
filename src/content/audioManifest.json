@@ -1061,6 +1061,406 @@
       "hash": "876d61d479e2",
       "text": "You finished Food! Amazing!",
       "durationMs": 1852
+    },
+    "p/find-the-cat": {
+      "hash": "e3b78e6f77b9",
+      "text": "Find the cat!",
+      "durationMs": 732
+    },
+    "p/find-the-dog": {
+      "hash": "e7564b21389c",
+      "text": "Find the dog!",
+      "durationMs": 877
+    },
+    "p/find-the-elephant": {
+      "hash": "9783b019d90a",
+      "text": "Find the elephant!",
+      "durationMs": 913
+    },
+    "p/find-the-lion": {
+      "hash": "b4e11f749b7c",
+      "text": "Find the lion!",
+      "durationMs": 812
+    },
+    "p/find-the-monkey": {
+      "hash": "8b6fb7fbbb98",
+      "text": "Find the monkey!",
+      "durationMs": 820
+    },
+    "p/find-the-rabbit": {
+      "hash": "a6ed17fa157f",
+      "text": "Find the rabbit!",
+      "durationMs": 814
+    },
+    "p/find-the-fish": {
+      "hash": "121070fee685",
+      "text": "Find the fish!",
+      "durationMs": 847
+    },
+    "p/find-the-bird": {
+      "hash": "21be3bab5f2a",
+      "text": "Find the bird!",
+      "durationMs": 737
+    },
+    "p/find-the-cow": {
+      "hash": "924d85cf22d0",
+      "text": "Find the cow!",
+      "durationMs": 774
+    },
+    "p/find-the-pig": {
+      "hash": "0a7dd94bc21a",
+      "text": "Find the pig!",
+      "durationMs": 748
+    },
+    "p/find-the-eye": {
+      "hash": "7599c47e5046",
+      "text": "Find the eye!",
+      "durationMs": 794
+    },
+    "p/find-the-ear": {
+      "hash": "d589c867bb65",
+      "text": "Find the ear!",
+      "durationMs": 810
+    },
+    "p/find-the-nose": {
+      "hash": "9a2ec43f7ac9",
+      "text": "Find the nose!",
+      "durationMs": 853
+    },
+    "p/find-the-mouth": {
+      "hash": "9bd2872e3308",
+      "text": "Find the mouth!",
+      "durationMs": 805
+    },
+    "p/find-the-hand": {
+      "hash": "e18d3898eaa2",
+      "text": "Find the hand!",
+      "durationMs": 879
+    },
+    "p/find-the-foot": {
+      "hash": "eae8072238d2",
+      "text": "Find the foot!",
+      "durationMs": 759
+    },
+    "p/find-the-tooth": {
+      "hash": "c115aa38f5a0",
+      "text": "Find the tooth!",
+      "durationMs": 913
+    },
+    "p/find-the-leg": {
+      "hash": "f9e661fdc720",
+      "text": "Find the leg!",
+      "durationMs": 782
+    },
+    "p/find-the-arm": {
+      "hash": "51405fc953ef",
+      "text": "Find the arm!",
+      "durationMs": 797
+    },
+    "p/find-the-hair": {
+      "hash": "a13034e89630",
+      "text": "Find the hair!",
+      "durationMs": 706
+    },
+    "p/find-red": {
+      "hash": "671f71e3fd08",
+      "text": "Find red!",
+      "durationMs": 742
+    },
+    "p/find-blue": {
+      "hash": "d104ac0095e2",
+      "text": "Find blue!",
+      "durationMs": 733
+    },
+    "p/find-yellow": {
+      "hash": "9b9ed467557d",
+      "text": "Find yellow!",
+      "durationMs": 684
+    },
+    "p/find-green": {
+      "hash": "e02cbb3c3c22",
+      "text": "Find green!",
+      "durationMs": 782
+    },
+    "p/find-orange": {
+      "hash": "73dbc2bae837",
+      "text": "Find orange!",
+      "durationMs": 823
+    },
+    "p/find-purple": {
+      "hash": "6a4cbf8daf80",
+      "text": "Find purple!",
+      "durationMs": 715
+    },
+    "p/find-pink": {
+      "hash": "eac0bcd53a18",
+      "text": "Find pink!",
+      "durationMs": 737
+    },
+    "p/find-brown": {
+      "hash": "094bc06abf3d",
+      "text": "Find brown!",
+      "durationMs": 741
+    },
+    "p/find-black": {
+      "hash": "03fbbe1e86df",
+      "text": "Find black!",
+      "durationMs": 775
+    },
+    "p/find-white": {
+      "hash": "22d741a23b38",
+      "text": "Find white!",
+      "durationMs": 676
+    },
+    "p/find-the-bread": {
+      "hash": "3c049f3c348b",
+      "text": "Find the bread!",
+      "durationMs": 874
+    },
+    "p/find-the-egg": {
+      "hash": "fa44f7483d90",
+      "text": "Find the egg!",
+      "durationMs": 727
+    },
+    "p/find-the-milk": {
+      "hash": "89f4b22f20df",
+      "text": "Find the milk!",
+      "durationMs": 747
+    },
+    "p/find-the-rice": {
+      "hash": "df9c648372e4",
+      "text": "Find the rice!",
+      "durationMs": 872
+    },
+    "p/find-the-cake": {
+      "hash": "9fa3e42501d1",
+      "text": "Find the cake!",
+      "durationMs": 790
+    },
+    "p/find-the-pizza": {
+      "hash": "15d7b7fd2635",
+      "text": "Find the pizza!",
+      "durationMs": 881
+    },
+    "p/find-the-cookie": {
+      "hash": "114863ec87d0",
+      "text": "Find the cookie!",
+      "durationMs": 830
+    },
+    "p/find-the-ice-cream": {
+      "hash": "e6e0d25c3d4e",
+      "text": "Find the ice cream!",
+      "durationMs": 1044
+    },
+    "p/find-the-cheese": {
+      "hash": "0bbc3b311018",
+      "text": "Find the cheese!",
+      "durationMs": 950
+    },
+    "p/find-the-juice": {
+      "hash": "b768794e29b3",
+      "text": "Find the juice!",
+      "durationMs": 963
+    },
+    "p/find-the-apple": {
+      "hash": "c7fbb450d434",
+      "text": "Find the apple!",
+      "durationMs": 832
+    },
+    "p/find-the-banana": {
+      "hash": "5ded3ed1b519",
+      "text": "Find the banana!",
+      "durationMs": 906
+    },
+    "p/find-the-orange": {
+      "hash": "b240a4943e0a",
+      "text": "Find the orange!",
+      "durationMs": 971
+    },
+    "p/find-the-grapes": {
+      "hash": "d3ee8e910109",
+      "text": "Find the grapes!",
+      "durationMs": 1029
+    },
+    "p/find-the-strawberry": {
+      "hash": "f11218f6dce1",
+      "text": "Find the strawberry!",
+      "durationMs": 1072
+    },
+    "p/find-the-watermelon": {
+      "hash": "d0580498b28e",
+      "text": "Find the watermelon!",
+      "durationMs": 1022
+    },
+    "p/find-the-pear": {
+      "hash": "1d9844f0aa44",
+      "text": "Find the pear!",
+      "durationMs": 814
+    },
+    "p/find-the-peach": {
+      "hash": "2a50c6407239",
+      "text": "Find the peach!",
+      "durationMs": 879
+    },
+    "p/find-the-cherry": {
+      "hash": "8d7ed8a4813a",
+      "text": "Find the cherry!",
+      "durationMs": 821
+    },
+    "p/find-the-lemon": {
+      "hash": "bed856eb0dec",
+      "text": "Find the lemon!",
+      "durationMs": 808
+    },
+    "p/find-one": {
+      "hash": "5f97dc6c5ffe",
+      "text": "Find one!",
+      "durationMs": 695
+    },
+    "p/find-two": {
+      "hash": "d90c63ca50e1",
+      "text": "Find two!",
+      "durationMs": 709
+    },
+    "p/find-three": {
+      "hash": "9ccc267889ae",
+      "text": "Find three!",
+      "durationMs": 747
+    },
+    "p/find-four": {
+      "hash": "862f759c2f48",
+      "text": "Find four!",
+      "durationMs": 758
+    },
+    "p/find-five": {
+      "hash": "4d12104555ab",
+      "text": "Find five!",
+      "durationMs": 731
+    },
+    "p/find-six": {
+      "hash": "b405ed7decfc",
+      "text": "Find six!",
+      "durationMs": 808
+    },
+    "p/find-seven": {
+      "hash": "f98cdba58699",
+      "text": "Find seven!",
+      "durationMs": 776
+    },
+    "p/find-eight": {
+      "hash": "631e85baadc1",
+      "text": "Find eight!",
+      "durationMs": 626
+    },
+    "p/find-nine": {
+      "hash": "e66625603333",
+      "text": "Find nine!",
+      "durationMs": 719
+    },
+    "p/find-ten": {
+      "hash": "0f059c98691c",
+      "text": "Find ten!",
+      "durationMs": 699
+    },
+    "p/find-the-car": {
+      "hash": "807f5bf8486d",
+      "text": "Find the car!",
+      "durationMs": 783
+    },
+    "p/find-the-bus": {
+      "hash": "183ce1629bf3",
+      "text": "Find the bus!",
+      "durationMs": 800
+    },
+    "p/find-the-bike": {
+      "hash": "7ecedc932d97",
+      "text": "Find the bike!",
+      "durationMs": 831
+    },
+    "p/find-the-train": {
+      "hash": "3e06c01562bf",
+      "text": "Find the train!",
+      "durationMs": 925
+    },
+    "p/find-the-plane": {
+      "hash": "18446a4defa3",
+      "text": "Find the plane!",
+      "durationMs": 890
+    },
+    "p/find-the-boat": {
+      "hash": "a59e1e0ccc16",
+      "text": "Find the boat!",
+      "durationMs": 803
+    },
+    "p/find-the-truck": {
+      "hash": "1c99dda542b8",
+      "text": "Find the truck!",
+      "durationMs": 856
+    },
+    "p/find-the-rocket": {
+      "hash": "2c9ef18a2874",
+      "text": "Find the rocket!",
+      "durationMs": 873
+    },
+    "p/find-the-helicopter": {
+      "hash": "456af94a0a5b",
+      "text": "Find the helicopter!",
+      "durationMs": 1123
+    },
+    "p/find-the-taxi": {
+      "hash": "386815d66273",
+      "text": "Find the taxi!",
+      "durationMs": 945
+    },
+    "p/find-a-sunny-day": {
+      "hash": "634b56aecc78",
+      "text": "Find a sunny day!",
+      "durationMs": 1057
+    },
+    "p/find-a-rainy-day": {
+      "hash": "a21814fd1046",
+      "text": "Find a rainy day!",
+      "durationMs": 1129
+    },
+    "p/find-a-cloudy-day": {
+      "hash": "faa4efbae0d3",
+      "text": "Find a cloudy day!",
+      "durationMs": 1200
+    },
+    "p/find-a-snowy-day": {
+      "hash": "59382480644b",
+      "text": "Find a snowy day!",
+      "durationMs": 1107
+    },
+    "p/find-a-windy-day": {
+      "hash": "058e0fe2f83d",
+      "text": "Find a windy day!",
+      "durationMs": 1155
+    },
+    "p/find-the-rainbow": {
+      "hash": "92a1a5446e61",
+      "text": "Find the rainbow!",
+      "durationMs": 933
+    },
+    "p/find-the-storm": {
+      "hash": "cc86c0ae26fe",
+      "text": "Find the storm!",
+      "durationMs": 941
+    },
+    "p/find-the-moon": {
+      "hash": "f3da6aaf5a53",
+      "text": "Find the moon!",
+      "durationMs": 818
+    },
+    "p/find-the-star": {
+      "hash": "aca535895d0f",
+      "text": "Find the star!",
+      "durationMs": 865
+    },
+    "p/find-a-hot-day": {
+      "hash": "02ff7f68ba7f",
+      "text": "Find a hot day!",
+      "durationMs": 914
     }
   }
 }

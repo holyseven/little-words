@@ -33,9 +33,11 @@ const decoded = new Map<string, AudioBuffer>()
 const inflight = new Map<string, Promise<AudioBuffer | null>>()
 
 /** 当前正在播的片段，新的播放会打断它（同一时刻只有一个人声） */
-let current: { source: AudioBufferSourceNode; onEnd?: () => void } | null = null
+let current: { source: AudioBufferSourceNode } | null = null
 /** stop / 新请求都会使尚在下载或解码的旧请求失效。 */
 let generation = 0
+let activePlayback: { id: number; onCancel?: () => void } | null = null
+let sequenceTimer: ReturnType<typeof setTimeout> | null = null
 let playbackRate = 1
 export function setClipRate(rate: number): void { playbackRate = Math.max(0.7, Math.min(1, rate)) / 0.85 }
 
@@ -96,6 +98,12 @@ async function load(key: string): Promise<AudioBuffer | null> {
 /** 停止当前人声（切页、打断时调用） */
 export function stopClip(): void {
   generation++
+  const cancelled = activePlayback
+  activePlayback = null
+  if (sequenceTimer !== null) {
+    clearTimeout(sequenceTimer)
+    sequenceTimer = null
+  }
   if (current) {
     const { source } = current
     current = null
@@ -108,10 +116,13 @@ export function stopClip(): void {
     }
   }
   cancelSpeech()
+  cancelled?.onCancel?.()
 }
 
 export interface PlayOptions {
   onEnd?: () => void
+  /** 被其他人声或 stop 打断；与正常完成回调互斥。 */
+  onCancel?: () => void
   /** 音频文件缺失时用于 TTS 兜底的文本 */
   fallbackText?: string
 }
@@ -123,12 +134,74 @@ export interface PlayOptions {
 export async function playClip(key: string, opts: PlayOptions = {}): Promise<void> {
   stopClip()
   const requestId = generation
+  activePlayback = { id: requestId, onCancel: opts.onCancel }
+  await playInRequest(key, { ...opts, onEnd: () => finishPlayback(requestId, opts.onEnd) }, requestId)
+}
+
+export interface SequenceClip {
+  key: string
+  fallbackText?: string
+}
+
+/**
+ * 按顺序朗读已有片段，词间留 250ms 给孩子听清。
+ * 整段共用一个请求编号：任何新的人声或 stop 都会取消后面的词。
+ */
+export async function playClipSequence(items: readonly SequenceClip[], opts: PlayOptions = {}): Promise<void> {
+  stopClip()
+  const requestId = generation
+  activePlayback = { id: requestId, onCancel: opts.onCancel }
+  const queue = items.map((item) => ({ ...item }))
+  let index = 0
+
+  const playNext = async (): Promise<void> => {
+    if (requestId !== generation) return
+    const item = queue[index++]
+    if (!item) {
+      finishPlayback(requestId, opts.onEnd)
+      return
+    }
+    await playInRequest(item.key, {
+      fallbackText: item.fallbackText,
+      onEnd: () => {
+        if (index === queue.length) {
+          finishPlayback(requestId, opts.onEnd)
+          return
+        }
+        // 即使 TTS 不可用、同步调用 onEnd，也不递归启动下一条。
+        sequenceTimer = setTimeout(() => {
+          sequenceTimer = null
+          void playNext()
+        }, 250)
+      },
+    }, requestId)
+  }
+
+  await playNext()
+}
+
+function finishPlayback(requestId: number, onEnd?: () => void): void {
+  if (requestId !== generation || activePlayback?.id !== requestId) return
+  activePlayback = null
+  onEnd?.()
+}
+
+/** 播放序列中的一项，不创建新请求，也不会取消同一序列。 */
+async function playInRequest(key: string, opts: PlayOptions, requestId: number): Promise<void> {
+  if (requestId !== generation) return
+  let ended = false
+  const finish = () => {
+    if (ended || requestId !== generation) return
+    ended = true
+    opts.onEnd?.()
+  }
+  const useFallback = () => fallback({ ...opts, onEnd: finish })
 
   const ctx = getAudioContext()
 
   // 音频未解锁前 AudioContext 是 suspended，播了也没声；交给调用方的解锁 UI 处理
   if (!ctx || !isAudioUnlocked() || !(key in clips)) {
-    fallback(opts)
+    useFallback()
     return
   }
 
@@ -142,7 +215,7 @@ export async function playClip(key: string, opts: PlayOptions = {}): Promise<voi
   }
   if (requestId !== generation) return
   if (ctx.state !== 'running') {
-    fallback(opts)
+    useFallback()
     return
   }
 
@@ -150,7 +223,7 @@ export async function playClip(key: string, opts: PlayOptions = {}): Promise<voi
   // 必须在失败兜底之前检查：旧请求失败后也不能突然开始 TTS。
   if (requestId !== generation) return
   if (!buf) {
-    fallback(opts)
+    useFallback()
     return
   }
 
@@ -159,15 +232,12 @@ export async function playClip(key: string, opts: PlayOptions = {}): Promise<voi
   source.playbackRate.value = playbackRate
   source.connect(ctx.destination)
 
-  const entry: { source: AudioBufferSourceNode; onEnd?: () => void } = {
-    source,
-    onEnd: opts.onEnd,
-  }
+  const entry = { source }
   current = entry
 
   source.onended = () => {
     if (current === entry) current = null
-    opts.onEnd?.()
+    finish()
   }
 
   source.start()

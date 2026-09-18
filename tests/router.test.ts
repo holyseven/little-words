@@ -25,6 +25,15 @@ describe('parseRoute', () => {
     expect(parseRoute('/theme/animals/game/bubble')).toMatchObject({ game: 'bubble' })
     expect(parseRoute('/theme/animals/game/speak')).toMatchObject({ game: 'speak' })
     expect(parseRoute('/theme/food/game/restaurant')).toMatchObject({ game: 'restaurant' })
+    expect(parseRoute('/theme/animals/game/train?from=games')).toEqual({ name: 'game', themeId: 'animals', game: 'train', fromGames: true })
+    expect(parseRoute('/theme/fruits/game/treasure?from=games')).toEqual({ name: 'game', themeId: 'fruits', game: 'treasure', fromGames: true })
+  })
+
+  it('游戏乐园与选中游戏查询串', () => {
+    expect(parseRoute('/games')).toEqual({ name: 'games' })
+    expect(parseRoute('/games?game=train')).toEqual({ name: 'games', game: 'train' })
+    expect(parseRoute('/games?game=treasure')).toEqual({ name: 'games', game: 'treasure' })
+    expect(parseRoute('/games?game=unknown')).toEqual({ name: 'games' })
   })
 
   it('未知游戏名落到 notfound', () => {

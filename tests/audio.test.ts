@@ -5,6 +5,7 @@ import { join } from 'node:path'
 import manifest from '../src/content/audioManifest.json'
 import { themes } from '../src/content'
 import { phrases, themeCompletePhrases } from '../src/content/phrases'
+import treasurePrompts from '../src/content/treasurePrompts.json'
 
 const audioDir = join(process.cwd(), 'public', 'audio')
 
@@ -37,6 +38,18 @@ describe('预生成音频（人声）', () => {
     for (const list of Object.values(phrases)) {
       for (const p of list) {
         expect(clips[`p/${slug(p.en)}`], `缺少台词音频 "${p.en}"`).toBeDefined()
+      }
+    }
+  })
+
+  it('英语寻宝的每条完整提示都有离线音频', () => {
+    for (const theme of themes) {
+      for (const word of theme.words) {
+        const text = (treasurePrompts as Record<string, string>)[word.id]
+        expect(text, `缺少寻宝提示文案 ${word.id}`).toBeDefined()
+        const clip = clips[`p/${slug(text)}`]
+        expect(clip, `缺少寻宝提示音频 "${text}"`).toBeDefined()
+        expect(clip!.text).toBe(text)
       }
     }
   })

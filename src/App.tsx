@@ -28,6 +28,9 @@ import { useDailyTimer } from './hooks/useDailyTimer'
 import { CourseUnitPage, CourseExtras } from './pages/Course'
 import { CoursePlayer } from './pages/CoursePlayer'
 import { CourseRepeat } from './pages/CourseRepeat'
+import { GamePark } from './pages/GamePark'
+import { WordTrain } from './pages/games/WordTrain'
+import { EnglishTreasure } from './pages/games/EnglishTreasure'
 
 function Routes() {
   const route = useRoute()
@@ -70,6 +73,8 @@ function Routes() {
   switch (route.name) {
     case 'home':
       return <Home />
+    case 'games':
+      return <GamePark gameId={route.game} />
     case 'theme':
       return <ThemePage themeId={route.themeId} />
     case 'learn':
@@ -77,11 +82,16 @@ function Routes() {
     case 'word-repeat':
       return <Learn key={`${dataEpoch}:${route.themeId}:${route.wordId}`} themeId={route.themeId} startWordId={route.wordId} />
     case 'game':
-      if (route.game === 'listen') return <ListenPick key={`${dataEpoch}:${route.themeId}`} themeId={route.themeId} />
-      if (route.game === 'memory') return <MemoryFlip key={`memory:${route.themeId}`} themeId={route.themeId} />
-      if (route.game === 'speak') return <PictureSpeak key={`speak:${route.themeId}`} themeId={route.themeId} />
-      if (route.game === 'restaurant') return <MonsterRestaurant key={`restaurant:${route.themeId}`} themeId={route.themeId} />
-      return <BubblePop key={`bubble:${route.themeId}`} themeId={route.themeId} />
+      {
+        const backTo = route.fromGames ? `/games?game=${route.game}` : undefined
+        if (route.game === 'train') return <WordTrain key={`train:${dataEpoch}:${route.themeId}:${route.fromGames ? 'park' : 'theme'}`} themeId={route.themeId} backTo={backTo} />
+        if (route.game === 'treasure') return <EnglishTreasure key={`treasure:${dataEpoch}:${route.themeId}:${route.fromGames ? 'park' : 'theme'}`} themeId={route.themeId} backTo={backTo} />
+        if (route.game === 'listen') return <ListenPick key={`${dataEpoch}:${route.themeId}`} themeId={route.themeId} />
+        if (route.game === 'memory') return <MemoryFlip key={`memory:${route.themeId}`} themeId={route.themeId} />
+        if (route.game === 'speak') return <PictureSpeak key={`speak:${route.themeId}`} themeId={route.themeId} backTo={backTo} />
+        if (route.game === 'restaurant') return <MonsterRestaurant key={`restaurant:${route.themeId}`} themeId={route.themeId} backTo={backTo} />
+        return <BubblePop key={`bubble:${route.themeId}`} themeId={route.themeId} />
+      }
     case 'stickers':
       return <Stickers />
     case 'daily':
