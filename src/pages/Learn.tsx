@@ -264,7 +264,7 @@ export function Learn({ themeId, startWordId }: Props) {
       </div>
 
       <div className="learn__actions">
-        <InlineWordRepeat key={word.id} ref={repeatRef} word={word.text} candidates={theme.words.map((candidate) => candidate.text)} showZh={settings.showZh} onSuccess={() => {
+        <InlineWordRepeat key={word.id} ref={repeatRef} word={word.text} candidates={theme.words.map((candidate) => candidate.text)} showZh={settings.showZh} engine={settings.repeatEngine} onSuccess={() => {
           // 每次答对随机选择一组轻量反馈，避免连续练习总是同一套动画。
           const effect = Math.floor(Math.random() * 4)
           if (effect === 0) { sfx.celebrate(); burstSmall() }

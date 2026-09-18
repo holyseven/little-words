@@ -26,6 +26,20 @@ export interface RepeatRecognitionDecision {
   confidence?: number
 }
 
+export interface AzureRepeatEvidence {
+  recognized: boolean
+  accuracyScore?: number
+}
+
+/** 在线音素评估的首版宽松策略：只在 Azure 识别到目标词且准确度达到
+ * 45 分时通过，低于 70 分标成温和提示，不把分数直接展示给孩子。 */
+export function decideAzureRepeat(evidence: AzureRepeatEvidence, soundMs: number): RepeatRecognitionDecision {
+  if (soundMs < 120 || !evidence.recognized) return { matched: false, uncertain: false, source: 'none' }
+  const confidence = evidence.accuracyScore
+  if (confidence !== undefined && confidence < 45) return { matched: false, uncertain: false, source: 'final', confidence }
+  return { matched: true, uncertain: confidence !== undefined && confidence < 70, source: 'final', confidence }
+}
+
 function normalizedTokens(value: string): string[] {
   return value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim().split(' ').filter(Boolean)
 }

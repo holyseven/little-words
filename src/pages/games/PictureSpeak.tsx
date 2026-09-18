@@ -118,6 +118,7 @@ export function PictureSpeak({ themeId, backTo }: Props) {
           word={word.text}
           candidates={theme.words.map((candidate) => candidate.text)}
           showZh={settings.showZh}
+          engine={settings.repeatEngine}
           onBeforeStart={startListening}
           onSuccess={onSuccess}
           buttonText={settings.showZh ? '说一说' : 'Say it'}

@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 import { readFileSync } from 'node:fs'
@@ -21,11 +21,92 @@ const https = process.env.HTTPS_CERT_FILE && process.env.HTTPS_KEY_FILE
   ? { cert: readFileSync(process.env.HTTPS_CERT_FILE), key: readFileSync(process.env.HTTPS_KEY_FILE) }
   : undefined
 
-export default defineConfig({
-  base,
-  define: { 'import.meta.env.VITE_BUILD_ID': JSON.stringify(revision) },
+/**
+ * 本地/自托管预览的 Azure 代理。密钥只从 .env.local / 进程环境读取，
+ * 不会进入 Vite 客户端包。GitHub Pages 没有这个代理时，前端会回退 Vosk。
+ */
+function azurePronunciationProxy(env: Record<string, string>): Plugin {
+  const handler = async (req: { method?: string; url?: string; headers: Record<string, string | string[] | undefined>; on: (event: string, listener: (...args: any[]) => void) => void }, res: { statusCode: number; setHeader: (name: string, value: string) => void; end: (body?: string | Uint8Array) => void }, next: () => void) => {
+    const path = req.url?.split('?')[0] ?? ''
+    if (!(path === '/api/pronunciation' || path.endsWith('/api/pronunciation')) || req.method !== 'POST') { next(); return }
+    const key = env.AZURE_SPEECH_KEY
+    const region = env.AZURE_SPEECH_REGION
+    if (!key || !region) {
+      res.statusCode = 503
+      res.setHeader('Content-Type', 'application/json')
+      res.end(JSON.stringify({ error: 'Azure pronunciation proxy is not configured' }))
+      return
+    }
+    const chunks: Buffer[] = []
+    let size = 0
+    req.on('data', (chunk: Buffer | string) => {
+      const value = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
+      size += value.length
+      if (size <= 2 * 1024 * 1024) chunks.push(value)
+    })
+    req.on('end', async () => {
+      if (size > 2 * 1024 * 1024) {
+        res.statusCode = 413
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({ error: 'Audio is too large' }))
+        return
+      }
+      const referenceHeader = req.headers['x-pronunciation-reference']
+      const reference = Array.isArray(referenceHeader) ? referenceHeader[0] : referenceHeader
+      if (!reference || reference.length > 100) {
+        res.statusCode = 400
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({ error: 'Missing pronunciation reference' }))
+        return
+      }
+      const assessment = Buffer.from(JSON.stringify({
+        ReferenceText: reference,
+        GradingSystem: 'HundredMark',
+        Granularity: 'Phoneme',
+        Dimension: 'Comprehensive',
+        EnableMiscue: 'True',
+      })).toString('base64')
+      const endpoint = env.AZURE_SPEECH_ENDPOINT?.replace(/\/$/, '')
+        ?? `https://${region}.stt.speech.microsoft.com`
+      const path = endpoint.includes('.cognitiveservices.azure.com')
+        ? '/stt/speech/recognition/conversation/cognitiveservices/v1'
+        : '/speech/recognition/conversation/cognitiveservices/v1'
+      const url = `${endpoint}${path}?language=en-US&format=detailed`
+      try {
+        const upstream = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Ocp-Apim-Subscription-Key': key,
+            'Pronunciation-Assessment': assessment,
+            'Content-Type': 'audio/wav; codecs=audio/pcm; samplerate=16000',
+            Accept: 'application/json',
+          },
+          body: Buffer.concat(chunks),
+        })
+        res.statusCode = upstream.status
+        res.setHeader('Content-Type', upstream.headers.get('content-type') ?? 'application/json')
+        res.end(await upstream.text())
+      } catch (error) {
+        res.statusCode = 502
+        res.setHeader('Content-Type', 'application/json')
+        res.end(JSON.stringify({ error: error instanceof Error ? error.message : 'Azure request failed' }))
+      }
+    })
+  }
+  return {
+    name: 'azure-pronunciation-proxy',
+    configureServer(server) { server.middlewares.use(handler as never) },
+    configurePreviewServer(server) { server.middlewares.use(handler as never) },
+  }
+}
 
-  plugins: [
+export default defineConfig(({ mode }) => {
+  const env = { ...process.env as Record<string, string>, ...loadEnv(mode, process.cwd(), '') }
+  return {
+    base,
+    define: { 'import.meta.env.VITE_BUILD_ID': JSON.stringify(revision) },
+
+    plugins: [
     react(),
     {
       name: 'app-build-version',
@@ -101,16 +182,18 @@ export default defineConfig({
         enabled: false,
       },
     }),
-  ],
+    azurePronunciationProxy(env),
+    ],
 
-  server: {
+    server: {
     // 允许 iPad 通过局域网 IP 访问
     host: true,
     ...(https ? { https } : {}),
-  },
+    },
 
-  preview: {
+    preview: {
     host: true,
     ...(https ? { https } : {}),
-  },
+    },
+  }
 })

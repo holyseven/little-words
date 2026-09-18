@@ -19,6 +19,8 @@ export interface Settings {
   currentUnitId: string
   dailySource: 'course' | 'themes'
   courseRate: number
+  /** 跟读评估通道；默认先尝试 Azure，失败时自动回退 Vosk。 */
+  repeatEngine: 'azure' | 'vosk'
 }
 
 export const defaultSettings: Settings = {
@@ -31,6 +33,7 @@ export const defaultSettings: Settings = {
   currentUnitId: 'g1t1-u1',
   dailySource: 'course',
   courseRate: 1,
+  repeatEngine: 'azure',
 }
 
 export async function loadSettings(): Promise<Settings> {

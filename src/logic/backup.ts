@@ -147,5 +147,9 @@ export function parseBackup(text: string): { progress: Progress; settings?: Part
     if (![0.7, 0.85, 1].includes(s.courseRate as number)) return fail()
     settings.courseRate = s.courseRate as number
   }
+  if (s.repeatEngine !== undefined) {
+    if (s.repeatEngine !== 'azure' && s.repeatEngine !== 'vosk') return fail()
+    settings.repeatEngine = s.repeatEngine
+  }
   return { progress: validateProgress(root.progress), settings: { ...defaultSettings, ...settings } }
 }
