@@ -29,15 +29,19 @@ export interface RepeatRecognitionDecision {
 export interface AzureRepeatEvidence {
   recognized: boolean
   accuracyScore?: number
+  phonemeScores?: number[]
 }
 
-/** 在线音素评估的首版宽松策略：只在 Azure 识别到目标词且准确度达到
- * 45 分时通过，低于 70 分标成温和提示，不把分数直接展示给孩子。 */
+/** 在线音素评估的首版宽松策略：目标词准确度达到 60 分才通过；
+ * 60–79 分只给温和提示，不推进游戏或触发庆祝。 */
 export function decideAzureRepeat(evidence: AzureRepeatEvidence, soundMs: number): RepeatRecognitionDecision {
   if (soundMs < 120 || !evidence.recognized) return { matched: false, uncertain: false, source: 'none' }
   const confidence = evidence.accuracyScore
-  if (confidence !== undefined && confidence < 45) return { matched: false, uncertain: false, source: 'final', confidence }
-  return { matched: true, uncertain: confidence !== undefined && confidence < 70, source: 'final', confidence }
+  if (confidence !== undefined && confidence < 60) return { matched: false, uncertain: false, source: 'final', confidence }
+  // Azure 的词分数偶尔会被整体语音抬高；极低音素分数保留为温和提示，
+  // 防止一个明显漏读的音素直接触发游戏推进，同时不把孩子判成失败。
+  const severePhoneme = evidence.phonemeScores?.some((value) => Number.isFinite(value) && value < 30) ?? false
+  return { matched: true, uncertain: (confidence !== undefined && confidence < 80) || severePhoneme, source: 'final', confidence }
 }
 
 function normalizedTokens(value: string): string[] {

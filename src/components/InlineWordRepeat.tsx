@@ -1,9 +1,10 @@
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { loadVoskModel } from '../logic/vosk'
 import type { Recognizer } from '../logic/vosk'
-import { assessAzurePronunciation, concatPcm } from '../logic/azurePronunciation'
+import { assessAzurePronunciation, concatPcm, type AzurePronunciationResult } from '../logic/azurePronunciation'
 import { decideAzureRepeat, decideRepeat, type RepeatRecognitionDecision, type RepeatRecognitionWord } from '../logic/repeat'
 import { clearConfetti } from './Confetti'
+import './InlineWordRepeat.css'
 
 type State = 'idle' | 'loading' | 'requesting' | 'listening' | 'recognizing' | 'matched' | 'matched-soft' | 'unmatched' | 'error'
 export interface InlineWordRepeatHandle { cancel: () => void }
@@ -59,6 +60,7 @@ function resampleTo16k(input: Float32Array, inputRate: number): Float32Array {
 
 async function recognizePcmWithVosk(current: Session, word: string, candidates?: string[]): Promise<RepeatRecognitionDecision> {
   const model = await loadVoskModel()
+  if (current.azureController?.signal.aborted) throw new DOMException('Practice cancelled', 'AbortError')
   const vocabulary = [...new Set([word.trim().toLowerCase(), ...(candidates ?? []).map((candidate) => candidate.trim().toLowerCase()).filter(Boolean), '[unk]'])]
   const recognizer = new model.KaldiRecognizer(16000, JSON.stringify(vocabulary))
   current.recognizer = recognizer
@@ -107,7 +109,7 @@ function release(session: Session) {
   if (session.audio && session.audio.state !== 'closed') void session.audio.close().catch(() => {})
 }
 
-/** 按家长设置选择在线音素评估或本地词级识别；不向孩子展示分数。 */
+/** 按家长设置选择在线音素评估或本地词级识别；在线结果只在本次反馈中展示。 */
 export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, candidates, showZh, engine = 'azure', onBeforeStart, onSuccess, onFailure, buttonText }, ref) {
   const session = useRef<Session | null>(null)
   const [state, setState] = useState<State>('idle')
@@ -115,6 +117,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
   const [level, setLevel] = useState(0)
   const [successMessage, setSuccessMessage] = useState(0)
   const [notice, setNotice] = useState('')
+  const [assessment, setAssessment] = useState<AzurePronunciationResult | null>(null)
   const statusId = 'word-repeat-status'
 
   const dispose = useCallback(() => {
@@ -127,6 +130,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     setState('idle')
     setLevel(0)
     setNotice('')
+    setAssessment(null)
   }, [dispose])
   useImperativeHandle(ref, () => ({ cancel }), [cancel])
 
@@ -166,19 +170,32 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       try {
         current.azureController = new AbortController()
         const assessment = await assessAzurePronunciation(concatPcm(current.pcmChunks, current.pcmLength), word, current.azureController.signal)
+        if (session.current !== current) return
+        setAssessment(assessment)
         // Azure 只有在返回目标词和有效准确度时才算“在线命中”；没有分数的
         // 异常响应不会被宽松策略误判成成功。
-        decision = decideAzureRepeat({ recognized: assessment.matched, accuracyScore: assessment.accuracyScore }, current.soundMs)
+        decision = decideAzureRepeat({
+          recognized: assessment.matched,
+          accuracyScore: assessment.accuracyScore,
+          phonemeScores: assessment.phonemes
+            .map((item) => item.accuracyScore)
+            .filter((value): value is number => value !== undefined),
+        }, current.soundMs)
       } catch {
+        if (session.current !== current) return
+        setAssessment(null)
         // 在线代理未配置、没有网络或请求超时，都保留原有的本地 Vosk 体验。
         try {
           decision = await recognizePcmWithVosk(current, word, candidates)
+          if (session.current !== current) return
           setNotice(showZh ? '在线评估暂不可用，已用本地模式判断。' : 'Online assessment is unavailable, so local mode was used.')
         } catch {
+          if (session.current !== current) return
           setNotice(showZh ? '在线评估暂不可用，请稍后再试。' : 'Online assessment is unavailable. Please try again later.')
         }
       }
     }
+    if (session.current !== current) return
     const matched = decision.matched
     const heard = current.soundMs >= 120
     dispose()
@@ -186,13 +203,15 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     setState(matched ? decision.uncertain ? 'matched-soft' : 'matched' : heard ? 'unmatched' : 'error')
     if (matched) setSuccessMessage(Math.floor(Math.random() * SUCCESS_MESSAGES.length))
     if (!heard) setError(showZh ? '没有检测到清晰的声音，请靠近麦克风再试一次。' : 'No clear voice was detected. Move closer to the microphone and try again.')
-    if (matched) onSuccess?.()
-    else if (heard) onFailure?.()
+    // 中等分数只显示温和提示，避免一次不够清晰的读音直接推进游戏或庆祝。
+    if (matched && !decision.uncertain) onSuccess?.()
+    else if (!matched && heard) onFailure?.()
   }
 
   const start = async () => {
     if (session.current) return
     onBeforeStart()
+    setAssessment(null)
     setError('')
     setNotice('')
     if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
@@ -324,6 +343,13 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
           : state === 'error' ? error : engine === 'azure'
             ? text('默认使用在线发音评估；网络不可用时会自动切到本地模式。', 'Online pronunciation assessment is on by default; local mode is used when it is unavailable.')
             : text('首次跟读会加载约 39MB 的本机模型，之后可离线使用。', 'The first repeat loads a ~39MB local model; later repeats work offline.')
+  const scoreValue = (value: number | undefined) => value === undefined ? null : Number.isInteger(value) ? value.toString() : value.toFixed(1)
+  const scoreLabel = (value: number | undefined) => {
+    const displayed = scoreValue(value)
+    return displayed === null ? null : `${displayed}/100`
+  }
+  const scoreAssessment = engine === 'azure' ? assessment : null
+  const scoreTitle = text('本次在线评分', 'Online score')
 
   return <>
     <button type="button" className={`btn btn--soft ${listening ? 'btn--listening' : ''}`} disabled={state === 'loading' || state === 'requesting' || state === 'recognizing'}
@@ -333,8 +359,21 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
     </button>
     <div className="learn__repeat-status" id={statusId} role="status">
       {listening && <span className="learn__repeat-level" aria-hidden="true"><span style={{ width: `${level}%` }} /></span>}
-      {(state === 'matched' || state === 'matched-soft') && <span className="learn__repeat-celebration" aria-hidden="true">{SUCCESS_MESSAGES[successMessage].emoji}</span>}
+      {state === 'matched' && <span className="learn__repeat-celebration" aria-hidden="true">{SUCCESS_MESSAGES[successMessage].emoji}</span>}
       {notice && <span>{notice} </span>}{message}
+      {scoreAssessment && <div className="learn__repeat-score" aria-label={scoreAssessment.recognized ? scoreTitle : text('未识别目标词', 'Target word not recognized')}>
+        <strong>{scoreAssessment.recognized ? scoreTitle : text('未识别目标词', 'Target word not recognized')}</strong>
+        {scoreAssessment.recognized && scoreAssessment.pronunciationScore !== undefined && <span>{text('综合', 'Overall')} <b>{scoreLabel(scoreAssessment.pronunciationScore)}</b></span>}
+        {scoreAssessment.recognized && scoreAssessment.accuracyScore !== undefined && <span>{text('准确度', 'Accuracy')} <b>{scoreLabel(scoreAssessment.accuracyScore)}</b></span>}
+        {scoreAssessment.recognized && scoreAssessment.fluencyScore !== undefined && <span>{text('流畅度', 'Fluency')} <b>{scoreLabel(scoreAssessment.fluencyScore)}</b></span>}
+        {scoreAssessment.recognized && scoreAssessment.completenessScore !== undefined && <span>{text('完整度', 'Completeness')} <b>{scoreLabel(scoreAssessment.completenessScore)}</b></span>}
+        {scoreAssessment.recognized && scoreAssessment.phonemes.some((item) => item.accuracyScore !== undefined) && <span className="learn__repeat-score-detail">
+          {text('音素', 'Phonemes')} {scoreAssessment.phonemes
+            .filter((item) => item.accuracyScore !== undefined)
+            .map((item) => `${item.phoneme} ${scoreValue(item.accuracyScore)}`)
+            .join(' · ')}
+        </span>}
+      </div>}
     </div>
   </>
 })

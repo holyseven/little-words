@@ -1,0 +1,25 @@
+.learn__repeat-score {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 4px 12px;
+  width: 100%;
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.learn__repeat-score strong {
+  color: var(--text);
+  font-size: 15px;
+}
+
+.learn__repeat-score span { white-space: nowrap; }
+.learn__repeat-score b { color: var(--text); }
+.learn__repeat-score-detail { flex-basis: 100%; font-size: 13px; }
+
+@media (max-width: 420px) {
+  .learn__repeat-score { gap: 3px 8px; font-size: 13px; }
+  .learn__repeat-score strong { flex-basis: 100%; font-size: 14px; }
+}

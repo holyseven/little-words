@@ -33,10 +33,14 @@ describe('跟读练习本地反馈', () => {
     expect(result.score).toBe(1)
   })
   it('在线评估的中等分数通过但给温和提示', () => {
-    expect(decideAzureRepeat({ recognized: true, accuracyScore: 58 }, 420)).toMatchObject({ matched: true, uncertain: true })
+    expect(decideAzureRepeat({ recognized: true, accuracyScore: 68 }, 420)).toMatchObject({ matched: true, uncertain: true })
   })
   it('在线评估低分或没有目标词时不通过', () => {
-    expect(decideAzureRepeat({ recognized: true, accuracyScore: 44 }, 420).matched).toBe(false)
+    expect(decideAzureRepeat({ recognized: true, accuracyScore: 59 }, 420).matched).toBe(false)
     expect(decideAzureRepeat({ recognized: false, accuracyScore: 98 }, 420).matched).toBe(false)
+  })
+  it('词分数较高但存在明显低分音素时只给温和提示', () => {
+    expect(decideAzureRepeat({ recognized: true, accuracyScore: 92, phonemeScores: [96, 12, 94] }, 420))
+      .toMatchObject({ matched: true, uncertain: true })
   })
 })

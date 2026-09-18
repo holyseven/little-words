@@ -80,8 +80,89 @@ function pcmToWav(samples: Float32Array, sampleRate: number): ArrayBuffer {
   return buffer
 }
 
-function number(value: unknown): number | undefined {
-  return typeof value === 'number' && Number.isFinite(value) ? value : undefined
+type JsonRecord = Record<string, unknown>
+
+function record(value: unknown): JsonRecord | undefined {
+  return value !== null && typeof value === 'object' && !Array.isArray(value) ? value as JsonRecord : undefined
+}
+
+function list(value: unknown): unknown[] {
+  return Array.isArray(value) ? value : []
+}
+
+function score(value: unknown): number | undefined {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 && value <= 100 ? value : undefined
+}
+
+function fieldScore(item: JsonRecord, field: string): number | undefined {
+  const nested = record(item.PronunciationAssessment)
+  return score(item[field]) ?? score(nested?.[field])
+}
+
+function recognitionSucceeded(payload: JsonRecord): boolean {
+  return payload.RecognitionStatus === 'Success' || payload.RecognitionStatus === 0 || payload.RecognitionStatus === '0'
+}
+
+function hasPronunciationError(item: JsonRecord): boolean {
+  const nested = record(item.PronunciationAssessment)
+  const errorType = item.ErrorType ?? nested?.ErrorType
+  if (typeof errorType !== 'string') return false
+  const normalized = errorType.trim().toLowerCase()
+  return normalized === 'omission' || normalized === 'insertion' || normalized === 'mispronunciation'
+}
+
+/**
+ * Parse Azure's REST response. REST returns assessment values as flat fields
+ * while some SDK-shaped responses put the same values under
+ * `PronunciationAssessment`; accept both forms without borrowing an overall
+ * score when the target word itself has no score.
+ */
+export function parseAzurePronunciation(payload: unknown, expected: string): AzurePronunciationResult {
+  const root = record(payload)
+  const best = record(list(root?.NBest)[0])
+  const recognizedText = typeof best?.Display === 'string'
+    ? best.Display
+    : typeof best?.Lexical === 'string'
+      ? best.Lexical
+      : typeof root?.DisplayText === 'string' ? root.DisplayText : ''
+  const expectedTokens = normalizedTokens(expected)
+  const words = list(best?.Words).map(record).filter((item): item is JsonRecord => item !== undefined)
+  const wordTokens = words.map((item) => normalizedTokens(typeof item.Word === 'string' ? item.Word : ''))
+  let matchedWords: JsonRecord[] | undefined
+  if (expectedTokens.length > 0) {
+    for (let start = 0; start <= wordTokens.length - expectedTokens.length; start += 1) {
+      const candidate = wordTokens.slice(start, start + expectedTokens.length)
+      if (candidate.length === expectedTokens.length && candidate.every((tokens, index) => tokens.length === 1 && tokens[0] === expectedTokens[index])) {
+        matchedWords = words.slice(start, start + expectedTokens.length)
+        break
+      }
+    }
+  }
+
+  const statusOk = root !== undefined && recognitionSucceeded(root)
+  const aligned = statusOk && matchedWords !== undefined
+  const targetHasError = matchedWords?.some(hasPronunciationError) ?? false
+  const recognized = aligned && !targetHasError
+  const targetScores = matchedWords?.map((item) => fieldScore(item, 'AccuracyScore')) ?? []
+  const accuracyScore = targetScores.length > 0 && targetScores.every((value): value is number => value !== undefined)
+    ? Math.min(...targetScores)
+    : undefined
+  const overall = record(best?.PronunciationAssessment)
+  const phonemes = (matchedWords ?? []).flatMap((word) => list(word.Phonemes).map(record).filter((item): item is JsonRecord => item !== undefined).map((item) => ({
+    phoneme: typeof item.Phoneme === 'string' ? item.Phoneme : '',
+    accuracyScore: fieldScore(item, 'AccuracyScore'),
+  }))).filter((item) => item.phoneme)
+
+  return {
+    recognizedText,
+    recognized,
+    matched: recognized && accuracyScore !== undefined && accuracyScore >= 60,
+    accuracyScore,
+    fluencyScore: score(best?.FluencyScore) ?? score(overall?.FluencyScore),
+    completenessScore: score(best?.CompletenessScore) ?? score(overall?.CompletenessScore),
+    pronunciationScore: score(best?.PronScore) ?? score(overall?.PronScore),
+    phonemes,
+  }
 }
 
 /**
@@ -107,43 +188,8 @@ export async function assessAzurePronunciation(
     signal,
   })
   if (!response.ok) throw new Error(`Azure pronunciation proxy returned ${response.status}`)
-  const payload = await response.json() as {
-    RecognitionStatus?: string
-    NBest?: Array<{
-      Display?: string
-      Lexical?: string
-      PronunciationAssessment?: { AccuracyScore?: number; FluencyScore?: number; CompletenessScore?: number; PronScore?: number }
-      Words?: Array<{
-        Word?: string
-        PronunciationAssessment?: { AccuracyScore?: number; ErrorType?: string }
-        Phonemes?: Array<{ Phoneme?: string; PronunciationAssessment?: { AccuracyScore?: number } }>
-      }>
-    }>
-  }
-  const best = payload.NBest?.[0]
-  const words = best?.Words ?? []
-  const recognizedText = best?.Display ?? best?.Lexical ?? ''
-  const target = expected.trim().toLowerCase()
-  const targetWord = words.find((item) => normalizedTokens(item.Word ?? '').includes(target))
-  const recognized = targetWord !== undefined || normalizedTokens(recognizedText).includes(target)
-  const overall = best?.PronunciationAssessment
-  const wordAssessment = targetWord?.PronunciationAssessment
-  const phonemes = (targetWord?.Phonemes ?? []).map((item) => ({
-    phoneme: item.Phoneme ?? '',
-    accuracyScore: number(item.PronunciationAssessment?.AccuracyScore),
-  })).filter((item) => item.phoneme)
-  return {
-    recognizedText,
-    recognized,
-    // 45 分作为很宽松的首版下限；低于这个值仍留给 Vosk 再确认，避免把
-    // 轻微口音直接判错。最终阈值要用真实儿童样本继续校准。
-    matched: recognized && (number(wordAssessment?.AccuracyScore) ?? number(overall?.AccuracyScore) ?? 0) >= 45,
-    accuracyScore: number(wordAssessment?.AccuracyScore) ?? number(overall?.AccuracyScore),
-    fluencyScore: number(overall?.FluencyScore),
-    completenessScore: number(overall?.CompletenessScore),
-    pronunciationScore: number(overall?.PronScore),
-    phonemes,
-  }
+  const payload = await response.json() as unknown
+  return parseAzurePronunciation(payload, expected)
 }
 
 export function concatPcm(chunks: Float32Array[], length: number): Float32Array {
