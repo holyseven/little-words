@@ -117,6 +117,19 @@
   flex: none;
   order: 1;
   min-height: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  line-height: 1.4;
+}
+
+/* InlineWordRepeat owns the score panel. Keep it in the same full-width row
+   as the feedback text when the component is used by this game (PictureSpeak
+   does not import Learn.css). */
+.picture-speak__controls > .learn__repeat-status .learn__repeat-score {
+  flex-basis: 100%;
 }
 
 .picture-speak__answer { display: flex; flex-direction: column; gap: 2px; }

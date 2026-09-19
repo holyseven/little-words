@@ -2,6 +2,7 @@ import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useSta
 import { loadVoskModel } from '../logic/vosk'
 import type { Recognizer } from '../logic/vosk'
 import { assessAzurePronunciation, concatPcm, type AzurePronunciationResult } from '../logic/azurePronunciation'
+import { normalizeSpeechPcm } from '../logic/audioInput'
 import { decideAzureRepeat, decideRepeat, type RepeatRecognitionDecision, type RepeatRecognitionWord } from '../logic/repeat'
 import { clearConfetti } from './Confetti'
 import './InlineWordRepeat.css'
@@ -169,7 +170,13 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       setState('recognizing')
       try {
         current.azureController = new AbortController()
-        const assessment = await assessAzurePronunciation(concatPcm(current.pcmChunks, current.pcmLength), word, current.azureController.signal)
+        // iPad Safari sometimes delivers a very quiet first capture when its
+        // input processing is warming up. Normalize only quiet clips before
+        // Azure/Vosk sees them; this does not save or replay the recording.
+        const normalizedPcm = normalizeSpeechPcm(concatPcm(current.pcmChunks, current.pcmLength))
+        current.pcmChunks = [normalizedPcm]
+        current.pcmLength = normalizedPcm.length
+        const assessment = await assessAzurePronunciation(normalizedPcm, word, current.azureController.signal)
         if (session.current !== current) return
         setAssessment(assessment)
         // Azure 只有在返回目标词和有效准确度时才算“在线命中”；没有分数的
@@ -236,7 +243,16 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       }
       if (session.current !== current) return
       setState('requesting')
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: { channelCount: 1, sampleRate: 16000, echoCancellation: true, noiseSuppression: true } })
+      // Do not force Safari's native sample rate; the Web Audio path resamples
+      // it to 16 kHz below. Echo/noise suppression can attenuate a child's
+      // quiet consonants on iPad, so disable those processors and let the
+      // model-side normalization above handle capture-level differences.
+      const supported = navigator.mediaDevices.getSupportedConstraints?.()
+      const audioConstraints: MediaTrackConstraints = { channelCount: 1 }
+      if (!supported || supported.echoCancellation) audioConstraints.echoCancellation = false
+      if (!supported || supported.noiseSuppression) audioConstraints.noiseSuppression = false
+      if (!supported || supported.autoGainControl) audioConstraints.autoGainControl = true
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints })
       if (session.current !== current) {
         stream.getTracks().forEach((track) => track.stop())
         return
@@ -308,7 +324,9 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
         const elapsed = Math.min(100, now - previous)
         previous = now
         // 儿童说话通常比成人轻，降低阈值但仍保留一点环境噪声过滤。
-        if (rms >= 0.006) { current.soundMs += elapsed; lastSound = now }
+        // Keep a little headroom for iPad's quiet input path while filtering
+        // the lowest-level room noise. The captured PCM is normalized later.
+        if (rms >= 0.0045) { current.soundMs += elapsed; lastSound = now }
         if (now - lastDisplay >= 80) {
           setLevel(Math.min(100, Math.round(rms * 1200)))
           lastDisplay = now

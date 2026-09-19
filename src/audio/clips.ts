@@ -222,6 +222,21 @@ async function playInRequest(key: string, opts: PlayOptions, requestId: number):
   const buf = await load(key)
   // 必须在失败兜底之前检查：旧请求失败后也不能突然开始 TTS。
   if (requestId !== generation) return
+  // 解码会跨过一个或多个任务队列；iPad Safari 可能在这段时间把
+  // AudioContext 标回 suspended/interrupted。再次 resume，避免首个或
+  // 偶发的片段在一个未完全唤醒的输出通道里以很小音量开始播放。
+  if (ctx.state !== 'running') {
+    try {
+      await ctx.resume()
+    } catch {
+      // 状态检查会把无法恢复的设备交给原有的 TTS 兜底。
+    }
+  }
+  if (requestId !== generation) return
+  if (ctx.state !== 'running') {
+    useFallback()
+    return
+  }
   if (!buf) {
     useFallback()
     return

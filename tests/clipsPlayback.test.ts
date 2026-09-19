@@ -58,6 +58,23 @@ describe('人声异步加载与游戏切换', () => {
     expect(sources[0].start).toHaveBeenCalledOnce()
   })
 
+  it('解码期间被 iPad 暂停后，会在输出前再次恢复 AudioContext', async () => {
+    const resume = vi.fn(async () => { Object.assign(context, { state: 'running' }) })
+    Object.assign(context, {
+      decodeAudioData: (_bytes: ArrayBuffer, resolve: (buffer: object) => void) => {
+        resolve({ duration: 1 })
+        Object.assign(context, { state: 'suspended', resume })
+        return Promise.resolve({ duration: 1 })
+      },
+    })
+    const { playClip } = await import('../src/audio/clips')
+    const playing = playClip('w/cat')
+    deliver('cat')
+    await playing
+    expect(resume).toHaveBeenCalledOnce()
+    expect(sources[0]?.start).toHaveBeenCalledOnce()
+  })
+
   it.each([true, false])('等待音频恢复时取消，不能再播放或兜底（恢复成功：%s）', async (succeeds) => {
     let settle!: () => void
     Object.assign(context, {
