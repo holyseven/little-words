@@ -111,6 +111,9 @@ export default defineConfig(({ mode }) => {
     {
       name: 'app-build-version',
       transformIndexHtml: () => [{ tag: 'meta', attrs: { name: 'little-words-build', content: revision } }],
+      generateBundle() {
+        this.emitFile({ type: 'asset', fileName: 'app-version.json', source: JSON.stringify({ build: revision }) })
+      },
     },
 
     VitePWA({
@@ -146,7 +149,7 @@ export default defineConfig(({ mode }) => {
         // m4a 是预生成的人声片段（scripts/gen-audio.mjs），必须一起缓存。
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,json,woff2,m4a}'],
         // 语音模型约 39MB，首次跟读时再下载，避免首屏安装被拖慢。
-        globIgnores: ['course-media/**', 'speech-model/**', 'speech-runtime/**'],
+        globIgnores: ['course-media/**', 'speech-model/**', 'speech-runtime/**', 'app-version.json'],
         runtimeCaching: [{
           urlPattern: /\/course-media\/[^/]+\.(?:mp3|m4a|mp4)$/,
           handler: 'CacheFirst',

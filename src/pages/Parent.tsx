@@ -18,8 +18,9 @@ import { checkForAppUpdate, type AppUpdateStatus } from '../pwa/updates'
 import './Parent.css'
 
 const updateMessages: Record<AppUpdateStatus, string> = {
-  current: '已检查更新，目前没有待安装的新版本。',
+  current: '已核对线上版本，当前页面是最新版本。',
   updating: '发现新版本，正在更新，完成后会自动刷新。',
+  stale: '线上已有新版本，本机更新尚未完成。请保持页面打开并联网，稍后再点检查更新。',
   offline: '目前离线，请连接网络后再检查。',
   unavailable: '更新服务尚未就绪，请联网刷新后再试。',
   error: '暂时无法检查更新，请稍后重试。',

@@ -394,7 +394,7 @@ html, body { touch-action: manipulation; -webkit-text-size-adjust: 100%; overscr
 ### 11.4 离线与存储
 
 - Service Worker 预缓存核心构建产物（含通用人声音频和课程封面），导航请求回退到 `index.html`。约 53 MiB 课程媒体排除自动预缓存，由家长下载到独立 Cache Storage，支持 Range 请求，详见第 18 节
-- `registerType: 'autoUpdate'`，`skipWaiting` + `clientsClaim`，用户下次启动即用新版本，不弹更新提示打扰孩子
+- `registerType: 'autoUpdate'`，`skipWaiting` + `clientsClaim`，用户下次启动即用新版本，不弹更新提示打扰孩子；额外生成不进预缓存的 `app-version.json`，启动、恢复前台和家长手动检查时核对线上构建标记，避免 Safari 恢复旧 `index.html` 后误报最新
 - 首次启动后调用 `navigator.storage.persist()`，结果记录到设置并在家长页显示
 - 家长页显示 `navigator.storage.estimate()` 用量
 
