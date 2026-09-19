@@ -204,6 +204,13 @@ describe('PWA update checks', () => {
     expect(browser.location.reload).not.toHaveBeenCalled()
   })
 
+  it('uses a cache-busting no-store request for the published version marker', async () => {
+    expect(await api.checkForAppUpdate()).toBe('current')
+    const versionRequest = fetchMock.mock.calls.find(([input]) => String(input).includes('app-version.json'))
+    expect(versionRequest?.[0]).toContain('app-version.json?check=100000')
+    expect(versionRequest?.[1]).toMatchObject({ cache: 'no-store' })
+  })
+
   it('reports offline before requesting the published version', async () => {
     network.onLine = false
     expect(await api.checkForAppUpdate()).toBe('offline')
