@@ -16,6 +16,8 @@ export interface Word {
   zh: string
   /** 4–6 词的简单例句，'The cat is sleeping.' */
   sentence: string
+  /** 同单元的拓展词；已从原始材料确认的词不标记。 */
+  extension?: boolean
 }
 
 export interface Theme {
@@ -26,6 +28,8 @@ export interface Theme {
   /** 氛围色 CSS 变量名（SPEC 5.1），如 '--tint-animals' */
   tint: string
   order: number
+  /** 课本补充主题可直接进入，不要求完成旧地图。 */
+  openAccess?: boolean
   /** 8–10 个单词 */
   words: Word[]
 }

@@ -1,0 +1,71 @@
+{
+  "id": "school-things",
+  "title": "School Things",
+  "zh": "学习用品",
+  "emoji": "🎒",
+  "tint": "--tint-school-things",
+  "order": 11,
+  "openAccess": true,
+  "words": [
+    {
+      "id": "schoolbag",
+      "text": "schoolbag",
+      "svg": "schoolbag",
+      "zh": "书包",
+      "sentence": "This is my schoolbag."
+    },
+    {
+      "id": "pencil-case",
+      "text": "pencil case",
+      "svg": "pencil-case",
+      "zh": "铅笔盒",
+      "sentence": "Open your pencil case, please."
+    },
+    {
+      "id": "pencil",
+      "text": "pencil",
+      "svg": "pencil",
+      "zh": "铅笔",
+      "sentence": "I write with a pencil."
+    },
+    {
+      "id": "book",
+      "text": "book",
+      "svg": "book",
+      "zh": "书",
+      "sentence": "I can read this book."
+    },
+    {
+      "id": "ruler",
+      "text": "ruler",
+      "svg": "ruler",
+      "zh": "尺子",
+      "sentence": "My ruler is very long.",
+      "extension": true
+    },
+    {
+      "id": "eraser",
+      "text": "eraser",
+      "svg": "eraser",
+      "zh": "橡皮",
+      "sentence": "This is my eraser.",
+      "extension": true
+    },
+    {
+      "id": "pen",
+      "text": "pen",
+      "svg": "pen",
+      "zh": "钢笔",
+      "sentence": "I have a blue pen.",
+      "extension": true
+    },
+    {
+      "id": "crayon",
+      "text": "crayon",
+      "svg": "crayon",
+      "zh": "蜡笔",
+      "sentence": "Draw with a red crayon.",
+      "extension": true
+    }
+  ]
+}

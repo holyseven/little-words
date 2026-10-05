@@ -1,0 +1,68 @@
+{
+  "id": "classroom",
+  "title": "My Classroom",
+  "zh": "我的教室",
+  "emoji": "🏫",
+  "tint": "--tint-classroom",
+  "order": 10,
+  "openAccess": true,
+  "words": [
+    {
+      "id": "classroom",
+      "text": "classroom",
+      "svg": "classroom",
+      "zh": "教室",
+      "sentence": "This is our classroom."
+    },
+    {
+      "id": "door",
+      "text": "door",
+      "svg": "door",
+      "zh": "门",
+      "sentence": "Please close the door."
+    },
+    {
+      "id": "window",
+      "text": "window",
+      "svg": "window",
+      "zh": "窗户",
+      "sentence": "Please open the window."
+    },
+    {
+      "id": "desk",
+      "text": "desk",
+      "svg": "desk",
+      "zh": "课桌",
+      "sentence": "I sit at my desk."
+    },
+    {
+      "id": "chair",
+      "text": "chair",
+      "svg": "chair",
+      "zh": "椅子",
+      "sentence": "Sit on your chair, please."
+    },
+    {
+      "id": "blackboard",
+      "text": "blackboard",
+      "svg": "blackboard",
+      "zh": "黑板",
+      "sentence": "Look at the blackboard."
+    },
+    {
+      "id": "teacher",
+      "text": "teacher",
+      "svg": "teacher",
+      "zh": "老师",
+      "sentence": "Our teacher reads with us."
+    },
+    {
+      "id": "school",
+      "text": "school",
+      "svg": "school",
+      "zh": "学校",
+      "sentence": "I walk to school.",
+      "extension": true
+    }
+  ]
+}

@@ -79,11 +79,16 @@ export function useVoice() {
     [play],
   )
 
+  /** 连续示范一段对话；停止或切页会一起取消后续句子。 */
+  const sayPhrases = useCallback((texts: string[], onEnd?: () => void) => {
+    void playClipSequence(texts.map((text) => ({ key: clipId('p', phraseId(text)), fallbackText: text })), beginPlayback(onEnd))
+  }, [beginPlayback])
+
   const stop = useCallback(() => {
     playId.current++
     stopClip()
     setSpeaking(false)
   }, [])
 
-  return { sayWord, sayWords, saySentence, sayPhrase, stop, speaking, preloadClips, hasClip }
+  return { sayWord, sayWords, saySentence, sayPhrase, sayPhrases, stop, speaking, preloadClips, hasClip }
 }

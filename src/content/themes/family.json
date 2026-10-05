@@ -1,0 +1,68 @@
+{
+  "id": "family",
+  "title": "Family",
+  "zh": "家人",
+  "emoji": "🏡",
+  "tint": "--tint-family",
+  "order": 9,
+  "openAccess": true,
+  "words": [
+    {
+      "id": "mum",
+      "text": "mum",
+      "svg": "family-mum",
+      "zh": "妈妈",
+      "sentence": "This is my mum."
+    },
+    {
+      "id": "dad",
+      "text": "dad",
+      "svg": "family-dad",
+      "zh": "爸爸",
+      "sentence": "I love my dad."
+    },
+    {
+      "id": "grandma",
+      "text": "grandma",
+      "svg": "family-grandma",
+      "zh": "奶奶 / 外婆",
+      "sentence": "My grandma gives me hugs."
+    },
+    {
+      "id": "grandpa",
+      "text": "grandpa",
+      "svg": "family-grandpa",
+      "zh": "爷爷 / 外公",
+      "sentence": "My grandpa reads with me."
+    },
+    {
+      "id": "sister",
+      "text": "sister",
+      "svg": "family-sister",
+      "zh": "姐姐 / 妹妹",
+      "sentence": "My sister likes to dance."
+    },
+    {
+      "id": "brother",
+      "text": "brother",
+      "svg": "family-brother",
+      "zh": "哥哥 / 弟弟",
+      "sentence": "My brother plays with me."
+    },
+    {
+      "id": "family",
+      "text": "family",
+      "svg": "family",
+      "zh": "家人",
+      "sentence": "I love my family."
+    },
+    {
+      "id": "baby",
+      "text": "baby",
+      "svg": "family-baby",
+      "zh": "宝宝",
+      "sentence": "The baby is sleeping.",
+      "extension": true
+    }
+  ]
+}

@@ -13,7 +13,7 @@ import { STARS_PER_STICKER, STICKER_POOL } from '../src/content/stickers'
 import { emptyProgress, emptyThemeProgress, type Progress } from '../src/store/progress'
 import type { Theme } from '../src/content/types'
 
-const theme = (id: string, order: number, wordCount = 3): Theme => ({
+const theme = (id: string, order: number, wordCount = 10): Theme => ({
   id,
   title: id,
   zh: id,
@@ -108,7 +108,8 @@ describe('awardStickers', () => {
 })
 
 describe('isThemeComplete（SPEC 7.2）', () => {
-  const t = theme('a', 1, 3)
+  const t = theme('a', 1)
+  const learned = t.words.map((word) => word.id)
 
   it('单词没学完不算完成', () => {
     const tp = { ...emptyThemeProgress(), learned: ['a-w0'], best: { listen: 8 } }
@@ -116,12 +117,11 @@ describe('isThemeComplete（SPEC 7.2）', () => {
   })
 
   it('学完但没游戏成绩不算完成', () => {
-    const tp = { ...emptyThemeProgress(), learned: ['a-w0', 'a-w1', 'a-w2'] }
+    const tp = { ...emptyThemeProgress(), learned }
     expect(isThemeComplete(t, tp)).toBe(false)
   })
 
   it('学完 + 正确率 ≥ 80% 才算完成', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
     // 8 题里对 6 题 = 75%，不够
     expect(isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { listen: 6 } })).toBe(false)
     // 对 7 题 = 87.5%，够
@@ -129,25 +129,30 @@ describe('isThemeComplete（SPEC 7.2）', () => {
   })
 
   it('任意一个游戏达标即可', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
     expect(isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { memory: 8 } })).toBe(true)
     expect(isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { bubble: 8 } })).toBe(true)
   })
 
   it('手机完整配完 6 对也可解锁；泡泡必须至少首次答对 8/10', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
     expect(isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { memory: 6 } })).toBe(true)
     expect(isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { bubble: 7 } })).toBe(false)
     expect(isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { bubble: 8 } })).toBe(true)
   })
 
   it('门槛正好是 80%', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
     // 10 题里对 8 题正好 80%
     expect(
       isThemeComplete(t, { ...emptyThemeProgress(), learned, best: { listen: 8 } }, 10),
     ).toBe(true)
     expect(GAME_PASS_RATIO).toBe(0.8)
+  })
+
+  it('8 词主题的泡泡按 8 题计算：6 题不足，7 题达标', () => {
+    const shortTheme = theme('family', 9, 8)
+    const learned = shortTheme.words.map((word) => word.id)
+    expect(isThemeComplete(shortTheme, { ...emptyThemeProgress(), learned, best: { bubble: 6 } })).toBe(false)
+    expect(isThemeComplete(shortTheme, { ...emptyThemeProgress(), learned, best: { bubble: 7 } })).toBe(true)
+    expect(isThemeComplete(shortTheme, { ...emptyThemeProgress(), learned, best: { bubble: 8 } })).toBe(true)
   })
 })
 
@@ -218,7 +223,7 @@ describe('reconcileRewards（导入存档/丢写入后的自愈）', () => {
   })
 
   it('把已达成条件但缺徽章的主题补上', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
+    const learned = themes[0]!.words.map((word) => word.id)
     const p: Progress = {
       ...emptyProgress(),
       themes: { a: { learned, best: { listen: 8 }, completed: false } },
@@ -237,7 +242,7 @@ describe('reconcileRewards（导入存档/丢写入后的自愈）', () => {
   })
 
   it('已有的徽章不重复添加', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
+    const learned = themes[0]!.words.map((word) => word.id)
     const p: Progress = {
       ...emptyProgress(),
       badges: ['a'],
@@ -247,7 +252,7 @@ describe('reconcileRewards（导入存档/丢写入后的自愈）', () => {
   })
 
   it('贴纸和徽章能一次性同时补齐', () => {
-    const learned = ['a-w0', 'a-w1', 'a-w2']
+    const learned = themes[0]!.words.map((word) => word.id)
     const p: Progress = {
       ...emptyProgress(),
       stars: 30,

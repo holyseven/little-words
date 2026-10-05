@@ -1,3 +1,5 @@
+import { normalizedSpeechTokens, speechMatchRanges } from './speechTokens'
+
 export interface RepeatAnalysis {
   duration: number
   voicedRatio: number
@@ -44,10 +46,6 @@ export function decideAzureRepeat(evidence: AzureRepeatEvidence, soundMs: number
   return { matched: true, uncertain: (confidence !== undefined && confidence < 80) || severePhoneme, source: 'final', confidence }
 }
 
-function normalizedTokens(value: string): string[] {
-  return value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim().split(' ').filter(Boolean)
-}
-
 /**
  * 只做“听到了目标词吗”的宽容判定：最终结果优先，partial 只能在没有
  * 任何最终词时兜底。conf 是解码置信度，不是发音标准度，只用来标记
@@ -55,20 +53,26 @@ function normalizedTokens(value: string): string[] {
  */
 export function decideRepeat(evidence: RepeatRecognitionEvidence, expected: string): RepeatRecognitionDecision {
   if (evidence.soundMs < 120) return { matched: false, uncertain: false, source: 'none' }
-  const target = expected.trim().toLowerCase()
   const finalWords = evidence.finalWords.filter((item) => item.word.trim())
-  const finalTokens = finalWords.map((item) => item.word.trim().toLowerCase())
-  const finalTextTokens = normalizedTokens(evidence.finalText)
+  const finalTextTokens = normalizedSpeechTokens(evidence.finalText)
 
   if (finalWords.length > 0 || finalTextTokens.length > 0) {
-    const matched = finalWords.length > 0 ? finalTokens.includes(target) : finalTextTokens.includes(target)
-    if (!matched) return { matched: false, uncertain: false, source: 'final' }
-    const confidences = finalWords.filter((item) => item.word.trim().toLowerCase() === target && item.conf !== undefined).map((item) => item.conf!)
+    const ranges = speechMatchRanges(finalWords.length > 0
+      ? finalWords.map((item) => item.word)
+      : evidence.finalText, expected)
+    if (!ranges.length) return { matched: false, uncertain: false, source: 'final' }
+    // A strong first word must not mask a weak second word in a phrase. For
+    // repeated complete attempts, keep the best attempt as single words did.
+    const confidences = ranges.flatMap(({ start, end }) => {
+      const scores = finalWords.slice(start, end).map((item) => item.conf)
+        .filter((value): value is number => value !== undefined && Number.isFinite(value))
+      return scores.length ? [Math.min(...scores)] : []
+    })
     const confidence = confidences.length ? Math.max(...confidences) : undefined
     return { matched: true, uncertain: confidence !== undefined && confidence < 0.5, source: 'final', confidence }
   }
 
-  const partialMatched = normalizedTokens(evidence.partialText).includes(target)
+  const partialMatched = speechMatchRanges(evidence.partialText, expected).length > 0
   return partialMatched
     ? { matched: true, uncertain: true, source: 'partial' }
     : { matched: false, uncertain: false, source: 'none' }

@@ -9,8 +9,11 @@ import vehicles from './themes/vehicles.json'
 import weather from './themes/weather.json'
 import body from './themes/body.json'
 import food from './themes/food.json'
+import family from './themes/family.json'
+import classroom from './themes/classroom.json'
+import schoolThings from './themes/school-things.json'
 
-/** 全部 8 个主题（SPEC 8.2），按 order 排序 */
+/** 主题按稳定 order 排序；课本新主题追加，不改旧存档 ID。 */
 const rawThemes = [
   animals,
   fruits,
@@ -20,6 +23,9 @@ const rawThemes = [
   weather,
   body,
   food,
+  family,
+  classroom,
+  schoolThings,
 ] as Theme[]
 
 /** 构建/启动时校验（SPEC 8.2：id 唯一） */

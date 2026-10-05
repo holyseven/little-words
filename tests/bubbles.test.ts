@@ -3,11 +3,13 @@ import { themes } from '../src/content'
 import { bubblePosition, BUBBLE_DURATION_MS, createBubbleChoices, createBubbleTargets } from '../src/logic/bubbles'
 
 describe('Bubble Pop', () => {
-  it('每局 10 个不重复目标，每组最多 5 个泡泡，始终包含目标和同主题干扰词', () => {
+  it('每局最多 10 个不重复目标，8 词主题全部入选；每组包含目标和同主题干扰词', () => {
     for (const theme of themes) {
       const targets = createBubbleTargets(theme.words)
-      expect(targets).toHaveLength(10)
-      expect(new Set(targets.map((word) => word.id)).size).toBe(10)
+      const count = Math.min(10, theme.words.length)
+      expect(targets).toHaveLength(count)
+      expect(new Set(targets.map((word) => word.id)).size).toBe(count)
+      expect(targets.every((word) => theme.words.includes(word))).toBe(true)
       for (const target of targets) {
         const choices = createBubbleChoices(theme.words, target)
         expect(choices).toHaveLength(5)

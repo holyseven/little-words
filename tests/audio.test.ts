@@ -6,6 +6,7 @@ import manifest from '../src/content/audioManifest.json'
 import { themes } from '../src/content'
 import { phrases, themeCompletePhrases } from '../src/content/phrases'
 import treasurePrompts from '../src/content/treasurePrompts.json'
+import { dialogueScenes } from '../src/content/dialogues'
 
 const audioDir = join(process.cwd(), 'public', 'audio')
 
@@ -62,6 +63,19 @@ describe('预生成音频（人声）', () => {
     }
   })
 
+  it('对话的提问、示范回答和回应均有文本一致的离线音频', () => {
+    for (const scene of dialogueScenes) {
+      for (const turn of scene.turns) {
+        for (const [role, phrase] of Object.entries({ prompt: turn.prompt, answer: turn.answer, reply: turn.reply })) {
+          const key = `p/${slug(phrase.en)}`
+          expect(clips[key], `${turn.id}/${role} 缺少音频`).toBeDefined()
+          expect(clips[key]?.text, `${turn.id}/${role} 音频文本不一致`).toBe(phrase.en)
+          expect(existsSync(join(audioDir, `${key}.m4a`)), `${turn.id}/${role} 文件不存在`).toBe(true)
+        }
+      }
+    }
+  })
+
   it('清单里的文本与词表一致（改了文案要重新生成音频）', () => {
     for (const theme of themes) {
       for (const word of theme.words) {
@@ -101,15 +115,19 @@ describe('预生成音频（人声）', () => {
 
   it('台词 slug 规则无冲突（不同台词不会映射到同一文件）', () => {
     const seen = new Map<string, string>()
-    for (const list of Object.values(phrases)) {
-      for (const p of list) {
-        const s = slug(p.en)
-        const prev = seen.get(s)
-        if (prev && prev !== p.en) {
-          throw new Error(`slug 冲突: "${prev}" 与 "${p.en}" 都是 "${s}"`)
-        }
-        seen.set(s, p.en)
+    const allTexts = [
+      ...Object.values(phrases).flat().map((phrase) => phrase.en),
+      ...Object.values(themeCompletePhrases).map((phrase) => phrase.en),
+      ...Object.values(treasurePrompts),
+      ...dialogueScenes.flatMap((scene) => scene.turns.flatMap((turn) => [turn.prompt.en, turn.answer.en, turn.reply.en])),
+    ]
+    for (const text of allTexts) {
+      const s = slug(text)
+      const prev = seen.get(s)
+      if (prev && prev !== text) {
+        throw new Error(`slug 冲突: "${prev}" 与 "${text}" 都是 "${s}"`)
       }
+      seen.set(s, text)
     }
   })
 })

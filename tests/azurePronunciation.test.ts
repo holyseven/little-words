@@ -159,6 +159,49 @@ describe('Azure pronunciation response parsing', () => {
   ])('rejects partial, reversed, unscored or omitted multiword targets: %j', (...words) => {
     expect(parseAzurePronunciation(flatResponse(words), 'ice cream').matched).toBe(false)
   })
+
+  it('uses the lowest score across a complete pencil case target', () => {
+    expect(parseAzurePronunciation(flatResponse([
+      { Word: 'pencil', AccuracyScore: 96 }, { Word: 'case', AccuracyScore: 72 },
+    ]), 'pencil case')).toMatchObject({ recognized: true, matched: true, accuracyScore: 72 })
+  })
+
+  it.each([
+    ['schoolbag', ['school', 'bag']],
+    ['school bag', ['schoolbag']],
+    ['schoolbag', ['schoolbag']],
+  ])('accepts the textbook spelling %s with Azure word boundaries %j', (expected, spoken) => {
+    const words = spoken.map((Word, index) => ({ Word, AccuracyScore: index === 0 ? 91 : 72, ErrorType: 'None' }))
+    expect(parseAzurePronunciation(flatResponse(words), expected))
+      .toMatchObject({ recognized: true, matched: true, accuracyScore: spoken.length === 1 ? 91 : 72 })
+  })
+
+  it.each([
+    [{ Word: 'school', AccuracyScore: 100 }],
+    [{ Word: 'bag', AccuracyScore: 100 }, { Word: 'school', AccuracyScore: 100 }],
+    [{ Word: 'school', AccuracyScore: 100 }, { Word: 'red', AccuracyScore: 100 }, { Word: 'bag', AccuracyScore: 100 }],
+    [{ Word: 'school', AccuracyScore: 100 }, { Word: 'bag' }],
+    [{ Word: 'school', AccuracyScore: NaN }, { Word: 'bag', AccuracyScore: 100 }],
+    [{ Word: 'school', AccuracyScore: 100 }, { Word: 'bag', AccuracyScore: 100, ErrorType: 'Omission' }],
+    [{ Word: 'schoolbag', AccuracyScore: 100, ErrorType: 'Omission' }],
+    [{ Word: 'schoolbags', AccuracyScore: 100 }],
+  ])('rejects incomplete or unsupported schoolbag evidence: %j', (...words) => {
+    expect(parseAzurePronunciation(flatResponse(words), 'schoolbag').matched).toBe(false)
+  })
+
+  it.each(['school', 'bag'])('does not borrow a schoolbag word score for %s', (expected) => {
+    expect(parseAzurePronunciation(flatResponse([{ Word: 'schoolbag', AccuracyScore: 100 }]), expected).matched).toBe(false)
+  })
+
+  it('does not generally join compounds or borrow one score for an entire phrase', () => {
+    expect(parseAzurePronunciation(flatResponse([{ Word: 'pencilcase', AccuracyScore: 100 }]), 'pencil case').matched).toBe(false)
+    expect(parseAzurePronunciation(flatResponse([{ Word: 'pencil case', AccuracyScore: 100 }]), 'pencil case').matched).toBe(false)
+  })
+
+  it('malformed word entries cannot disappear and bridge a phrase', () => {
+    const payload = { RecognitionStatus: 'Success', NBest: [{ Words: [{ Word: 'pencil', AccuracyScore: 100 }, null, { Word: 'case', AccuracyScore: 100 }] }] }
+    expect(parseAzurePronunciation(payload, 'pencil case').matched).toBe(false)
+  })
 })
 
 describe('Azure pronunciation request', () => {

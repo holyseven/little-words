@@ -70,10 +70,10 @@ export function isThemeComplete(theme: Theme, tp: ThemeProgress, totalQuestions 
     score !== undefined && score / totalQuestions >= GAME_PASS_RATIO
 
   // Memory 只在整局配完后写入 6 / 8 对，是完成标记；不按猜牌次数处罚。
-  // Bubble 共 10 个目标，记录首次点对数。不能沿用 Listen 的 8 题分母。
+  // Bubble 最多 10 个目标；8–9 词主题只出实际词数，按本局题数计算正确率。
   return pass(best.listen)
     || (best.memory !== undefined && best.memory >= 6)
-    || (best.bubble !== undefined && best.bubble / BUBBLE_TARGETS >= GAME_PASS_RATIO)
+    || (best.bubble !== undefined && best.bubble / Math.min(theme.words.length, BUBBLE_TARGETS) >= GAME_PASS_RATIO)
 }
 
 /* -------------------------------------------------------------------------- */
@@ -96,7 +96,7 @@ export function stationState(
   if (!theme) return 'locked'
 
   if (progress.badges.includes(theme.id)) return 'completed'
-  if (unlockAll || index === 0) return 'available'
+  if (unlockAll || theme.openAccess || index === 0) return 'available'
 
   // 前一个主题已完成才解锁本关
   const prev = themes[index - 1]

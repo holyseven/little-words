@@ -1,8 +1,10 @@
-import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useId, useImperativeHandle, useRef, useState } from 'react'
 import { loadVoskModel } from '../logic/vosk'
 import type { Recognizer } from '../logic/vosk'
 import { assessAzurePronunciation, concatPcm, type AzurePronunciationResult } from '../logic/azurePronunciation'
 import { normalizeSpeechPcm } from '../logic/audioInput'
+import { voskVocabulary } from '../logic/speechTokens'
+import { createVoskResultWaiter, mergeVoskFinal, type VoskResultWaiter } from '../logic/voskResults'
 import { decideAzureRepeat, decideRepeat, type RepeatRecognitionDecision, type RepeatRecognitionWord } from '../logic/repeat'
 import { clearConfetti } from './Confetti'
 import './InlineWordRepeat.css'
@@ -10,7 +12,7 @@ import './InlineWordRepeat.css'
 type State = 'idle' | 'loading' | 'requesting' | 'listening' | 'recognizing' | 'matched' | 'matched-soft' | 'unmatched' | 'error'
 export interface InlineWordRepeatHandle { cancel: () => void }
 export type RepeatEngine = 'azure' | 'vosk'
-interface Props { word: string; candidates?: string[]; showZh: boolean; engine?: RepeatEngine; onBeforeStart: () => void; onSuccess?: () => void; onFailure?: () => void; buttonText?: string }
+interface Props { word: string; candidates?: string[]; showZh: boolean; engine?: RepeatEngine; practiceKind?: 'word' | 'sentence'; disabled?: boolean; hideIdleNotice?: boolean; onBeforeStart: () => void; onSuccess?: () => void; onFailure?: () => void; buttonText?: string }
 interface Session {
   audio: AudioContext | null
   stream: MediaStream | null
@@ -26,7 +28,7 @@ interface Session {
   partialText: string
   finishing: boolean
   sampleRate: number
-  resultWaiter: { resolve: () => void; timer: ReturnType<typeof setTimeout> } | null
+  resultWaiter: VoskResultWaiter | null
   pcmChunks: Float32Array[]
   pcmLength: number
   azureController: AbortController | null
@@ -59,45 +61,44 @@ function resampleTo16k(input: Float32Array, inputRate: number): Float32Array {
   return output
 }
 
-async function recognizePcmWithVosk(current: Session, word: string, candidates?: string[]): Promise<RepeatRecognitionDecision> {
+async function recognizePcmWithVosk(current: Session, word: string, candidates: string[] | undefined, sentencePractice: boolean): Promise<RepeatRecognitionDecision> {
   const model = await loadVoskModel()
   if (current.azureController?.signal.aborted) throw new DOMException('Practice cancelled', 'AbortError')
-  const vocabulary = [...new Set([word.trim().toLowerCase(), ...(candidates ?? []).map((candidate) => candidate.trim().toLowerCase()).filter(Boolean), '[unk]'])]
+  const vocabulary = voskVocabulary(word, candidates)
   const recognizer = new model.KaldiRecognizer(16000, JSON.stringify(vocabulary))
   current.recognizer = recognizer
   recognizer.setWords(true)
-  let finalText = ''
-  let finalWords: RepeatRecognitionWord[] = []
+  let final = { finalText: '', finalWords: [] as RepeatRecognitionWord[] }
   let partialText = ''
   recognizer.on('result', (message) => {
     const text = message.result?.text?.trim() ?? ''
-    if (text) {
-      finalText = text
-      finalWords = (message.result?.result ?? []).map((item) => ({ word: item.word, conf: item.conf }))
-    }
+    const words = (message.result?.result ?? []).map((item) => ({ word: item.word, conf: item.conf }))
+    final = mergeVoskFinal(final, text, words, sentencePractice)
+    current.resultWaiter?.onFinalResult(Boolean(text))
   })
   recognizer.on('partialresult', (message) => {
     const text = message.result?.partial ?? ''
     if (text) partialText = text
+    current.resultWaiter?.onPartialResult()
   })
+  // Install the waiter before queueing audio. A sentence can produce several
+  // endpoints; allow the flush to arrive instead of stopping at the first one.
+  const waiter = createVoskResultWaiter(sentencePractice)
+  current.resultWaiter = waiter
   for (const chunk of current.pcmChunks) recognizer.acceptWaveformFloat(chunk, 16000)
-  await new Promise<void>((resolve) => {
-    const timer = setTimeout(resolve, 3200)
-    recognizer.on('result', (message) => {
-      if (message.result?.text?.trim()) { clearTimeout(timer); resolve() }
-    })
-    recognizer.acceptWaveformFloat(new Float32Array(Math.floor(16000 * 0.35)), 16000)
-    recognizer.retrieveFinalResult()
-  })
-  return decideRepeat({ soundMs: current.soundMs, finalText, finalWords, partialText }, word)
+  recognizer.acceptWaveformFloat(new Float32Array(Math.floor(16000 * 0.35)), 16000)
+  recognizer.retrieveFinalResult()
+  await waiter.done
+  if (current.resultWaiter === waiter) current.resultWaiter = null
+  if (current.azureController?.signal.aborted) throw new DOMException('Practice cancelled', 'AbortError')
+  return decideRepeat({ soundMs: current.soundMs, ...final, partialText }, word)
 }
 
 function release(session: Session) {
   if (session.frame !== null) cancelAnimationFrame(session.frame)
   if (session.timer !== null) clearTimeout(session.timer)
   if (session.resultWaiter !== null) {
-    clearTimeout(session.resultWaiter.timer)
-    session.resultWaiter.resolve()
+    session.resultWaiter.cancel()
     session.resultWaiter = null
   }
   session.azureController?.abort()
@@ -111,7 +112,7 @@ function release(session: Session) {
 }
 
 /** 按家长设置选择在线音素评估或本地词级识别；在线结果只在本次反馈中展示。 */
-export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, candidates, showZh, engine = 'azure', onBeforeStart, onSuccess, onFailure, buttonText }, ref) {
+export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(function InlineWordRepeat({ word, candidates, showZh, engine = 'azure', practiceKind = 'word', disabled = false, hideIdleNotice = false, onBeforeStart, onSuccess, onFailure, buttonText }, ref) {
   const session = useRef<Session | null>(null)
   const [state, setState] = useState<State>('idle')
   const [error, setError] = useState('')
@@ -119,7 +120,11 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
   const [successMessage, setSuccessMessage] = useState(0)
   const [notice, setNotice] = useState('')
   const [assessment, setAssessment] = useState<AzurePronunciationResult | null>(null)
-  const statusId = 'word-repeat-status'
+  const statusId = useId()
+  const sentencePractice = practiceKind === 'sentence'
+  // Children need time to pause between words in a short spoken answer.
+  const silenceMs = sentencePractice ? 1400 : 850
+  const maxCaptureMs = sentencePractice ? 9000 : 5000
 
   const dispose = useCallback(() => {
     const current = session.current
@@ -155,14 +160,12 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       // 短单词需要清晰的语音边界；补静音只送入模型内存，不保存孩子的声音。
       // 音频块可能需要几秒；先安装 waiter，再发结束消息，避免结果刚好
       // 回来时 waiter 还没有挂上而只能等超时。
-      await new Promise<void>((resolve) => {
-        current.resultWaiter = {
-          resolve,
-          timer: setTimeout(resolve, 3200),
-        }
-        current.recognizer?.acceptWaveformFloat(new Float32Array(Math.floor(current.sampleRate * 0.35)), current.sampleRate)
-        current.recognizer?.retrieveFinalResult()
-      })
+      const waiter = createVoskResultWaiter(sentencePractice)
+      current.resultWaiter = waiter
+      current.recognizer.acceptWaveformFloat(new Float32Array(Math.floor(current.sampleRate * 0.35)), current.sampleRate)
+      current.recognizer.retrieveFinalResult()
+      await waiter.done
+      if (current.resultWaiter === waiter) current.resultWaiter = null
     }
     if (session.current !== current) return
     let decision = decideRepeat({ soundMs: current.soundMs, finalText: current.finalText, finalWords: current.finalWords, partialText: current.partialText }, word)
@@ -193,7 +196,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
         setAssessment(null)
         // 在线代理未配置、没有网络或请求超时，都保留原有的本地 Vosk 体验。
         try {
-          decision = await recognizePcmWithVosk(current, word, candidates)
+          decision = await recognizePcmWithVosk(current, word, candidates, sentencePractice)
           if (session.current !== current) return
           setNotice(showZh ? '在线评估暂不可用，已用本地模式判断。' : 'Online assessment is unavailable, so local mode was used.')
         } catch {
@@ -216,7 +219,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
   }
 
   const start = async () => {
-    if (session.current) return
+    if (disabled || session.current) return
     onBeforeStart()
     setAssessment(null)
     setError('')
@@ -268,26 +271,22 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       current.source.connect(node)
       current.sampleRate = 16000
       if (model) {
-        const vocabulary = [...new Set([word.trim().toLowerCase(), ...(candidates ?? []).map((candidate) => candidate.trim().toLowerCase()).filter(Boolean), '[unk]'])]
+        const vocabulary = voskVocabulary(word, candidates)
         current.recognizer = new model.KaldiRecognizer(16000, JSON.stringify(vocabulary))
         current.recognizer.setWords(true)
         current.recognizer.acceptWaveformFloat(new Float32Array(Math.floor(16000 * 0.35)), 16000)
         current.recognizer.on('result', (message) => {
+          if (session.current !== current) return
           const text = message.result?.text?.trim() ?? ''
-          if (text) {
-            current.finalText = text
-            current.finalWords = (message.result?.result ?? []).map((item) => ({ word: item.word, conf: item.conf }))
-          }
-          // Ignore empty endpoint results while flushing.
-          if (text && current.finishing && current.resultWaiter) {
-            clearTimeout(current.resultWaiter.timer)
-            current.resultWaiter.resolve()
-            current.resultWaiter = null
-          }
+          const words = (message.result?.result ?? []).map((item) => ({ word: item.word, conf: item.conf }))
+          Object.assign(current, mergeVoskFinal(current, text, words, sentencePractice))
+          current.resultWaiter?.onFinalResult(Boolean(text))
         })
         current.recognizer.on('partialresult', (message) => {
+          if (session.current !== current) return
           const text = message.result?.partial ?? ''
           if (text) current.partialText = text
+          current.resultWaiter?.onPartialResult()
         })
       }
       current.processor = current.audio.createScriptProcessor(4096, 1, 1)
@@ -331,11 +330,11 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
           setLevel(Math.min(100, Math.round(rms * 1200)))
           lastDisplay = now
         }
-        if (current.soundMs >= 120 && now - lastSound >= 850) { void finish(current); return }
+        if (current.soundMs >= 120 && now - lastSound >= silenceMs) { void finish(current); return }
         current.frame = requestAnimationFrame(monitor)
       }
       setState('listening')
-      current.timer = setTimeout(() => { void finish(current) }, 5000)
+      current.timer = setTimeout(() => { void finish(current) }, maxCaptureMs)
       current.frame = requestAnimationFrame(monitor)
     } catch (cause) {
       if (session.current !== current) return
@@ -352,13 +351,15 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
 
   const listening = state === 'listening'
   const text = (zh: string, en: string) => showZh ? zh : en
+  const targetLabel = sentencePractice ? text('这句回答', 'the answer') : text('目标单词', 'the target word')
+  const unrecognizedLabel = sentencePractice ? text('未识别这句回答', 'Answer not recognized') : text('未识别目标词', 'Target word not recognized')
   const message = state === 'requesting' ? text('正在打开麦克风…首次使用请允许权限。', 'Opening the microphone… please allow access on first use.')
     : listening ? text('正在听，说完会自动结束。', 'Listening. This will finish automatically.')
-      : state === 'recognizing' ? text(engine === 'azure' ? '正在在线判断发音…' : '正在判断这个单词…', engine === 'azure' ? 'Checking pronunciation online…' : 'Checking the word…')
+      : state === 'recognizing' ? text(engine === 'azure' ? '正在在线判断发音…' : sentencePractice ? '正在判断这句话…' : '正在判断这个单词…', engine === 'azure' ? 'Checking pronunciation online…' : sentencePractice ? 'Checking the sentence…' : 'Checking the word…')
       : state === 'matched' ? text(SUCCESS_MESSAGES[successMessage].zh, SUCCESS_MESSAGES[successMessage].en)
           : state === 'matched-soft' ? text('听到了！再清楚一点就更棒啦！', 'I heard it! A little clearer would be even better!')
-          : state === 'unmatched' ? text('这次没有识别到目标单词，再试一次。', 'The target word was not recognized. Try again.')
-          : state === 'error' ? error : engine === 'azure'
+          : state === 'unmatched' ? text(`这次没有识别到${targetLabel}，再试一次。`, sentencePractice ? 'The answer was not recognized. Try again.' : 'The target word was not recognized. Try again.')
+          : state === 'error' ? error : hideIdleNotice && state === 'idle' ? '' : engine === 'azure'
             ? text('默认使用在线发音评估；网络不可用时会自动切到本地模式。', 'Online pronunciation assessment is on by default; local mode is used when it is unavailable.')
             : text('首次跟读会加载约 39MB 的本机模型，之后可离线使用。', 'The first repeat loads a ~39MB local model; later repeats work offline.')
   const scoreValue = (value: number | undefined) => value === undefined ? null : Number.isInteger(value) ? value.toString() : value.toFixed(1)
@@ -370,17 +371,17 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
   const scoreTitle = text('本次在线评分', 'Online score')
 
   return <>
-    <button type="button" className={`btn btn--soft ${listening ? 'btn--listening' : ''}`} disabled={state === 'loading' || state === 'requesting' || state === 'recognizing'}
+    <button type="button" className={`btn btn--soft ${listening ? 'btn--listening' : ''}`} disabled={disabled || state === 'loading' || state === 'requesting' || state === 'recognizing'}
       aria-describedby={statusId} onClick={listening ? () => { if (session.current) void finish(session.current) } : start}>
       <span className="emoji" aria-hidden="true">{listening ? '■' : '🎙️'}</span>
-      <span>{state === 'loading' ? text('正在加载模型…', 'Loading model…') : state === 'requesting' ? text('正在打开…', 'Opening…') : state === 'recognizing' ? text('正在判断…', 'Checking…') : listening ? text('正在听…', 'Listening…') : (buttonText ?? text('跟读这个词', 'Repeat this word'))}</span>
+      <span>{state === 'loading' ? text('正在加载模型…', 'Loading model…') : state === 'requesting' ? text('正在打开…', 'Opening…') : state === 'recognizing' ? text('正在判断…', 'Checking…') : listening ? sentencePractice ? text('结束并判断', 'Finish & check') : text('正在听…', 'Listening…') : (buttonText ?? (sentencePractice ? text('跟读这句话', 'Repeat this sentence') : text('跟读这个词', 'Repeat this word')))}</span>
     </button>
     <div className="learn__repeat-status" id={statusId} role="status">
       {listening && <span className="learn__repeat-level" aria-hidden="true"><span style={{ width: `${level}%` }} /></span>}
       {state === 'matched' && <span className="learn__repeat-celebration" aria-hidden="true">{SUCCESS_MESSAGES[successMessage].emoji}</span>}
       {notice && <span>{notice} </span>}{message}
-      {scoreAssessment && <div className="learn__repeat-score" aria-label={scoreAssessment.recognized ? scoreTitle : text('未识别目标词', 'Target word not recognized')}>
-        <strong>{scoreAssessment.recognized ? scoreTitle : text('未识别目标词', 'Target word not recognized')}</strong>
+      {scoreAssessment && <div className="learn__repeat-score" aria-label={scoreAssessment.recognized ? scoreTitle : unrecognizedLabel}>
+        <strong>{scoreAssessment.recognized ? scoreTitle : unrecognizedLabel}</strong>
         {scoreAssessment.recognized && scoreAssessment.pronunciationScore !== undefined && <span>{text('综合', 'Overall')} <b>{scoreLabel(scoreAssessment.pronunciationScore)}</b></span>}
         {scoreAssessment.recognized && scoreAssessment.accuracyScore !== undefined && <span>{text('准确度', 'Accuracy')} <b>{scoreLabel(scoreAssessment.accuracyScore)}</b></span>}
         {scoreAssessment.recognized && scoreAssessment.fluencyScore !== undefined && <span>{text('流畅度', 'Fluency')} <b>{scoreLabel(scoreAssessment.fluencyScore)}</b></span>}

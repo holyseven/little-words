@@ -36,6 +36,9 @@
   --tint-weather:  #DCEAF0;
   --tint-body:     #F3E2DA;
   --tint-food:     #F5EBD3;
+  --tint-family:   #F2DFDD;
+  --tint-classroom: #DCE9E5;
+  --tint-school-things: #E8E0EF;
 
   /* ---- Mascot 配色（引用强调色，夜间自动随之变暗） ---- */
   --momo-body:   var(--peach);
@@ -103,6 +106,9 @@
   --tint-weather:  #3B474C;
   --tint-body:     #4A403C;
   --tint-food:     #4B453A;
+  --tint-family:   #4C3F40;
+  --tint-classroom: #3B4944;
+  --tint-school-things: #443E4C;
 
   /* 夜间的卡通身体单独提亮一点，否则贴在深背景上会糊掉 */
   --momo-body: #D9976B;
@@ -142,6 +148,9 @@
     --tint-weather:  #3B474C;
     --tint-body:     #4A403C;
     --tint-food:     #4B453A;
+  --tint-family:   #4C3F40;
+  --tint-classroom: #3B4944;
+  --tint-school-things: #443E4C;
 
     --momo-body: #D9976B;
     --momo-face: #F1E8D8;

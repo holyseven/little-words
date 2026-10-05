@@ -1,20 +1,20 @@
 /**
- * 首页：关卡地图（SPEC 7.1）
+ * 首页：课本和主题单词卡片（SPEC 7.1）
  *
- * 八个主题站点 + 奖励、今日任务与家长门入口。
+ * 课本主题和更多主题分区展示，共用卡片样式与进度。
  */
 
 import { useEffect, useRef, useState } from 'react'
 
 import './Home.css'
 import { themes } from '../content'
+import type { Theme } from '../content/types'
 import { navigate } from '../router'
 import { useApp } from '../store/AppContext'
 import { getThemeProgress } from '../store/progress'
 import { stationState } from '../logic/rewards'
 import { StarCounter } from '../components/StarCounter'
 import { BigButton } from '../components/BigButton'
-import { Badge } from '../components/Badge'
 import { Mascot, type MascotHandle } from '../components/Mascot/Mascot'
 import { useSfx } from '../hooks/useSfx'
 import { useAudioUnlocked } from '../hooks/useAudioUnlocked'
@@ -22,51 +22,10 @@ import { pickPhrase } from '../content/phrases'
 import { ParentGate } from '../components/ParentGate'
 import './Daily.css'
 import { CourseHome } from './Course'
+import { courseWordGardens } from '../content/courseWordGardens'
 
-/** 站点在地图上的位置：x 为 0–100 的横向百分比，y 为像素 */
-const STATION_POS = [
-  { x: 28, y: 92 },
-  { x: 68, y: 232 },
-  { x: 30, y: 372 },
-  { x: 70, y: 512 },
-  { x: 32, y: 652 },
-  { x: 68, y: 792 },
-  { x: 30, y: 932 },
-  { x: 62, y: 1072 },
-] as const
-
-const TOTAL_STATIONS = STATION_POS.length
-
-/**
- * 地图画布高度 = 最后一个站点 + 站点自身下半部分和文字 + 底部留白。
- * 留白保证最后一个站点不会被右下角的角色压住。
- */
-const MAP_HEIGHT = STATION_POS[TOTAL_STATIONS - 1]!.y + 260
-
-/** 用 Catmull-Rom 转三次贝塞尔，画一条经过所有站点的平滑弯路 */
-function smoothPath(points: readonly { x: number; y: number }[]): string {
-  if (points.length < 2) return ''
-
-  let d = `M ${points[0]!.x} ${points[0]!.y}`
-
-  for (let i = 0; i < points.length - 1; i++) {
-    const p0 = points[i - 1] ?? points[i]!
-    const p1 = points[i]!
-    const p2 = points[i + 1]!
-    const p3 = points[i + 2] ?? p2
-
-    const c1x = p1.x + (p2.x - p0.x) / 6
-    const c1y = p1.y + (p2.y - p0.y) / 6
-    const c2x = p2.x - (p3.x - p1.x) / 6
-    const c2y = p2.y - (p3.y - p1.y) / 6
-
-    d += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)}, ${c2x.toFixed(2)} ${c2y.toFixed(2)}, ${p2.x} ${p2.y}`
-  }
-
-  return d
-}
-
-const PATH_D = smoothPath(STATION_POS)
+const textbookThemeIds = new Set(courseWordGardens.map(({ theme }) => theme.id))
+const extraThemes = themes.filter((theme) => !textbookThemeIds.has(theme.id))
 
 export function Home() {
   const [section, setSection] = useState<'course' | 'words'>(() => {
@@ -104,6 +63,53 @@ export function Home() {
     mascot.current?.sayRandom('wrong', 'encourage')
   }
 
+  const dialogueEntry = (
+    <button className="home-dialogues" onClick={() => { sfx.tap(); navigate('/dialogues') }}>
+      <span className="emoji" aria-hidden="true">💬</span>
+      <span>
+        <strong>{settings.showZh ? '开口小对话' : 'Little conversations'}</strong>
+        <small>{settings.showZh ? '和 Momo 打招呼、聊家人、说文具' : 'Say hello and talk about family and school things with Momo.'}</small>
+      </span>
+      <span className="home-dialogues__arrow" aria-hidden="true">→</span>
+    </button>
+  )
+
+  const themeCard = (theme: Theme, unitNumber?: number) => {
+    const tp = getThemeProgress(progress, theme.id)
+    const learned = theme.words.filter((word) => tp.learned.includes(word.id)).length
+    // 课本主题始终可进入；更多主题沿用原始顺序的解锁进度。
+    const state = unitNumber !== undefined
+      ? (progress.badges.includes(theme.id) ? 'completed' : 'available')
+      : stationState(themes, themes.indexOf(theme), progress, settings.unlockAll)
+    const progressLabel = settings.showZh
+      ? `已学 ${learned}/${theme.words.length}`
+      : `${learned}/${theme.words.length} learned`
+    const previousTheme = themes[themes.indexOf(theme) - 1]
+    const statusLabel = state === 'completed'
+      ? (settings.showZh ? '已完成' : 'Complete')
+      : state === 'locked' ? (settings.showZh ? `完成${previousTheme?.zh ?? '上一主题'}后解锁` : `Complete ${previousTheme?.title ?? 'the previous theme'}`) : ''
+
+    return (
+      <button
+        key={theme.id}
+        className={`word-gardens__card word-gardens__card--${state}`}
+        style={{ ['--garden-tint' as string]: `var(${theme.tint})` }}
+        onClick={() => state === 'locked' ? tapLocked() : openTheme(theme.id)}
+        aria-disabled={state === 'locked' || undefined}
+        aria-label={`${theme.title}${settings.showZh ? ` ${theme.zh}` : ''}, ${progressLabel}${statusLabel ? `, ${statusLabel}` : ''}`}
+      >
+        <span className="emoji" aria-hidden="true">{theme.emoji}</span>
+        <span className="word-gardens__card-text">
+          {unitNumber !== undefined && <small>Unit {unitNumber}</small>}
+          <strong>{theme.title}</strong>
+          {settings.showZh && <span>{theme.zh}</span>}
+          <small>{progressLabel}</small>
+          {statusLabel && <small className="word-gardens__status">{state === 'completed' ? '✓' : '🔒'} {statusLabel}</small>}
+        </span>
+      </button>
+    )
+  }
+
   return (
     <main className="page page-enter home">
       <header className="home__top">
@@ -136,77 +142,30 @@ export function Home() {
         <button className="btn course-tabs__games" onClick={() => { sfx.tap(); navigate('/games') }} aria-label={settings.showZh ? '游戏乐园' : 'Game park'}>{settings.showZh ? '🎡 游戏乐园' : '🎡 Game park'}</button>
       </div>
 
-      {section === 'course' ? <div className="home__course-scroll"><CourseHome /></div> : <div className="map">
-        <div className="map__inner" style={{ height: MAP_HEIGHT }}>
-          <svg
-            className="map__path"
-            viewBox={`0 0 100 ${MAP_HEIGHT}`}
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path
-              d={PATH_D}
-              fill="none"
-              stroke="var(--border)"
-              strokeWidth={10}
-              strokeLinecap="round"
-              strokeDasharray="1 22"
-              /* 关键：路径被非等比拉伸，非缩放描边才不会变形 */
-              vectorEffect="non-scaling-stroke"
-            />
-          </svg>
-
-          {themes.map((theme, i) => {
-            const pos = STATION_POS[i]
-            if (!pos) return null
-
-            const style = { left: `${pos.x}%`, top: `${pos.y}px` }
-            const tp = getThemeProgress(progress, theme.id)
-            const state = stationState(themes, i, progress, settings.unlockAll)
-
-            const label =
-              state === 'locked'
-                ? `${theme.title} ${theme.zh}，先完成上一关才能打开`
-                : `${theme.title} ${theme.zh}，已学 ${tp.learned.length} / ${theme.words.length} 个单词`
-
-            return (
-              <button
-                key={theme.id}
-                className={`station station--${state}`}
-                style={{ ...style, ['--station-tint' as string]: `var(${theme.tint})` }}
-                onClick={() => (state === 'locked' ? tapLocked() : openTheme(theme.id))}
-                aria-label={label}
-              >
-                <span className="station__disc">
-                  {state === 'locked' ? (
-                    <span className="emoji" aria-hidden="true">
-                      🔒
-                    </span>
-                  ) : (
-                    <span className="emoji" aria-hidden="true">
-                      {theme.emoji}
-                    </span>
-                  )}
-                  {state === 'completed' && (
-                    <span className="station__badge">
-                      <Badge theme={theme} />
-                    </span>
-                  )}
-                </span>
-                <span className="station__label">
-                  {theme.title}
-                  {settings.showZh && <span className="station__label-zh">{theme.zh}</span>}
-                </span>
-                {state !== 'locked' && (
-                  <span className="station__stars">
-                    {tp.learned.length}/{theme.words.length}
-                  </span>
-                )}
-              </button>
-            )
-          })}
+      {section === 'course' ? (
+        <div className="home__course-scroll">
+          {dialogueEntry}
+          <CourseHome />
         </div>
-      </div>}
+      ) : (
+        <div className="home__words-scroll">
+          {dialogueEntry}
+          <section className="word-gardens" aria-labelledby="textbook-gardens-title">
+            <h2 id="textbook-gardens-title">{settings.showZh ? '跟课本一起学' : 'Learn with your textbook'}</h2>
+            <p>{settings.showZh ? '选一个主题，听单词、跟读、玩游戏。' : 'Pick a theme to listen, speak and play.'}</p>
+            <div className="word-gardens__grid">
+              {courseWordGardens.map(({ unit, theme }) => themeCard(theme, unit.number))}
+            </div>
+          </section>
+          <section className="word-gardens" aria-labelledby="extra-gardens-title">
+            <h2 id="extra-gardens-title">{settings.showZh ? '更多主题' : 'More themes'}</h2>
+            <p>{settings.showZh ? '认识更多身边的英语单词。' : 'Discover more words from your world.'}</p>
+            <div className="word-gardens__grid">
+              {extraThemes.map((theme) => themeCard(theme))}
+            </div>
+          </section>
+        </div>
+      )}
 
       <div className="home__mascot">
         <Mascot

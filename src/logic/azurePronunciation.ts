@@ -6,6 +6,8 @@
  * 请求失败时调用方会回退到 Vosk。本文件只保存本次练习的 PCM，不创建录音文件。
  */
 
+import { speechMatchRanges, speechWords } from './speechTokens'
+
 export interface AzurePhonemeScore {
   phoneme: string
   accuracyScore?: number
@@ -49,10 +51,6 @@ function directAzureUrl(): string | null {
     ? '/stt/speech/recognition/conversation/cognitiveservices/v1'
     : '/speech/recognition/conversation/cognitiveservices/v1'
   return `${endpoint}${path}?language=en-US&format=detailed`
-}
-
-function normalizedTokens(value: string): string[] {
-  return value.trim().toLowerCase().replace(/[^a-z']+/g, ' ').trim().split(' ').filter(Boolean)
 }
 
 function pcmToWav(samples: Float32Array, sampleRate: number): ArrayBuffer {
@@ -125,19 +123,14 @@ export function parseAzurePronunciation(payload: unknown, expected: string): Azu
     : typeof best?.Lexical === 'string'
       ? best.Lexical
       : typeof root?.DisplayText === 'string' ? root.DisplayText : ''
-  const expectedTokens = normalizedTokens(expected)
-  const words = list(best?.Words).map(record).filter((item): item is JsonRecord => item !== undefined)
-  const wordTokens = words.map((item) => normalizedTokens(typeof item.Word === 'string' ? item.Word : ''))
-  let matchedWords: JsonRecord[] | undefined
-  if (expectedTokens.length > 0) {
-    for (let start = 0; start <= wordTokens.length - expectedTokens.length; start += 1) {
-      const candidate = wordTokens.slice(start, start + expectedTokens.length)
-      if (candidate.length === expectedTokens.length && candidate.every((tokens, index) => tokens.length === 1 && tokens[0] === expectedTokens[index])) {
-        matchedWords = words.slice(start, start + expectedTokens.length)
-        break
-      }
-    }
-  }
+  const words = list(best?.Words).map((item) => record(item) ?? {})
+  const range = speechMatchRanges(words.map((item) => {
+    const value = typeof item.Word === 'string' ? item.Word : ''
+    // Each Azure entry must own an actual word score. `schoolbag` is one word
+    // even when normalized to two tokens; an arbitrary whole phrase is not.
+    return speechWords(value).length === 1 ? value : ''
+  }), expected)[0]
+  const matchedWords = range ? words.slice(range.start, range.end) : undefined
 
   const statusOk = root !== undefined && recognitionSucceeded(root)
   const aligned = statusOk && matchedWords !== undefined

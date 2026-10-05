@@ -6,6 +6,9 @@
  * 新增 SVG 类型时，这里和 WordArt.tsx 的 renderSvg 要一起改。
  */
 
+export const schoolSvgIds = new Set(['classroom', 'desk', 'chair', 'blackboard', 'door', 'window', 'teacher', 'school', 'eraser', 'ruler', 'pencil-case', 'schoolbag', 'crayon', 'pencil', 'pen', 'book'])
+export const familySvgIds = new Set(['family', 'family-mum', 'family-dad', 'family-grandma', 'family-grandpa', 'family-brother', 'family-sister', 'family-baby'])
+
 export function hasSvgImpl(svgId: string): boolean {
-  return svgId.startsWith('color-') || svgId.startsWith('num-') || svgId === 'hair'
+  return svgId.startsWith('color-') || svgId.startsWith('num-') || svgId === 'hair' || schoolSvgIds.has(svgId) || familySvgIds.has(svgId)
 }

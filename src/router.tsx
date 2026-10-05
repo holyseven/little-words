@@ -12,6 +12,8 @@ import { isParkGameId, type ParkGameId } from './content/games'
 
 export type Route =
   | { name: 'home' }
+  | { name: 'dialogues' }
+  | { name: 'dialogue'; sceneId: string; from?: 'course' | 'theme' }
   | { name: 'games'; game?: ParkGameId }
   | { name: 'theme'; themeId: string }
   | { name: 'learn'; themeId: string; wordId?: string }
@@ -36,6 +38,14 @@ export function parseRoute(path: string): Route {
   const parts = path.split('?')[0]!.split('/').filter(Boolean)
 
   if (parts.length === 0) return { name: 'home' }
+  if (parts[0] === 'dialogues') {
+    if (parts.length === 1) return { name: 'dialogues' }
+    if (parts.length === 2) {
+      const from = new URLSearchParams(path.split('?')[1]).get('from')
+      return { name: 'dialogue', sceneId: parts[1], ...(from === 'course' || from === 'theme' ? { from } : {}) }
+    }
+    return { name: 'notfound', path }
+  }
   if (parts[0] === 'games' && parts.length === 1) {
     const game = new URLSearchParams(path.split('?')[1]).get('game')
     return isParkGameId(game) ? { name: 'games', game } : { name: 'games' }

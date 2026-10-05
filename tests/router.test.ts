@@ -11,6 +11,14 @@ describe('parseRoute', () => {
     expect(parseRoute('/theme/animals')).toEqual({ name: 'theme', themeId: 'animals' })
   })
 
+  it('小对话入口、单场练习及返回来源', () => {
+    expect(parseRoute('/dialogues')).toEqual({ name: 'dialogues' })
+    expect(parseRoute('/dialogues/family?from=course')).toEqual({ name: 'dialogue', sceneId: 'family', from: 'course' })
+    expect(parseRoute('/dialogues/colors?from=theme')).toEqual({ name: 'dialogue', sceneId: 'colors', from: 'theme' })
+    expect(parseRoute('/dialogues/hello?from=unknown')).toEqual({ name: 'dialogue', sceneId: 'hello' })
+    expect(parseRoute('/dialogues/hello/extra').name).toBe('notfound')
+  })
+
   it('单词卡页', () => {
     expect(parseRoute('/theme/animals/learn')).toEqual({ name: 'learn', themeId: 'animals' })
   })

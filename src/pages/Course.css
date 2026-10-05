@@ -76,3 +76,6 @@
  .repeat-step > .btn { width: 100%; }
 }
 @media (max-height: 520px) { .course-video { max-height: 50dvh; } .course-home { padding-bottom: 140px; } }
+.course-word-garden { padding: 18px; background: var(--bg-soft); border: 2px solid var(--border); border-radius: 24px; }
+.course-word-garden__actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+.course-word-garden__actions .btn { flex: 1 1 200px; }

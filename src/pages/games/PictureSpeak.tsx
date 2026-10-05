@@ -18,6 +18,7 @@ import { useAudioUnlocked } from '../../hooks/useAudioUnlocked'
 import { useSfx } from '../../hooks/useSfx'
 import { useVoice } from '../../hooks/useVoice'
 import { NotFound } from '../NotFound'
+import { shuffle } from '../../logic/pickWords'
 
 interface Props { themeId: string; backTo?: string }
 type Outcome = 'waiting' | 'correct'
@@ -33,8 +34,9 @@ export function PictureSpeak({ themeId, backTo }: Props) {
   const repeat = useRef<InlineWordRepeatHandle>(null)
   const [index, setIndex] = useState(0)
   const [outcome, setOutcome] = useState<Outcome>('waiting')
+  const [round, setRound] = useState(0)
 
-  const words = useMemo(() => theme?.words.slice(0, Math.min(ROUND_SIZE, theme.words.length)) ?? [], [theme])
+  const words = useMemo(() => theme ? shuffle(theme.words).slice(0, ROUND_SIZE) : [], [theme, round])
   const word = words[index]
 
   useEffect(() => () => { repeat.current?.cancel(); stop(); clearConfetti() }, [stop])
@@ -77,7 +79,7 @@ export function PictureSpeak({ themeId, backTo }: Props) {
           <h1>{settings.showZh ? '完成啦！' : 'You did it!'}</h1>
           <p>{settings.showZh ? `你练习了 ${words.length} 个单词` : `You practiced ${words.length} words`}</p>
           <div className="game__actions">
-            <BigButton icon="🔁" onClick={() => { setIndex(0); setOutcome('waiting') }}>{settings.showZh ? '再来一次' : 'Play again'}</BigButton>
+            <BigButton icon="🔁" onClick={() => { setIndex(0); setOutcome('waiting'); setRound((value) => value + 1) }}>{settings.showZh ? '再来一次' : 'Play again'}</BigButton>
             <BigButton variant="primary" icon="🏠" onClick={() => navigate(backTo ?? `/theme/${theme.id}`)}>{backTo ? (settings.showZh ? '回游戏乐园' : 'Back to game park') : (settings.showZh ? '回主题' : 'Back to theme')}</BigButton>
           </div>
         </div>

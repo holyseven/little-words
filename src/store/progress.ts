@@ -32,7 +32,7 @@ export interface CurriculumProgress { lastAssetId?: string; media: Record<string
 export interface ThemeProgress {
   /** 已标记 I know it 的词 id */
   learned: string[]
-  /** listen：8 题计分数；memory：完整配完的对数（6/8）；bubble：10 题首次点对数。 */
+  /** listen：8 题计分数；memory：完整配完的对数（6/8）；bubble：最多 10 题首次点对数。 */
   best: { listen?: number; memory?: number; bubble?: number }
   completed: boolean
 }

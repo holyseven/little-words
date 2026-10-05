@@ -202,6 +202,86 @@
       "text": "Her hair is long.",
       "durationMs": 870
     },
+    "w/classroom": {
+      "hash": "6deb4d4f4577",
+      "text": "classroom",
+      "durationMs": 702
+    },
+    "s/classroom": {
+      "hash": "ed4141823e9d",
+      "text": "This is our classroom.",
+      "durationMs": 1128
+    },
+    "w/door": {
+      "hash": "6f77c5069466",
+      "text": "door",
+      "durationMs": 464
+    },
+    "s/door": {
+      "hash": "bfc1b7e97782",
+      "text": "Please close the door.",
+      "durationMs": 1206
+    },
+    "w/window": {
+      "hash": "be42e7fcd9d8",
+      "text": "window",
+      "durationMs": 550
+    },
+    "s/window": {
+      "hash": "7b762effbb29",
+      "text": "Please open the window.",
+      "durationMs": 1096
+    },
+    "w/desk": {
+      "hash": "dac6620bd121",
+      "text": "desk",
+      "durationMs": 343
+    },
+    "s/desk": {
+      "hash": "79d92c9c86af",
+      "text": "I sit at my desk.",
+      "durationMs": 1055
+    },
+    "w/chair": {
+      "hash": "c9aaeddb3c4a",
+      "text": "chair",
+      "durationMs": 481
+    },
+    "s/chair": {
+      "hash": "b538daf3c714",
+      "text": "Sit on your chair, please.",
+      "durationMs": 1551
+    },
+    "w/blackboard": {
+      "hash": "31725811f589",
+      "text": "blackboard",
+      "durationMs": 821
+    },
+    "s/blackboard": {
+      "hash": "d4b7a57599e5",
+      "text": "Look at the blackboard.",
+      "durationMs": 1138
+    },
+    "w/teacher": {
+      "hash": "0f85ab572cfd",
+      "text": "teacher",
+      "durationMs": 533
+    },
+    "s/teacher": {
+      "hash": "d579e3cfd54d",
+      "text": "Our teacher reads with us.",
+      "durationMs": 1209
+    },
+    "w/school": {
+      "hash": "d1d39dbd65fa",
+      "text": "school",
+      "durationMs": 622
+    },
+    "s/school": {
+      "hash": "ec989e41ceb1",
+      "text": "I walk to school.",
+      "durationMs": 914
+    },
     "w/color-red": {
       "hash": "8b44899d51c8",
       "text": "red",
@@ -301,6 +381,86 @@
       "hash": "74135e16a07d",
       "text": "The snow is white.",
       "durationMs": 934
+    },
+    "w/mum": {
+      "hash": "b39ad2619e9f",
+      "text": "mum",
+      "durationMs": 290
+    },
+    "s/mum": {
+      "hash": "9a3c27881424",
+      "text": "This is my mum.",
+      "durationMs": 863
+    },
+    "w/dad": {
+      "hash": "e797cb36a101",
+      "text": "dad",
+      "durationMs": 405
+    },
+    "s/dad": {
+      "hash": "258dcff6156d",
+      "text": "I love my dad.",
+      "durationMs": 789
+    },
+    "w/grandma": {
+      "hash": "d2f601045f7d",
+      "text": "grandma",
+      "durationMs": 679
+    },
+    "s/grandma": {
+      "hash": "033124018a02",
+      "text": "My grandma gives me hugs.",
+      "durationMs": 1474
+    },
+    "w/grandpa": {
+      "hash": "828c33d59771",
+      "text": "grandpa",
+      "durationMs": 781
+    },
+    "s/grandpa": {
+      "hash": "70858c80b9ef",
+      "text": "My grandpa reads with me.",
+      "durationMs": 1392
+    },
+    "w/sister": {
+      "hash": "1fc97e7d9894",
+      "text": "sister",
+      "durationMs": 563
+    },
+    "s/sister": {
+      "hash": "412b84600a47",
+      "text": "My sister likes to dance.",
+      "durationMs": 1504
+    },
+    "w/brother": {
+      "hash": "755bf060c5df",
+      "text": "brother",
+      "durationMs": 462
+    },
+    "s/brother": {
+      "hash": "0b07daee9e51",
+      "text": "My brother plays with me.",
+      "durationMs": 1256
+    },
+    "w/family": {
+      "hash": "484cd17dcc81",
+      "text": "family",
+      "durationMs": 701
+    },
+    "s/family": {
+      "hash": "f3abed6839df",
+      "text": "I love my family.",
+      "durationMs": 1038
+    },
+    "w/baby": {
+      "hash": "95813e6344ad",
+      "text": "baby",
+      "durationMs": 579
+    },
+    "s/baby": {
+      "hash": "61d6e343bfbb",
+      "text": "The baby is sleeping.",
+      "durationMs": 1017
     },
     "w/bread": {
       "hash": "731cdd9862a1",
@@ -601,6 +761,86 @@
       "hash": "a3595c14feb1",
       "text": "I can count to ten.",
       "durationMs": 1096
+    },
+    "w/schoolbag": {
+      "hash": "087ccb183ecd",
+      "text": "schoolbag",
+      "durationMs": 658
+    },
+    "s/schoolbag": {
+      "hash": "6353289691c6",
+      "text": "This is my schoolbag.",
+      "durationMs": 1080
+    },
+    "w/pencil-case": {
+      "hash": "b9f833461a6a",
+      "text": "pencil case",
+      "durationMs": 928
+    },
+    "s/pencil-case": {
+      "hash": "b143381228a2",
+      "text": "Open your pencil case, please.",
+      "durationMs": 1885
+    },
+    "w/pencil": {
+      "hash": "6334358161ef",
+      "text": "pencil",
+      "durationMs": 516
+    },
+    "s/pencil": {
+      "hash": "41b746637aa0",
+      "text": "I write with a pencil.",
+      "durationMs": 1052
+    },
+    "w/book": {
+      "hash": "8b517af210d1",
+      "text": "book",
+      "durationMs": 283
+    },
+    "s/book": {
+      "hash": "af5e8e2e272f",
+      "text": "I can read this book.",
+      "durationMs": 1063
+    },
+    "w/ruler": {
+      "hash": "ba54cc382509",
+      "text": "ruler",
+      "durationMs": 494
+    },
+    "s/ruler": {
+      "hash": "53698bcf33bd",
+      "text": "My ruler is very long.",
+      "durationMs": 1310
+    },
+    "w/eraser": {
+      "hash": "3ea1ec660d26",
+      "text": "eraser",
+      "durationMs": 608
+    },
+    "s/eraser": {
+      "hash": "fd513265065a",
+      "text": "This is my eraser.",
+      "durationMs": 1180
+    },
+    "w/pen": {
+      "hash": "3d073a892810",
+      "text": "pen",
+      "durationMs": 351
+    },
+    "s/pen": {
+      "hash": "68caa8b9db2e",
+      "text": "I have a blue pen.",
+      "durationMs": 1007
+    },
+    "w/crayon": {
+      "hash": "70702cea1d49",
+      "text": "crayon",
+      "durationMs": 692
+    },
+    "s/crayon": {
+      "hash": "cffff2917a86",
+      "text": "Draw with a red crayon.",
+      "durationMs": 1448
     },
     "w/car": {
       "hash": "d1eeefbdead7",
@@ -1062,6 +1302,21 @@
       "text": "You finished Food! Amazing!",
       "durationMs": 1852
     },
+    "p/you-finished-family-amazing": {
+      "hash": "594cb96de57f",
+      "text": "You finished Family! Amazing!",
+      "durationMs": 1944
+    },
+    "p/you-finished-my-classroom-amazing": {
+      "hash": "1241a6cd04ca",
+      "text": "You finished My Classroom! Amazing!",
+      "durationMs": 2249
+    },
+    "p/you-finished-school-things-amazing": {
+      "hash": "1b527b8d28db",
+      "text": "You finished School Things! Amazing!",
+      "durationMs": 2262
+    },
     "p/find-the-cat": {
       "hash": "e3b78e6f77b9",
       "text": "Find the cat!",
@@ -1461,6 +1716,371 @@
       "hash": "02ff7f68ba7f",
       "text": "Find a hot day!",
       "durationMs": 914
+    },
+    "p/find-mum": {
+      "hash": "6c25621e63de",
+      "text": "Find Mum!",
+      "durationMs": 591
+    },
+    "p/find-dad": {
+      "hash": "0c1faececdf3",
+      "text": "Find Dad!",
+      "durationMs": 567
+    },
+    "p/find-grandma": {
+      "hash": "d0de10d2c79e",
+      "text": "Find Grandma!",
+      "durationMs": 825
+    },
+    "p/find-grandpa": {
+      "hash": "ea2cd3e1eec9",
+      "text": "Find Grandpa!",
+      "durationMs": 889
+    },
+    "p/find-sister": {
+      "hash": "c33c1da11fc9",
+      "text": "Find Sister!",
+      "durationMs": 781
+    },
+    "p/find-brother": {
+      "hash": "4a886be689e5",
+      "text": "Find Brother!",
+      "durationMs": 694
+    },
+    "p/find-the-family": {
+      "hash": "7f961b134258",
+      "text": "Find the family!",
+      "durationMs": 963
+    },
+    "p/find-the-baby": {
+      "hash": "952569027469",
+      "text": "Find the baby!",
+      "durationMs": 787
+    },
+    "p/find-the-classroom": {
+      "hash": "c443960b73a5",
+      "text": "Find the classroom!",
+      "durationMs": 1046
+    },
+    "p/find-the-door": {
+      "hash": "43a65c238909",
+      "text": "Find the door!",
+      "durationMs": 790
+    },
+    "p/find-the-window": {
+      "hash": "25994da6fe76",
+      "text": "Find the window!",
+      "durationMs": 822
+    },
+    "p/find-the-desk": {
+      "hash": "66c1181d307d",
+      "text": "Find the desk!",
+      "durationMs": 791
+    },
+    "p/find-the-chair": {
+      "hash": "2b9f8bfd10f4",
+      "text": "Find the chair!",
+      "durationMs": 795
+    },
+    "p/find-the-blackboard": {
+      "hash": "1ffb2c45038a",
+      "text": "Find the blackboard!",
+      "durationMs": 1119
+    },
+    "p/find-the-teacher": {
+      "hash": "f2705a329278",
+      "text": "Find the teacher!",
+      "durationMs": 880
+    },
+    "p/find-the-school": {
+      "hash": "7cd5d4fa85ca",
+      "text": "Find the school!",
+      "durationMs": 837
+    },
+    "p/find-the-schoolbag": {
+      "hash": "9cf636fa6255",
+      "text": "Find the schoolbag!",
+      "durationMs": 1053
+    },
+    "p/find-the-pencil-case": {
+      "hash": "9383a3af27e4",
+      "text": "Find the pencil case!",
+      "durationMs": 1303
+    },
+    "p/find-the-pencil": {
+      "hash": "669e6a0288a4",
+      "text": "Find the pencil!",
+      "durationMs": 909
+    },
+    "p/find-the-book": {
+      "hash": "5718024de213",
+      "text": "Find the book!",
+      "durationMs": 832
+    },
+    "p/find-the-ruler": {
+      "hash": "c9f70a72686d",
+      "text": "Find the ruler!",
+      "durationMs": 852
+    },
+    "p/find-the-eraser": {
+      "hash": "4e52ea2a58d8",
+      "text": "Find the eraser!",
+      "durationMs": 901
+    },
+    "p/find-the-pen": {
+      "hash": "6ecde22a267e",
+      "text": "Find the pen!",
+      "durationMs": 811
+    },
+    "p/find-the-crayon": {
+      "hash": "fdbb152c240f",
+      "text": "Find the crayon!",
+      "durationMs": 1069
+    },
+    "p/hello": {
+      "hash": "c468af6b65ed",
+      "text": "Hello!",
+      "durationMs": 493
+    },
+    "p/hello-my-friend": {
+      "hash": "facd903d3d4c",
+      "text": "Hello, my friend!",
+      "durationMs": 1396
+    },
+    "p/how-are-you": {
+      "hash": "6bc5fa721cee",
+      "text": "How are you?",
+      "durationMs": 614
+    },
+    "p/i-am-happy": {
+      "hash": "1eddf2bbc20e",
+      "text": "I am happy.",
+      "durationMs": 625
+    },
+    "p/me-too": {
+      "hash": "10da59fbde05",
+      "text": "Me too!",
+      "durationMs": 495
+    },
+    "p/goodbye": {
+      "hash": "5153b21fc368",
+      "text": "Goodbye!",
+      "durationMs": 494
+    },
+    "p/see-you": {
+      "hash": "121ca6c2f67c",
+      "text": "See you!",
+      "durationMs": 589
+    },
+    "p/how-many-dots": {
+      "hash": "404dc34a496f",
+      "text": "How many dots?",
+      "durationMs": 845
+    },
+    "p/two": {
+      "hash": "a50721a0fd95",
+      "text": "Two.",
+      "durationMs": 345
+    },
+    "p/yes-two-dots": {
+      "hash": "3b22f3c7eedb",
+      "text": "Yes, two dots!",
+      "durationMs": 1385
+    },
+    "p/what-number-is-this": {
+      "hash": "c6bb22363231",
+      "text": "What number is this?",
+      "durationMs": 1082
+    },
+    "p/three": {
+      "hash": "bdce4247603d",
+      "text": "Three.",
+      "durationMs": 427
+    },
+    "p/yes-three": {
+      "hash": "b8f140f2e6b1",
+      "text": "Yes, three!",
+      "durationMs": 1229
+    },
+    "p/can-you-count-to-three": {
+      "hash": "f929906ad2fb",
+      "text": "Can you count to three?",
+      "durationMs": 1064
+    },
+    "p/one-two-three": {
+      "hash": "d66ac9a17d2a",
+      "text": "One, two, three.",
+      "durationMs": 1797
+    },
+    "p/great-counting": {
+      "hash": "48825025f6c9",
+      "text": "Great counting!",
+      "durationMs": 789
+    },
+    "p/who-is-she": {
+      "hash": "5320e821e4e2",
+      "text": "Who is she?",
+      "durationMs": 609
+    },
+    "p/this-is-my-mum": {
+      "hash": "9a3c27881424",
+      "text": "This is my mum.",
+      "durationMs": 863
+    },
+    "p/hello-mum": {
+      "hash": "f74f582ac7c0",
+      "text": "Hello, Mum!",
+      "durationMs": 936
+    },
+    "p/who-is-he": {
+      "hash": "67771e0eaffc",
+      "text": "Who is he?",
+      "durationMs": 513
+    },
+    "p/this-is-my-dad": {
+      "hash": "d792299b84dd",
+      "text": "This is my dad.",
+      "durationMs": 827
+    },
+    "p/hello-dad": {
+      "hash": "6edfb58ea306",
+      "text": "Hello, Dad!",
+      "durationMs": 1062
+    },
+    "p/is-this-your-grandma": {
+      "hash": "ca0c3cd5fb71",
+      "text": "Is this your grandma?",
+      "durationMs": 1131
+    },
+    "p/yes-it-is": {
+      "hash": "7da5b35c4408",
+      "text": "Yes, it is.",
+      "durationMs": 1183
+    },
+    "p/hello-grandma": {
+      "hash": "32cb912102f0",
+      "text": "Hello, Grandma!",
+      "durationMs": 1271
+    },
+    "p/what-is-this": {
+      "hash": "683123bb1081",
+      "text": "What is this?",
+      "durationMs": 699
+    },
+    "p/a-desk": {
+      "hash": "ffeade8356bf",
+      "text": "A desk.",
+      "durationMs": 482
+    },
+    "p/let-s-learn-here": {
+      "hash": "ef75f408ccc8",
+      "text": "Let's learn here!",
+      "durationMs": 1050
+    },
+    "p/is-this-a-chair": {
+      "hash": "5ad79f5a2f14",
+      "text": "Is this a chair?",
+      "durationMs": 826
+    },
+    "p/let-s-sit-down": {
+      "hash": "90a5ea74d162",
+      "text": "Let's sit down.",
+      "durationMs": 836
+    },
+    "p/what-can-you-see": {
+      "hash": "6ed183eb03b0",
+      "text": "What can you see?",
+      "durationMs": 827
+    },
+    "p/a-blackboard": {
+      "hash": "2e9cc1108d82",
+      "text": "A blackboard.",
+      "durationMs": 806
+    },
+    "p/let-s-draw-a-cat": {
+      "hash": "0720d2596489",
+      "text": "Let's draw a cat!",
+      "durationMs": 936
+    },
+    "p/can-i-have-a-pencil": {
+      "hash": "bd64da9502fe",
+      "text": "Can I have a pencil?",
+      "durationMs": 1030
+    },
+    "p/here-you-are": {
+      "hash": "a9107cf8e84e",
+      "text": "Here you are.",
+      "durationMs": 684
+    },
+    "p/thank-you": {
+      "hash": "954d5670dfb4",
+      "text": "Thank you!",
+      "durationMs": 551
+    },
+    "p/is-this-your-book": {
+      "hash": "0969318502df",
+      "text": "Is this your book?",
+      "durationMs": 783
+    },
+    "p/what-is-in-your-bag": {
+      "hash": "7dd990975e72",
+      "text": "What is in your bag?",
+      "durationMs": 866
+    },
+    "p/a-pencil-case": {
+      "hash": "a503aeb4632a",
+      "text": "A pencil case.",
+      "durationMs": 971
+    },
+    "p/let-s-open-it": {
+      "hash": "e50d6e03ac5f",
+      "text": "Let's open it.",
+      "durationMs": 748
+    },
+    "p/what-color-is-it": {
+      "hash": "fa9ed7de8f61",
+      "text": "What color is it?",
+      "durationMs": 892
+    },
+    "p/it-is-red": {
+      "hash": "6632f84e5b8b",
+      "text": "It is red.",
+      "durationMs": 682
+    },
+    "p/yes-red": {
+      "hash": "844f81f62a24",
+      "text": "Yes, red!",
+      "durationMs": 1028
+    },
+    "p/is-it-green": {
+      "hash": "1831179681a6",
+      "text": "Is it green?",
+      "durationMs": 620
+    },
+    "p/no-it-is-blue": {
+      "hash": "d606ff0383a7",
+      "text": "No, it is blue.",
+      "durationMs": 1302
+    },
+    "p/you-re-right": {
+      "hash": "62804d0a9524",
+      "text": "You're right!",
+      "durationMs": 596
+    },
+    "p/what-color-do-you-see": {
+      "hash": "bf26cf0b4b76",
+      "text": "What color do you see?",
+      "durationMs": 1132
+    },
+    "p/yellow": {
+      "hash": "851ed753d49d",
+      "text": "Yellow.",
+      "durationMs": 489
+    },
+    "p/i-like-yellow": {
+      "hash": "c056678e49e7",
+      "text": "I like yellow!",
+      "durationMs": 693
     }
   }
 }

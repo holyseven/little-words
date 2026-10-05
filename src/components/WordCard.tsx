@@ -65,6 +65,7 @@ export function WordCard({
           ⭐
         </span>
       )}
+      {word.extension && <span className="word-card__hint">{showZh ? '🌱 拓展词' : '🌱 Extra word'}</span>}
 
       <button
         className={`word-card__art ${speaking ? 'is-speaking' : ''}`}

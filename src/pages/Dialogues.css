@@ -1,0 +1,63 @@
+.dialogues .page-header h1, .dialogue-practice .page-header h1 { font-size: clamp(18px, 3vw, 26px); }
+.dialogues__body, .dialogue__body { width: 100%; max-width: 1000px; margin: 16px auto 0; padding: 4px 4px 24px; }
+.dialogues__welcome { display: flex; gap: 20px; align-items: center; padding: 24px; background: var(--surface-2); border-radius: 24px; }
+.dialogues__welcome .momo { width: 110px; flex-shrink: 0; }
+.dialogues__welcome p { margin-top: 8px; }
+.dialogues__eyebrow { color: var(--text-muted); letter-spacing: .1em; font-size: 14px; }
+.dialogues__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.dialogues__scene { display: flex; gap: 16px; align-items: center; text-align: left; padding: 20px; border: 2px solid var(--border); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow); min-width: 0; }
+.dialogues__scene:nth-child(3n + 1) { background: var(--tint-family); }
+.dialogues__scene:nth-child(3n + 2) { background: var(--tint-classroom); }
+.dialogues__scene:nth-child(3n) { background: var(--tint-school-things); }
+.dialogues__scene > .emoji { font-size: 38px; }
+.dialogues__scene > span:nth-child(2) { display: flex; flex-direction: column; gap: 5px; flex: 1; min-width: 0; }
+.dialogues__scene strong { font-size: 23px; }
+.dialogues__scene small { font-size: 15px; color: var(--text-muted); }
+.dialogues__scene span[lang] { font-size: 17px; }
+.dialogue__count { font-weight: 700; font-size: 20px; white-space: nowrap; }
+.dialogue__intro { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; margin: auto; max-width: 650px; padding: 20px; }
+.dialogue__intro > .momo { width: 160px; }
+.dialogue__scene-icon { font-size: 38px; }
+.dialogue__hint { font-size: 15px; line-height: 1.6; text-align: center; color: var(--text-muted); }
+.dialogue__dots { display: flex; justify-content: center; gap: 14px; }
+.dialogue__dots span { width: 32px; height: 32px; border-radius: 50%; background: var(--surface-2); color: var(--text-muted); display: grid; place-items: center; font-size: 16px; }
+.dialogue__dots .is-active { background: var(--sage); color: var(--text); }
+.dialogue__prompt { display: flex; align-items: center; gap: 18px; }
+.dialogue__prompt > .momo { width: 85px; flex-shrink: 0; }
+.dialogue__bubble { flex: 1; min-width: 0; background: var(--surface); border: 2px solid var(--border); border-radius: 6px 24px 24px; padding: 20px; }
+.dialogue__bubble h2, .dialogue__answer h2, .dialogue__reply h2 { font-size: clamp(24px, 3.6vw, 34px); margin: 8px 0; }
+.dialogue__bubble small, .dialogue__answer small, .dialogue__reply small { color: var(--text-muted); font-size: 15px; }
+.dialogue__bubble p, .dialogue__answer p, .dialogue__reply p { font-size: 18px; color: var(--text-muted); }
+.dialogue__prompt .dialogue__art { width: 124px; height: 124px; flex: 0 0 124px; }
+.dialogue__listen { display: block; font-size: 16px; text-align: left; margin-top: 6px; padding: 8px 0; }
+.dialogue__answer { padding: 18px 22px; margin-left: 100px; background: var(--tint-classroom); border-radius: 24px 6px 24px 24px; }
+.dialogue__reply { border-left: 5px solid var(--sage); background: var(--surface); padding: 14px 20px; border-radius: 14px; }
+.dialogue__reply > small:last-child { display: block; margin-top: 8px; }
+.dialogue__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+.dialogue__actions > .btn { flex: 1; min-width: 180px; }
+.dialogue__actions > .learn__repeat-status:empty { display: none; }
+.dialogue__actions > .learn__repeat-status { margin-top: 0; }
+.dialogue__actions.is-replied > button:first-child { display: none; }
+.dialogue__finish { text-align: center; padding: 16px; }
+.dialogue__finish > .emoji { display: block; font-size: 52px; margin-bottom: 12px; }
+.dialogue__finish p { margin-top: 8px; }
+.dialogue__review { display: grid; gap: 16px; }
+.dialogue__review section { background: var(--surface); border: 2px solid var(--border); border-radius: 22px; padding: 18px; }
+.dialogue__review h3 { font-size: 18px; margin-bottom: 12px; }
+.dialogue__review button { display: flex; flex-direction: column; gap: 4px; text-align: left; padding: 12px; width: 100%; border-radius: 14px; margin-bottom: 8px; }
+.dialogue__review button:nth-of-type(2) { background: var(--tint-classroom); }
+.dialogue__review small, .dialogue__review span { font-size: 15px; color: var(--text-muted); }
+.dialogue__review strong { font-size: 22px; }
+@media (max-width: 600px) {
+  .dialogues__grid { grid-template-columns: 1fr; }
+  .dialogues__welcome { gap: 12px; padding: 16px; }
+  .dialogues__welcome .momo { width: 72px; }
+  .dialogues__welcome h2 { font-size: 22px; }
+  .dialogues__welcome p { font-size: 16px; }
+  .dialogue__prompt { display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; }
+  .dialogue__prompt > .momo { width: 52px; }
+  .dialogue__bubble { padding: 14px; }
+  .dialogue__prompt .dialogue__art { grid-column: 2; justify-self: center; width: 96px; height: 96px; }
+  .dialogue__answer { margin-left: 28px; padding: 16px; }
+  .dialogue__actions > .btn { min-width: 140px; font-size: 18px; }
+}

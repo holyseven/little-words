@@ -158,6 +158,29 @@ async function collectClips() {
     clips.push({ id: `p/${slug(text)}`, text, rate: RATE_SENTENCE })
   }
 
+  // 对话的提问、回答示范和回应都生成完整句子，断网也能听完整场景。
+  const dialogueScenes = JSON.parse(await readFile(join(root, 'src', 'content', 'dialogues.json'), 'utf8'))
+  for (const scene of dialogueScenes) {
+    for (const turn of scene.turns) {
+      for (const phrase of [turn.prompt, turn.answer, turn.reply]) {
+        const text = phrase.en
+        if (seen.has(text)) continue
+        seen.add(text)
+        clips.push({ id: `p/${slug(text)}`, text, rate: RATE_SENTENCE })
+      }
+    }
+  }
+
+  // 同一 slug 只允许同一句话，避免生成器静默覆盖另一条台词。
+  const byId = new Map()
+  for (const clip of clips) {
+    const previous = byId.get(clip.id)
+    if (previous && previous !== clip.text) {
+      throw new Error(`音频文件名冲突：${clip.id}（${previous} / ${clip.text}）`)
+    }
+    byId.set(clip.id, clip.text)
+  }
+
   return clips
 }
 
@@ -299,5 +322,4 @@ main().catch((err) => {
   console.error(`\n[audio] 失败：${err.message}`)
   process.exit(1)
 })
-
 

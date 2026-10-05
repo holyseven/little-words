@@ -10,6 +10,9 @@ import './WordArt.css'
 import { ColorSwatch } from './ColorSwatch'
 import { NumberCard } from './NumberCard'
 import { HairIcon } from './HairIcon'
+import { FamilyArt } from './FamilyArt'
+import { SchoolWordArt } from './SchoolWordArt'
+import { familySvgIds, schoolSvgIds } from './hasSvgImpl'
 
 interface Props {
   word: Word
@@ -45,6 +48,8 @@ function renderSvg(svgId: string, label: string) {
   if (svgId.startsWith('color-')) return <ColorSwatch svgId={svgId} label={label} />
   if (svgId.startsWith('num-')) return <NumberCard svgId={svgId} label={label} />
   if (svgId === 'hair') return <HairIcon label={label} />
+  if (familySvgIds.has(svgId)) return <FamilyArt svgId={svgId} label={label} />
+  if (schoolSvgIds.has(svgId)) return <SchoolWordArt svgId={svgId} label={label} />
   return null
 }
 

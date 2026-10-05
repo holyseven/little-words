@@ -88,6 +88,9 @@ export const themeCompletePhrases: Record<string, Phrase> = {
   weather: { en: 'You finished Weather! Amazing!', zh: '你完成了天气主题！真厉害！' },
   body: { en: 'You finished Body! Amazing!', zh: '你完成了身体主题！真厉害！' },
   food: { en: 'You finished Food! Amazing!', zh: '你完成了食物主题！真厉害！' },
+  family: { en: 'You finished Family! Amazing!', zh: '你完成了家人主题！真厉害！' },
+  classroom: { en: 'You finished My Classroom! Amazing!', zh: '你完成了教室主题！真厉害！' },
+  'school-things': { en: 'You finished School Things! Amazing!', zh: '你完成了学习用品主题！真厉害！' },
 }
 
 /** 取主题完成台词；没有专属台词时退回通用的「完成」台词 */

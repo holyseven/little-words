@@ -1,0 +1,184 @@
+[
+  {
+    "id": "hello",
+    "title": "Hello, Momo!",
+    "zh": "和 Momo 打招呼",
+    "emoji": "👋",
+    "unitId": "g1t1-u1",
+    "turns": [
+      {
+        "id": "hello-greeting",
+        "prompt": { "en": "Hello!", "zh": "你好！" },
+        "answer": { "en": "Hello!", "zh": "你好！" },
+        "reply": { "en": "Hello, my friend!", "zh": "你好，我的朋友！" }
+      },
+      {
+        "id": "hello-feeling",
+        "prompt": { "en": "How are you?", "zh": "你好吗？" },
+        "answer": { "en": "I am happy.", "zh": "我很开心。" },
+        "reply": { "en": "Me too!", "zh": "我也是！" }
+      },
+      {
+        "id": "hello-goodbye",
+        "prompt": { "en": "Goodbye!", "zh": "再见！" },
+        "answer": { "en": "Goodbye!", "zh": "再见！" },
+        "reply": { "en": "See you!", "zh": "下次见！" }
+      }
+    ]
+  },
+  {
+    "id": "numbers",
+    "title": "Let's Count!",
+    "zh": "一起数一数",
+    "emoji": "🔢",
+    "unitId": "g1t1-u2",
+    "themeId": "numbers",
+    "turns": [
+      {
+        "id": "numbers-dots",
+        "wordId": "num-two",
+        "prompt": { "en": "How many dots?", "zh": "有几个圆点？" },
+        "answer": { "en": "Two.", "zh": "两个。" },
+        "reply": { "en": "Yes, two dots!", "zh": "对，两个圆点！" }
+      },
+      {
+        "id": "numbers-name",
+        "wordId": "num-three",
+        "prompt": { "en": "What number is this?", "zh": "这是数字几？" },
+        "answer": { "en": "Three.", "zh": "三。" },
+        "reply": { "en": "Yes, three!", "zh": "对，是三！" }
+      },
+      {
+        "id": "numbers-count",
+        "wordId": "num-three",
+        "prompt": { "en": "Can you count to three?", "zh": "你能数到三吗？" },
+        "answer": { "en": "One, two, three.", "zh": "一、二、三。" },
+        "reply": { "en": "Great counting!", "zh": "数得真好！" }
+      }
+    ]
+  },
+  {
+    "id": "family",
+    "title": "Meet My Family",
+    "zh": "介绍我的家人",
+    "emoji": "🏡",
+    "unitId": "g1t1-u3",
+    "themeId": "family",
+    "turns": [
+      {
+        "id": "family-mum",
+        "wordId": "mum",
+        "prompt": { "en": "Who is she?", "zh": "她是谁？" },
+        "answer": { "en": "This is my mum.", "zh": "这是我的妈妈。" },
+        "reply": { "en": "Hello, Mum!", "zh": "妈妈，你好！" }
+      },
+      {
+        "id": "family-dad",
+        "wordId": "dad",
+        "prompt": { "en": "Who is he?", "zh": "他是谁？" },
+        "answer": { "en": "This is my dad.", "zh": "这是我的爸爸。" },
+        "reply": { "en": "Hello, Dad!", "zh": "爸爸，你好！" }
+      },
+      {
+        "id": "family-grandma",
+        "wordId": "grandma",
+        "prompt": { "en": "Is this your grandma?", "zh": "这是你的奶奶或外婆吗？" },
+        "answer": { "en": "Yes, it is.", "zh": "是的。" },
+        "reply": { "en": "Hello, Grandma!", "zh": "奶奶或外婆，你好！" }
+      }
+    ]
+  },
+  {
+    "id": "classroom",
+    "title": "In the Classroom",
+    "zh": "走进教室",
+    "emoji": "🏫",
+    "unitId": "g1t1-u4",
+    "themeId": "classroom",
+    "turns": [
+      {
+        "id": "classroom-desk",
+        "wordId": "desk",
+        "prompt": { "en": "What is this?", "zh": "这是什么？" },
+        "answer": { "en": "A desk.", "zh": "一张课桌。" },
+        "reply": { "en": "Let's learn here!", "zh": "我们在这里学习吧！" }
+      },
+      {
+        "id": "classroom-chair",
+        "wordId": "chair",
+        "prompt": { "en": "Is this a chair?", "zh": "这是一把椅子吗？" },
+        "answer": { "en": "Yes, it is.", "zh": "是的。" },
+        "reply": { "en": "Let's sit down.", "zh": "我们坐下吧。" }
+      },
+      {
+        "id": "classroom-blackboard",
+        "wordId": "blackboard",
+        "prompt": { "en": "What can you see?", "zh": "你看到了什么？" },
+        "answer": { "en": "A blackboard.", "zh": "一块黑板。" },
+        "reply": { "en": "Let's draw a cat!", "zh": "我们画一只猫吧！" }
+      }
+    ]
+  },
+  {
+    "id": "school-things",
+    "title": "Can I Borrow It?",
+    "zh": "借一借学习用品",
+    "emoji": "🎒",
+    "unitId": "g1t1-u5",
+    "themeId": "school-things",
+    "turns": [
+      {
+        "id": "school-things-pencil",
+        "wordId": "pencil",
+        "prompt": { "en": "Can I have a pencil?", "zh": "可以给我一支铅笔吗？" },
+        "answer": { "en": "Here you are.", "zh": "给你。" },
+        "reply": { "en": "Thank you!", "zh": "谢谢你！" }
+      },
+      {
+        "id": "school-things-book",
+        "wordId": "book",
+        "prompt": { "en": "Is this your book?", "zh": "这是你的书吗？" },
+        "answer": { "en": "Yes, it is.", "zh": "是的。" },
+        "reply": { "en": "Here you are.", "zh": "给你。" }
+      },
+      {
+        "id": "school-things-case",
+        "wordId": "pencil-case",
+        "prompt": { "en": "What is in your bag?", "zh": "你的书包里有什么？" },
+        "answer": { "en": "A pencil case.", "zh": "一个铅笔盒。" },
+        "reply": { "en": "Let's open it.", "zh": "我们打开看看吧。" }
+      }
+    ]
+  },
+  {
+    "id": "colors",
+    "title": "Color Talk",
+    "zh": "聊聊颜色",
+    "emoji": "🎨",
+    "unitId": "g1t1-u6",
+    "themeId": "colors",
+    "turns": [
+      {
+        "id": "colors-red",
+        "wordId": "color-red",
+        "prompt": { "en": "What color is it?", "zh": "这是什么颜色？" },
+        "answer": { "en": "It is red.", "zh": "是红色。" },
+        "reply": { "en": "Yes, red!", "zh": "对，是红色！" }
+      },
+      {
+        "id": "colors-blue",
+        "wordId": "color-blue",
+        "prompt": { "en": "Is it green?", "zh": "是绿色吗？" },
+        "answer": { "en": "No, it is blue.", "zh": "不，是蓝色。" },
+        "reply": { "en": "You're right!", "zh": "你说对啦！" }
+      },
+      {
+        "id": "colors-yellow",
+        "wordId": "color-yellow",
+        "prompt": { "en": "What color do you see?", "zh": "你看到了什么颜色？" },
+        "answer": { "en": "Yellow.", "zh": "黄色。" },
+        "reply": { "en": "I like yellow!", "zh": "我喜欢黄色！" }
+      }
+    ]
+  }
+]
