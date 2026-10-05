@@ -1,4 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { flushProgress } from '../src/store/progress'
+
+vi.mock('../src/store/progress', () => ({ flushProgress: vi.fn(async () => {}) }))
 
 const scope = 'https://example.test/little-words/'
 let browser: EventTarget & { location: { href: string; reload: ReturnType<typeof vi.fn> } }
@@ -12,6 +15,7 @@ let cleanup: (() => void) | undefined
 
 beforeEach(async () => {
   vi.resetModules()
+  vi.mocked(flushProgress).mockReset().mockResolvedValue(undefined)
   vi.stubEnv('BASE_URL', '/little-words/')
   vi.stubEnv('VITE_BUILD_ID', 'build-a')
   vi.useFakeTimers()
@@ -67,7 +71,7 @@ describe('PWA update checks', () => {
     expect(worker.update).toHaveBeenCalledTimes(2)
   })
 
-  it('checks pageshow while throttling repeated foreground events', async () => {
+  it('rechecks on foreground resume within a minute and coalesces overlapping events', async () => {
     install()
     await finishCheck()
     vi.mocked(Date.now).mockReturnValue(120_000)
@@ -75,11 +79,12 @@ describe('PWA update checks', () => {
     browser.dispatchEvent(new Event('online'))
     page.dispatchEvent(new Event('visibilitychange'))
     await Promise.resolve()
-    expect(worker.update).toHaveBeenCalledTimes(1)
+    await finishCheck()
+    expect(worker.update).toHaveBeenCalledTimes(2)
     vi.mocked(Date.now).mockReturnValue(160_000)
     browser.dispatchEvent(new Event('pageshow'))
     await finishCheck()
-    expect(worker.update).toHaveBeenCalledTimes(2)
+    expect(worker.update).toHaveBeenCalledTimes(3)
   })
 
   it('skips offline startup and checks when the connection returns', async () => {
@@ -117,23 +122,24 @@ describe('PWA update checks', () => {
     const second = api.checkForAppUpdate()
     expect(second).toBe(first)
     await Promise.resolve()
+    await Promise.resolve()
     expect(worker.update).toHaveBeenCalledTimes(1)
     resolve()
     expect(await first).toBe('current')
     expect(await second).toBe('current')
   })
 
-  it('reports installing or waiting workers as updating', async () => {
+  it('does not call a current page outdated while its offline cache is installing', async () => {
     worker.installing = {}
-    expect(await api.checkForAppUpdate()).toBe('updating')
+    expect(await api.checkForAppUpdate()).toBe('current')
     worker.installing = null
     worker.waiting = {}
-    expect(await api.checkForAppUpdate()).toBe('updating')
+    expect(await api.checkForAppUpdate()).toBe('current')
   })
 
-  it('does not call a failed network check current and permits a retry', async () => {
+  it('can verify the published page even when a worker update fails', async () => {
     worker.update.mockRejectedValueOnce(new Error('Network request failed'))
-    expect(await api.checkForAppUpdate()).toBe('error')
+    expect(await api.checkForAppUpdate()).toBe('current')
     expect(await api.checkForAppUpdate()).toBe('current')
     expect(worker.update).toHaveBeenCalledTimes(2)
   })
@@ -237,4 +243,99 @@ describe('PWA update checks', () => {
     await Promise.resolve()
     expect(fetchMock).toHaveBeenCalled()
   })
+
+  it('checks the page without waiting for a stalled worker update', async () => {
+    worker.update.mockReturnValue(new Promise(() => {}))
+    expect(await api.checkForAppUpdate()).toBe('current')
+    expect(await api.checkForAppUpdate()).toBe('current')
+    expect(worker.update).toHaveBeenCalledTimes(1)
+  })
+
+  it('automatically retries a stale shell after five seconds', async () => {
+    fetchMock.mockImplementation((input: string | URL) => Promise.resolve({ ok: true, text: async () =>
+      String(input).includes('app-version.json') ? '{"build":"build-b"}' : '<meta name="little-words-build" content="build-a">',
+    }))
+    install()
+    expect(await finishCheck()).toBe('stale')
+    expect(worker.update).toHaveBeenCalledTimes(1)
+    await vi.advanceTimersByTimeAsync(5_000)
+    expect(worker.update).toHaveBeenCalledTimes(2)
+    expect(browser.location.reload).not.toHaveBeenCalled()
+  })
+
+  it('retries a failed check immediately when the connection returns', async () => {
+    fetchMock.mockRejectedValueOnce(new Error('network failed'))
+    install()
+    expect(await finishCheck()).toBe('error')
+    browser.dispatchEvent(new Event('online'))
+    expect(await finishCheck()).toBe('current')
+    expect(worker.update).toHaveBeenCalledTimes(2)
+    await vi.advanceTimersByTimeAsync(5_000)
+    expect(worker.update).toHaveBeenCalledTimes(2)
+  })
+
+  it('reloads online before new audio finishes installing when the controller supports it', async () => {
+    const replyPort = { close: vi.fn(), onmessage: undefined as undefined | ((event: { data: unknown }) => void) }
+    vi.stubGlobal('MessageChannel', class {
+      port1 = replyPort
+      port2 = { close: vi.fn() }
+    })
+    serviceWorker.controller = { postMessage: vi.fn(() => replyPort.onmessage?.({ data: { networkFirst: true } })) }
+    worker.installing = {}
+    fetchMock.mockImplementation((input: string | URL) => Promise.resolve({ ok: true, text: async () =>
+      String(input).includes('app-version.json') ? '{"build":"build-b"}' : '<meta name="little-words-build" content="build-b">',
+    }))
+    expect(await api.checkForAppUpdate()).toBe('updating')
+    expect(fetchMock.mock.calls[1][0]).toContain('index.html?check=100000')
+    expect(browser.location.reload).toHaveBeenCalledTimes(1)
+    expect(replyPort.close).toHaveBeenCalled()
+  })
+
+  it('waits for a complete cached shell when a legacy controller does not reply', async () => {
+    vi.stubGlobal('MessageChannel', class {
+      port1 = { close: vi.fn(), onmessage: null }
+      port2 = { close: vi.fn() }
+    })
+    serviceWorker.controller = { postMessage: vi.fn() }
+    fetchMock.mockImplementation((input: string | URL) => Promise.resolve({ ok: true, text: async () =>
+      String(input).includes('app-version.json') ? '{"build":"build-b"}' : '<meta name="little-words-build" content="build-a">',
+    }))
+    const result = api.checkForAppUpdate()
+    await vi.advanceTimersByTimeAsync(750)
+    expect(await result).toBe('stale')
+    expect(fetchMock.mock.calls[1][0]).toBe(`${scope}index.html`)
+    expect(browser.location.reload).not.toHaveBeenCalled()
+  })
+
+  it('stops repeated automatic reloads after fallback and permits an explicit retry', async () => {
+    const sessionStorage = { getItem: vi.fn(() => JSON.stringify({ from: 'build-a', to: 'build-b', at: 100_000 })), setItem: vi.fn(), removeItem: vi.fn() }
+    Object.assign(browser, { sessionStorage })
+    fetchMock.mockImplementation((input: string | URL) => Promise.resolve({ ok: true, text: async () =>
+      String(input).includes('app-version.json') ? '{"build":"build-b"}' : '<meta name="little-words-build" content="build-b">',
+    }))
+    expect(await api.checkForAppUpdate()).toBe('stale')
+    expect(browser.location.reload).not.toHaveBeenCalled()
+    vi.mocked(Date.now).mockReturnValue(160_001)
+    expect(await api.checkForAppUpdate()).toBe('stale')
+    sessionStorage.removeItem.mockImplementation(() => sessionStorage.getItem.mockReturnValue('null'))
+    expect(await api.checkForAppUpdate({ manual: true })).toBe('updating')
+    expect(browser.location.reload).toHaveBeenCalledTimes(1)
+  })
+
+
+  it('waits for learning progress to persist before refreshing', async () => {
+    let finishSave!: () => void
+    vi.mocked(flushProgress).mockReturnValue(new Promise<void>((resolve) => { finishSave = resolve }))
+    fetchMock.mockImplementation((input: string | URL) => Promise.resolve({ ok: true, text: async () =>
+      String(input).includes('app-version.json') ? '{"build":"build-b"}' : '<meta name="little-words-build" content="build-b">',
+    }))
+    const result = api.checkForAppUpdate()
+    await vi.advanceTimersByTimeAsync(0)
+    expect(flushProgress).toHaveBeenCalledTimes(1)
+    expect(browser.location.reload).not.toHaveBeenCalled()
+    finishSave()
+    expect(await result).toBe('updating')
+    expect(browser.location.reload).toHaveBeenCalledTimes(1)
+  })
+
 })

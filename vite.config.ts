@@ -117,9 +117,10 @@ export default defineConfig(({ mode }) => {
     },
 
     VitePWA({
-      // 孩子在用，不弹「有新版本，是否刷新」打扰他们：下次冷启动直接生效
-      registerType: 'autoUpdate',
-      // 注册逻辑写在 src/main.tsx 里，方便记录 SW 就绪状态给家长页（M4）用
+      strategies: 'injectManifest',
+      srcDir: 'src/pwa',
+      filename: 'sw.ts',
+      // 注册和刷新由应用统一处理，避免插件另行刷新而跳过进度保存。
       injectRegister: null,
 
       // 不设 includeAssets：public/ 下的文件会被拷进 dist，
@@ -144,39 +145,13 @@ export default defineConfig(({ mode }) => {
         ],
       },
 
-      workbox: {
+      injectManifest: {
         // 核心资源预缓存保证离线冷启动；课程媒体由家长单独下载。
         // m4a 是预生成的人声片段（scripts/gen-audio.mjs），必须一起缓存。
         globPatterns: ['**/*.{js,css,html,svg,png,jpg,json,woff2,m4a}'],
         // 语音模型约 39MB，首次跟读时再下载，避免首屏安装被拖慢。
         globIgnores: ['course-media/**', 'speech-model/**', 'speech-runtime/**', 'app-version.json'],
-        runtimeCaching: [{
-          urlPattern: /\/course-media\/[^/]+\.(?:mp3|m4a|mp4)$/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'little-words-course-v1',
-            cacheableResponse: { statuses: [200] },
-            rangeRequests: true,
-          },
-        }, {
-          urlPattern: /\/speech-model\/model\.tar\.gz$/,
-          handler: 'CacheFirst',
-          options: {
-            cacheName: 'little-words-speech-model-v1',
-            cacheableResponse: { statuses: [200] },
-            expiration: { maxEntries: 1, maxAgeSeconds: 60 * 60 * 24 * 365 },
-          },
-        }, {
-          urlPattern: /\/speech-runtime\/vosk\.js$/,
-          handler: 'CacheFirst',
-          options: { cacheName: 'little-words-speech-runtime-v1', cacheableResponse: { statuses: [200] } },
-        }],
-        // hash 路由下所有导航请求都回退到 index.html
-        navigateFallback: `${base}index.html`,
-        cleanupOutdatedCaches: true,
-        clientsClaim: true,
-        skipWaiting: true,
-        // 人声片段有 200+ 个，默认上限（约 2MB/文件）够用，但要放开总数
+        // 导航、离线回退和媒体缓存策略在 src/pwa/sw.ts 中。
         maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
       },
 
