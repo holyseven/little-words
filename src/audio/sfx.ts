@@ -6,6 +6,7 @@
  */
 
 import { getAudioContext, isAudioUnlocked } from './audioUnlock'
+import { preparePlaybackSession } from './session'
 
 /** 主增益上限（SPEC 10.4） */
 const MASTER_GAIN = 0.4
@@ -131,8 +132,11 @@ function whenReady(play: (ctx: AudioContext) => void): void {
   const run = () => {
     if (enabled && isAudioUnlocked() && ctx.state === 'running') play(ctx)
   }
-  if (ctx.state === 'running') run()
-  else void ctx.resume().then(run).catch(() => undefined)
+  // An ended recording can leave a running context in Safari's input category.
+  void preparePlaybackSession().then(async () => {
+    if (ctx.state !== 'running') await ctx.resume()
+    run()
+  }).catch(() => undefined)
 }
 
 /* -------------------------------------------------------------------------- */

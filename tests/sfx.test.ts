@@ -112,6 +112,12 @@ class FakeCtx {
   }
 }
 
+async function playReady(sfx: typeof import('../src/audio/sfx'), name: Parameters<typeof sfx.playSfx>[0]) {
+  sfx.playSfx(name)
+  await Promise.resolve()
+  await Promise.resolve()
+}
+
 let ctx: FakeCtx
 
 vi.mock('../src/audio/audioUnlock', () => ({
@@ -134,7 +140,7 @@ describe('合成音效（SPEC 10.4）', () => {
   it('SPEC 表格里的 7 个音效都有实现', async () => {
     const sfx = await import('../src/audio/sfx')
     for (const name of ALL_NAMES) {
-      expect(() => sfx.playSfx(name), `${name} 播放报错`).not.toThrow()
+      await expect(playReady(sfx, name), `${name} 播放报错`).resolves.toBeUndefined()
     }
   })
 
@@ -142,7 +148,7 @@ describe('合成音效（SPEC 10.4）', () => {
     const sfx = await import('../src/audio/sfx')
     for (const name of ALL_NAMES) {
       ctx = new FakeCtx()
-      sfx.playSfx(name)
+      await playReady(sfx, name)
       const nodes = ctx.oscillators.length + ctx.sources.length
       expect(nodes, `${name} 没有产生任何发声节点`).toBeGreaterThan(0)
     }
@@ -152,7 +158,7 @@ describe('合成音效（SPEC 10.4）', () => {
     const sfx = await import('../src/audio/sfx')
     for (const name of ALL_NAMES) {
       ctx = new FakeCtx()
-      sfx.playSfx(name)
+      await playReady(sfx, name)
       for (const g of ctx.gains) {
         for (const r of g.gain.ramps) {
           expect(r.value, `${name} 增益 ${r.value} 超过 ${MAX_GAIN}`).toBeLessThanOrEqual(MAX_GAIN)
@@ -165,7 +171,7 @@ describe('合成音效（SPEC 10.4）', () => {
     const sfx = await import('../src/audio/sfx')
     for (const name of ALL_NAMES) {
       ctx = new FakeCtx()
-      sfx.playSfx(name)
+      await playReady(sfx, name)
       for (const g of ctx.gains) {
         const ramps = g.gain.ramps
         if (ramps.length === 0) continue
@@ -181,7 +187,7 @@ describe('合成音效（SPEC 10.4）', () => {
     const sfx = await import('../src/audio/sfx')
     for (const name of ALL_NAMES) {
       ctx = new FakeCtx()
-      sfx.playSfx(name)
+      await playReady(sfx, name)
       for (const o of ctx.oscillators) {
         expect(o.started, `${name} 振荡器未 start`).not.toBeNull()
         expect(o.stopped, `${name} 振荡器未 stop`).not.toBeNull()
@@ -197,29 +203,29 @@ describe('合成音效（SPEC 10.4）', () => {
   it('wrong 是最轻柔的音效（SPEC 4.2 零挫败）', async () => {
     const sfx = await import('../src/audio/sfx')
 
-    const peakOf = (name: (typeof ALL_NAMES)[number]) => {
+    const peakOf = async (name: (typeof ALL_NAMES)[number]) => {
       ctx = new FakeCtx()
-      sfx.playSfx(name)
+      await playReady(sfx, name)
       return Math.max(...ctx.gains.flatMap((g) => g.gain.ramps.map((r) => r.value)))
     }
 
-    const wrong = peakOf('wrong')
+    const wrong = await peakOf('wrong')
     expect(wrong).toBeLessThanOrEqual(0.2)
-    expect(wrong).toBeLessThan(peakOf('correct'))
-    expect(wrong).toBeLessThan(peakOf('celebrate'))
+    expect(wrong).toBeLessThan(await peakOf('correct'))
+    expect(wrong).toBeLessThan(await peakOf('celebrate'))
   })
 
   it('wrong 是下滑音，correct 是上行琶音', async () => {
     const sfx = await import('../src/audio/sfx')
 
     ctx = new FakeCtx()
-    sfx.playSfx('wrong')
+    await playReady(sfx, 'wrong')
     const wrongFreqs = ctx.oscillators[0]!.frequency.ramps.map((r) => r.value)
     expect(wrongFreqs.length).toBeGreaterThanOrEqual(2)
     expect(wrongFreqs[wrongFreqs.length - 1]!).toBeLessThan(wrongFreqs[0]!)
 
     ctx = new FakeCtx()
-    sfx.playSfx('correct')
+    await playReady(sfx, 'correct')
     const starts = ctx.oscillators.map((o) => o.frequency.ramps[0]!.value)
     expect(starts.length).toBe(3) // C5 E5 G5
     expect(starts[1]!).toBeGreaterThan(starts[0]!)
@@ -230,7 +236,7 @@ describe('合成音效（SPEC 10.4）', () => {
     const sfx = await import('../src/audio/sfx')
     sfx.setSfxEnabled(false)
     ctx = new FakeCtx()
-    for (const name of ALL_NAMES) sfx.playSfx(name)
+    for (const name of ALL_NAMES) await playReady(sfx, name)
     expect(ctx.oscillators.length + ctx.sources.length).toBe(0)
     sfx.setSfxEnabled(true)
   })
@@ -243,7 +249,7 @@ describe('合成音效（SPEC 10.4）', () => {
     vi.resetModules()
     const sfx = await import('../src/audio/sfx')
     ctx = new FakeCtx()
-    for (const name of ALL_NAMES) sfx.playSfx(name)
+    for (const name of ALL_NAMES) await playReady(sfx, name)
     expect(ctx.oscillators.length + ctx.sources.length).toBe(0)
     vi.doUnmock('../src/audio/audioUnlock')
   })

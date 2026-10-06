@@ -3,6 +3,8 @@ import { loadVoskModel } from '../logic/vosk'
 import type { Recognizer } from '../logic/vosk'
 import { assessAzurePronunciation, concatPcm, type AzurePronunciationResult } from '../logic/azurePronunciation'
 import { normalizeSpeechPcm } from '../logic/audioInput'
+import { stopMicrophoneCapture, type CaptureResources } from '../audio/capture'
+import { beginMicrophoneSession, preparePlaybackSession, settleMicrophoneRequest } from '../audio/session'
 import { voskVocabulary } from '../logic/speechTokens'
 import { createVoskResultWaiter, mergeVoskFinal, type VoskResultWaiter } from '../logic/voskResults'
 import { decideAzureRepeat, decideRepeat, type RepeatRecognitionDecision, type RepeatRecognitionWord } from '../logic/repeat'
@@ -13,15 +15,8 @@ type State = 'idle' | 'loading' | 'requesting' | 'listening' | 'recognizing' | '
 export interface InlineWordRepeatHandle { cancel: () => void }
 export type RepeatEngine = 'azure' | 'vosk'
 interface Props { word: string; candidates?: string[]; showZh: boolean; engine?: RepeatEngine; practiceKind?: 'word' | 'sentence'; disabled?: boolean; hideIdleNotice?: boolean; onBeforeStart: () => void; onSuccess?: () => void; onFailure?: () => void; buttonText?: string }
-interface Session {
-  audio: AudioContext | null
-  stream: MediaStream | null
-  source: MediaStreamAudioSourceNode | null
-  processor: ScriptProcessorNode | null
-  sink: GainNode | null
+interface Session extends CaptureResources {
   recognizer: Recognizer | null
-  frame: number | null
-  timer: ReturnType<typeof setTimeout> | null
   soundMs: number
   finalText: string
   finalWords: RepeatRecognitionWord[]
@@ -95,20 +90,13 @@ async function recognizePcmWithVosk(current: Session, word: string, candidates: 
 }
 
 function release(session: Session) {
-  if (session.frame !== null) cancelAnimationFrame(session.frame)
-  if (session.timer !== null) clearTimeout(session.timer)
+  void stopMicrophoneCapture(session)
   if (session.resultWaiter !== null) {
     session.resultWaiter.cancel()
     session.resultWaiter = null
   }
   session.azureController?.abort()
-  session.source?.disconnect()
-  session.processor?.disconnect()
-  session.sink?.disconnect()
-  session.processor && (session.processor.onaudioprocess = null)
   session.recognizer?.remove()
-  session.stream?.getTracks().forEach((track) => track.stop())
-  if (session.audio && session.audio.state !== 'closed') void session.audio.close().catch(() => {})
 }
 
 /** 按家长设置选择在线音素评估或本地词级识别；在线结果只在本次反馈中展示。 */
@@ -155,6 +143,12 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
   const finish = async (current: Session) => {
     if (session.current !== current || current.finishing) return
     current.finishing = true
+    setState('recognizing')
+    // Evaluation uses the retained PCM/recognizer, so it needs no live mic.
+    // Restore the output category before model waits and celebration sounds.
+    await stopMicrophoneCapture(current)
+    await preparePlaybackSession()
+    if (session.current !== current) return
     if (engine === 'vosk' && current.recognizer && current.soundMs >= 120) {
       setState('recognizing')
       // 短单词需要清晰的语音边界；补静音只送入模型内存，不保存孩子的声音。
@@ -229,7 +223,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       setError(showZh ? '请用 HTTPS，或在这台 Mac 上用 localhost 打开后重试。' : 'Open using HTTPS or localhost on this Mac to use the microphone.')
       return
     }
-    const current: Session = { audio: null, stream: null, source: null, processor: null, sink: null, recognizer: null, frame: null, timer: null, soundMs: 0, finalText: '', finalWords: [], partialText: '', finishing: false, sampleRate: 16000, resultWaiter: null, pcmChunks: [], pcmLength: 0, azureController: null }
+    const current: Session = { audio: null, stream: null, source: null, processor: null, sink: null, recognizer: null, frame: null, timer: null, soundMs: 0, finalText: '', finalWords: [], partialText: '', finishing: false, sampleRate: 16000, resultWaiter: null, pcmChunks: [], pcmLength: 0, azureController: null, microphoneLease: null, captureCleanup: null }
     session.current = current
     let modelLoaded = false
     // 必须在点击手势还有效时创建并恢复 AudioContext。iOS Safari 在等待
@@ -248,19 +242,27 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       setState('requesting')
       // Do not force Safari's native sample rate; the Web Audio path resamples
       // it to 16 kHz below. Echo/noise suppression can attenuate a child's
-      // quiet consonants on iPad, so disable those processors and let the
-      // model-side normalization above handle capture-level differences.
+      // quiet consonants on iPad. Keep input gain control for quiet voices;
+      // it is separate from restoring the speaker's playback category.
       const supported = navigator.mediaDevices.getSupportedConstraints?.()
       const audioConstraints: MediaTrackConstraints = { channelCount: 1 }
       if (!supported || supported.echoCancellation) audioConstraints.echoCancellation = false
       if (!supported || supported.noiseSuppression) audioConstraints.noiseSuppression = false
       if (!supported || supported.autoGainControl) audioConstraints.autoGainControl = true
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints })
-      if (session.current !== current) {
-        stream.getTracks().forEach((track) => track.stop())
-        return
+      const lease = beginMicrophoneSession()
+      current.microphoneLease = lease
+      let stream: MediaStream
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ audio: audioConstraints })
+        if (session.current !== current) {
+          // A cancelled permission request can still resolve with live tracks.
+          stream.getTracks().forEach((track) => track.stop())
+          return
+        }
+        current.stream = stream
+      } finally {
+        settleMicrophoneRequest(lease)
       }
-      current.stream = stream
       await resumed
       if (session.current !== current) return
       if (document.hidden || current.audio.state !== 'running') throw new Error('Audio context is not running')
@@ -305,7 +307,7 @@ export const InlineWordRepeat = forwardRef<InlineWordRepeatHandle, Props>(functi
       current.processor.connect(current.sink)
       current.sink.connect(current.audio.destination)
       for (const track of stream.getTracks()) track.addEventListener('ended', () => {
-        if (session.current !== current) return
+        if (session.current !== current || current.finishing) return
         dispose()
         setLevel(0)
         setState('error')

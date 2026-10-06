@@ -4,6 +4,9 @@ import { useApp } from '../store/AppContext'
 import { flushProgress, todayKey, type PlayedRange } from '../store/progress'
 import { continuousRange, recordCoursePlayback } from '../logic/courseProgress'
 import { stopClip } from '../audio/clips'
+import { applyMediaRate } from '../audio/mediaRate'
+import { preparePlaybackSession } from '../audio/session'
+import { createMediaPlayback } from '../audio/mediaPlayback'
 import { navigate } from '../router'
 import { BackButton } from '../components/BackButton'
 import { BigButton } from '../components/BigButton'
@@ -19,6 +22,7 @@ export function CoursePlayer({ assetId }: { assetId: string }) {
 function Player({ asset }: { asset: CourseAsset }) {
   const { settings, progress, updateProgress, reward } = useApp()
   const element = useRef<HTMLMediaElement | null>(null)
+  const playback = useRef(createMediaPlayback())
   const initialPosition = useRef(progress.curriculum?.media[asset.id]?.position ?? 0)
   const last = useRef<{ time: number; wall: number; date: string } | null>(null)
   const [playing, setPlaying] = useState(false)
@@ -53,6 +57,7 @@ function Player({ asset }: { asset: CourseAsset }) {
     const el = element.current!
     if (!el.getAttribute('src')) el.src = courseURL(asset.file)
     const pause = () => {
+      playback.current.cancel()
       const previous = last.current
       const range = previous && !el.seeking && !document.hidden && previous.date === todayKey()
         ? continuousRange(previous.time, el.currentTime, (Date.now() - previous.wall) / 1000, el.playbackRate) : null
@@ -78,15 +83,22 @@ function Player({ asset }: { asset: CourseAsset }) {
       el.removeAttribute('src'); el.load()
     }
   }, [save, asset.file])
-  useEffect(() => { if (reward) { tick(true); element.current?.pause() } }, [reward, tick])
-  useEffect(() => { if (element.current) element.current.playbackRate = settings.courseRate }, [settings.courseRate])
+  useEffect(() => { if (reward) { playback.current.cancel(); tick(true); element.current?.pause() } }, [reward, tick])
+  useEffect(() => {
+    const el = element.current
+    if (!el) return
+    // Settle the time played at the previous speed before changing it.
+    tick(true)
+    applyMediaRate(el, settings.courseRate)
+  }, [settings.courseRate, tick])
   const play = () => {
     const el = element.current
     if (!el || reward) return
-    if (!el.paused) { tick(true); el.pause(); return }
+    if (!el.paused) { playback.current.cancel(); tick(true); el.pause(); return }
     stopClip(); setError('')
     if (el.ended) { last.current = null; el.currentTime = 0 }
-    void el.play().catch(() => setError(settings.showZh ? '暂时无法播放，请联网后再试一次。离线使用前，请家长下载本单元。' : 'Unable to play. Ask a parent to download this lesson.'))
+    applyMediaRate(el, settings.courseRate)
+    void playback.current.play(el, () => element.current === el && !document.hidden).catch(() => setError(settings.showZh ? '暂时无法播放，请联网后再试一次。离线使用前，请家长下载本单元。' : 'Unable to play. Ask a parent to download this lesson.'))
   }
   const seek = (time: number) => {
     const el = element.current
@@ -99,18 +111,20 @@ function Player({ asset }: { asset: CourseAsset }) {
     onLoadedMetadata: () => {
       const el = element.current!
       loaded.current = true
-      setReady(true); setError(''); el.playbackRate = settings.courseRate
+      setReady(true); setError(''); applyMediaRate(el, settings.courseRate)
       if (initialPosition.current > 0 && initialPosition.current < asset.duration - 0.5) el.currentTime = initialPosition.current
       setPosition(el.currentTime)
     },
     onPlay: () => {
       const el = element.current!
       if (document.hidden || reward) { el.pause(); return }
+      void preparePlaybackSession()
+      applyMediaRate(el, settings.courseRate)
       stopClip(); setPlaying(true)
       last.current = { time: el.currentTime, wall: Date.now(), date: todayKey() }
       save(null, el.currentTime)
     },
-    onPause: () => { tick(true); setPlaying(false); last.current = null; void flushProgress() },
+    onPause: () => { playback.current.cancel(); tick(true); setPlaying(false); last.current = null; void flushProgress() },
     onTimeUpdate: () => tick(),
     onSeeking: () => { last.current = null },
     onSeeked: () => { const el = element.current!; last.current = el.paused ? null : { time: el.currentTime, wall: Date.now(), date: todayKey() }; setPosition(el.currentTime) },
@@ -129,7 +143,7 @@ function Player({ asset }: { asset: CourseAsset }) {
       <div className="course-player-controls"><BigButton variant="primary" disabled={!!reward} onClick={play}>{playing ? label('❚❚ 暂停', '❚❚ Pause') : label('▶ 播放', '▶ Play')}</BigButton><BigButton disabled={!ready || !!reward} onClick={() => { seek(0); if (element.current?.paused) play() }}>{label(isVideo ? '↺ 再看一次' : '↺ 再听一次', '↺ Replay')}</BigButton>{isVideo && <button className="icon-btn" aria-label={label('全屏播放', 'Fullscreen')} onClick={fullscreen} disabled={!ready}>⛶</button>}</div>
       <label className="course-seek"><span>{formatDuration(position)} / {formatDuration(asset.duration)}</span><input aria-label={label('播放位置', 'Playback position')} type="range" min="0" max={asset.duration} step="0.1" value={Math.min(position, asset.duration)} disabled={!ready} onChange={(e) => seek(Number(e.target.value))} /></label>
       <p className="course-status" aria-live="polite">{mediaProgress?.completed ? (settings.showZh ? '🌟 这一段已完成，首次完成的星星已收好。' : '🌟 Completed!') : (settings.showZh ? '听一听，再跟着说。完整学习这一段可以获得一颗星。' : 'Listen, then say it yourself.')}</p>
-      {error && <div role="alert" className="course-error"><p>{error}</p><BigButton onClick={() => { setError(''); setReady(false); element.current?.load() }}>{label('重试', 'Retry')}</BigButton></div>}
+      {error && <div role="alert" className="course-error"><p>{error}</p><BigButton onClick={() => { playback.current.cancel(); setError(''); setReady(false); element.current?.load() }}>{label('重试', 'Retry')}</BigButton></div>}
       <div className="course-player-controls"><BigButton disabled={index <= 0} onClick={() => navigate(`/course/play/${playlist[index - 1]!.id}`)}>{label('← 上一段', '← Previous')}</BigButton><BigButton disabled={index >= playlist.length - 1} onClick={() => navigate(`/course/play/${playlist[index + 1]!.id}`)}>{label('下一段 →', 'Next →')}</BigButton></div>
       <BigButton icon="📖" onClick={() => navigate(back)}>{settings.showZh ? '回到课程' : 'Back to lessons'}</BigButton>
     </div>

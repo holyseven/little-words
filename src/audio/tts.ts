@@ -15,6 +15,8 @@
  *  - 队列化：同一时刻只有一条语句，新语句打断旧的
  */
 
+import { preparePlaybackSession } from './session'
+
 const STUCK_TIMEOUT_MS = 5000
 
 export interface SpeakOptions {
@@ -36,6 +38,7 @@ let defaultRate = 0.85
 
 let stuckTimer: number | undefined
 let currentOnEnd: (() => void) | undefined
+let generation = 0
 
 function synth(): SpeechSynthesis | null {
   return typeof window !== 'undefined' && 'speechSynthesis' in window
@@ -186,7 +189,9 @@ function clearStuckTimer(): void {
 }
 
 /** 结束回调只跑一次：end / error / 卡死超时 三者竞争 */
-function finish(): void {
+function finish(request: number): void {
+  if (request !== generation) return
+  generation++
   clearStuckTimer()
   const cb = currentOnEnd
   currentOnEnd = undefined
@@ -194,6 +199,7 @@ function finish(): void {
 }
 
 export function cancelSpeech(): void {
+  generation++
   const s = synth()
   clearStuckTimer()
   currentOnEnd = undefined
@@ -219,6 +225,7 @@ export function speak(text: string, opts: SpeakOptions = {}): void {
 
   // 打断上一条（同时清掉它的 onEnd，避免旧回调误触发）
   cancelSpeech()
+  const request = generation
   refreshVoices()
   if (!state.chosen) { opts.onEnd?.(); return }
 
@@ -235,24 +242,30 @@ export function speak(text: string, opts: SpeakOptions = {}): void {
 
   currentOnEnd = opts.onEnd
 
-  u.onend = () => finish()
-  u.onerror = () => finish()
+  u.onend = () => finish(request)
+  u.onerror = () => finish(request)
 
-  // iOS 上 speaking 偶发卡住：超时强制复位，避免后续朗读全部失效
-  stuckTimer = window.setTimeout(() => {
+  // A cancelled microphone can still be closing. Keep fallback speech in the
+  // same output-restoration sequence as clips, and discard stale queued words.
+  void preparePlaybackSession().then(() => {
+    if (request !== generation) return
+    // Start the watchdog when speech starts, not while waiting for mic cleanup.
+    stuckTimer = window.setTimeout(() => {
+      if (request !== generation) return
+      try {
+        s.cancel()
+      } catch {
+        /* 忽略 */
+      }
+      finish(request)
+    }, STUCK_TIMEOUT_MS + text.length * 60)
+
     try {
-      s.cancel()
+      s.speak(u)
     } catch {
-      /* 忽略 */
+      finish(request)
     }
-    finish()
-  }, STUCK_TIMEOUT_MS + text.length * 60)
-
-  try {
-    s.speak(u)
-  } catch {
-    finish()
-  }
+  }).catch(() => finish(request))
 }
 
 /* -------------------------------------------------------------------------- */

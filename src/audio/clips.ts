@@ -13,6 +13,9 @@
 import manifest from '../content/audioManifest.json'
 import { getAudioContext, isAudioUnlocked } from './audioUnlock'
 import { speak, cancelSpeech } from './tts'
+import { timeStretch } from './timeStretch'
+import { preparePlaybackSession } from './session'
+import { normalizeClipLoudness } from './loudness'
 
 interface ClipMeta {
   hash: string
@@ -39,7 +42,31 @@ let generation = 0
 let activePlayback: { id: number; onCancel?: () => void } | null = null
 let sequenceTimer: ReturnType<typeof setTimeout> | null = null
 let playbackRate = 1
-export function setClipRate(rate: number): void { playbackRate = Math.max(0.7, Math.min(1, rate)) / 0.85 }
+// Retain only a small set of recent speed variants on memory-limited tablets.
+const stretched = new Map<AudioBuffer, AudioBuffer>()
+const MAX_STRETCHED_CLIPS = 20
+export function setClipRate(rate: number): void {
+  const next = Math.max(0.7, Math.min(1, rate)) / 0.85
+  if (next !== playbackRate) stretched.clear()
+  playbackRate = next
+}
+
+function bufferAtSpeed(buffer: AudioBuffer, ctx: AudioContext): AudioBuffer {
+  if (playbackRate === 1) return buffer
+  const cached = stretched.get(buffer)
+  if (cached) {
+    stretched.delete(buffer)
+    stretched.set(buffer, cached)
+    return cached
+  }
+  // Length changes without resampling, so vowels keep their original pitch.
+  const audio = timeStretch(buffer, playbackRate)
+  const result = ctx.createBuffer(audio.channels.length, audio.length, audio.sampleRate)
+  audio.channels.forEach((samples, channel) => result.getChannelData(channel).set(samples))
+  stretched.set(buffer, result)
+  if (stretched.size > MAX_STRETCHED_CLIPS) stretched.delete(stretched.keys().next().value!)
+  return result
+}
 
 export function clipId(kind: ClipKind, id: string): string {
   return `${kind}/${id}`
@@ -81,8 +108,16 @@ async function load(key: string): Promise<AudioBuffer | null> {
         if (ret && typeof ret.then === 'function') ret.then(resolve, reject)
       })
 
-      decoded.set(key, buf)
-      return buf
+      let output = buf
+      try {
+        const audio = normalizeClipLoudness(buf)
+        output = ctx.createBuffer(audio.channels.length, audio.length, audio.sampleRate)
+        audio.channels.forEach((samples, channel) => output.getChannelData(channel).set(samples))
+      } catch (error) {
+        console.warn('[clips] 响度处理失败，保留原音频', error)
+      }
+      decoded.set(key, output)
+      return output
     } catch (err) {
       console.warn('[clips] 解码失败', key, err)
       return null
@@ -205,8 +240,11 @@ async function playInRequest(key: string, opts: PlayOptions, requestId: number):
     return
   }
 
+  // Let a released microphone return to the normal output category first.
+  await preparePlaybackSession()
+  if (requestId !== generation) return
   // 首次点击的音频恢复是异步的；确认设备已就绪再播放。
-  if (ctx.state === 'suspended') {
+  if (ctx.state !== 'running' && ctx.state !== 'closed') {
     try {
       await ctx.resume()
     } catch {
@@ -220,6 +258,7 @@ async function playInRequest(key: string, opts: PlayOptions, requestId: number):
   }
 
   const buf = await load(key)
+  await preparePlaybackSession()
   // 必须在失败兜底之前检查：旧请求失败后也不能突然开始 TTS。
   if (requestId !== generation) return
   // 解码会跨过一个或多个任务队列；iPad Safari 可能在这段时间把
@@ -243,8 +282,14 @@ async function playInRequest(key: string, opts: PlayOptions, requestId: number):
   }
 
   const source = ctx.createBufferSource()
-  source.buffer = buf
-  source.playbackRate.value = playbackRate
+  try {
+    source.buffer = bufferAtSpeed(buf, ctx)
+  } catch (error) {
+    // Keep the original voice if the device cannot prepare a speed variant.
+    console.warn('[clips] 语速处理失败，使用原速', error)
+    source.buffer = buf
+  }
+  source.playbackRate.value = 1
   source.connect(ctx.destination)
 
   const entry = { source }

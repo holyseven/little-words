@@ -6,9 +6,12 @@
  * 解锁前需要自动播放的地方应显示「▶ 点我开始」，而不是静默失败。
  */
 
+import { preparePlaybackSession } from './session'
+
 type Listener = (unlocked: boolean) => void
 
 let unlocked = false
+let speechPrimed = false
 let ctx: AudioContext | null = null
 const listeners = new Set<Listener>()
 
@@ -50,10 +53,11 @@ function markUnlocked() {
  * 可重复调用（例如「▶ Start」按钮），幂等。
  */
 export function unlockAudio(): void {
+  void preparePlaybackSession()
   const audioCtx = getAudioContext()
 
   if (audioCtx) {
-    if (audioCtx.state === 'suspended') {
+    if (audioCtx.state !== 'running' && audioCtx.state !== 'closed') {
       // 手势上下文里 resume 才会成功；失败也不阻塞 TTS 预热
       void audioCtx.resume().catch(() => undefined)
     }
@@ -77,6 +81,7 @@ export function unlockAudio(): void {
 
 /** 朗读一个空格，让 iOS 的 speechSynthesis 在手势内完成初始化 */
 function primeSpeech(): void {
+  if (speechPrimed) return
   const synth = window.speechSynthesis
   if (!synth) return
 
@@ -86,6 +91,7 @@ function primeSpeech(): void {
     u.volume = 0
     u.rate = 1
     synth.speak(u)
+    speechPrimed = true
   } catch {
     /* 忽略 */
   }
