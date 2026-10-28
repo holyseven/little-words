@@ -8,6 +8,7 @@ import { NotFound } from './NotFound'
 import { useCourseDownloads } from '../course/downloads'
 import { courseWordGarden } from '../content/courseWordGardens'
 import { dialogueSceneForUnit } from '../content/dialogues'
+import { animatedStoryForUnit } from '../content/stories'
 import './Course.css'
 
 export function CourseHome() {
@@ -38,6 +39,7 @@ export function CourseUnitPage({ unitId }: { unitId: string }) {
   const assets = unitAssets(unit.id)
   const garden = courseWordGarden(unit.id)
   const dialogue = dialogueSceneForUnit(unit.id)
+  const story = animatedStoryForUnit(unit.id)
   const groups = [
     { kind: 'lesson-audio', title: settings.showZh ? '听课文' : 'Listen', icon: '👂' },
     { kind: 'animation', title: settings.showZh ? '看动画' : 'Watch', icon: '🎬' },
@@ -53,6 +55,11 @@ export function CourseUnitPage({ unitId }: { unitId: string }) {
           <BigButton variant="primary" icon="📖" onClick={() => navigate(`/theme/${garden.theme.id}/learn`)}>{settings.showZh ? '学单词与跟读' : 'Learn & repeat'}</BigButton>
           <BigButton icon="🎲" onClick={() => navigate(`/theme/${garden.theme.id}`)}>{settings.showZh ? '选一个小游戏' : 'Choose a game'}</BigButton>
         </div>
+      </section>}
+      {story && <section className="course-section course-word-garden">
+        <h2>{settings.showZh ? '🎬 动画小剧场' : '🎬 Story theater'}</h2>
+        <p className="course-status">{settings.showZh ? `原创配音动画 · ${story.summary}` : `An original voiced story. ${story.summaryEn}`}</p>
+        <BigButton icon="▶" onClick={() => navigate(`/stories/${story.id}?from=course`)}>{settings.showZh ? `看《${story.zh}》` : `Watch ${story.title}`}</BigButton>
       </section>}
       {dialogue && <section className="course-section course-word-garden">
         <h2>{settings.showZh ? '💬 开口小对话' : '💬 Little chat'}</h2>

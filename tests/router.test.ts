@@ -19,6 +19,14 @@ describe('parseRoute', () => {
     expect(parseRoute('/dialogues/hello/extra').name).toBe('notfound')
   })
 
+  it('动画目录、故事及课本和主题返回来源', () => {
+    expect(parseRoute('/stories')).toEqual({ name: 'stories' })
+    expect(parseRoute('/stories/family?from=course')).toEqual({ name: 'story', storyId: 'family', from: 'course' })
+    expect(parseRoute('/stories/colors?from=theme')).toEqual({ name: 'story', storyId: 'colors', from: 'theme' })
+    expect(parseRoute('/stories/school-things?from=unknown')).toEqual({ name: 'story', storyId: 'school-things' })
+    expect(parseRoute('/stories/family/extra').name).toBe('notfound')
+  })
+
   it('单词卡页', () => {
     expect(parseRoute('/theme/animals/learn')).toEqual({ name: 'learn', themeId: 'animals' })
   })

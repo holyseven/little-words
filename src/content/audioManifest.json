@@ -1927,10 +1927,10 @@
       "text": "This is my mum.",
       "durationMs": 863
     },
-    "p/hello-mum": {
-      "hash": "f74f582ac7c0",
-      "text": "Hello, Mum!",
-      "durationMs": 936
+    "p/nice-to-meet-you": {
+      "hash": "720272dd2c70",
+      "text": "Nice to meet you!",
+      "durationMs": 856
     },
     "p/who-is-he": {
       "hash": "67771e0eaffc",
@@ -1942,11 +1942,6 @@
       "text": "This is my dad.",
       "durationMs": 827
     },
-    "p/hello-dad": {
-      "hash": "6edfb58ea306",
-      "text": "Hello, Dad!",
-      "durationMs": 1062
-    },
     "p/is-this-your-grandma": {
       "hash": "ca0c3cd5fb71",
       "text": "Is this your grandma?",
@@ -1956,11 +1951,6 @@
       "hash": "7da5b35c4408",
       "text": "Yes, it is.",
       "durationMs": 1183
-    },
-    "p/hello-grandma": {
-      "hash": "32cb912102f0",
-      "text": "Hello, Grandma!",
-      "durationMs": 1271
     },
     "p/what-is-this": {
       "hash": "683123bb1081",

@@ -32,6 +32,7 @@ import { GamePark } from './pages/GamePark'
 import { WordTrain } from './pages/games/WordTrain'
 import { EnglishTreasure } from './pages/games/EnglishTreasure'
 import { Dialogues, DialoguePractice } from './pages/Dialogues'
+import { Stories, StoryPlayer } from './pages/Stories'
 
 function Routes() {
   const route = useRoute()
@@ -65,7 +66,7 @@ function Routes() {
       stopClip()
       clearConfetti()
     }
-  }, [route.name, 'themeId' in route ? route.themeId : '', 'game' in route ? route.game : '', 'sceneId' in route ? route.sceneId : ''])
+  }, [route.name, 'themeId' in route ? route.themeId : '', 'game' in route ? route.game : '', 'sceneId' in route ? route.sceneId : '', 'storyId' in route ? route.storyId : ''])
 
   // IndexedDB 读取很快，但读完前渲染会闪一次 0 星；用一个同色占位挡住
   if (!ready) return <div className="page" aria-busy="true" />
@@ -74,6 +75,10 @@ function Routes() {
   switch (route.name) {
     case 'home':
       return <Home />
+    case 'stories':
+      return <Stories />
+    case 'story':
+      return <StoryPlayer key={`${dataEpoch}:${route.storyId}`} storyId={route.storyId} from={route.from} />
     case 'dialogues':
       return <Dialogues />
     case 'dialogue':

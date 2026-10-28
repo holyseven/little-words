@@ -16,6 +16,7 @@ import { useSfx } from '../hooks/useSfx'
 import { NotFound } from './NotFound'
 import { parkGames } from '../content/games'
 import { dialogueSceneForTheme } from '../content/dialogues'
+import { animatedStoryForTheme } from '../content/stories'
 
 interface Props {
   themeId: string
@@ -39,6 +40,7 @@ export function ThemePage({ themeId }: Props) {
 
   const tp = getThemeProgress(progress, theme.id)
   const dialogue = dialogueSceneForTheme(theme.id)
+  const story = animatedStoryForTheme(theme.id)
 
   const activities: Activity[] = [
     {
@@ -82,6 +84,11 @@ export function ThemePage({ themeId }: Props) {
     key: 'dialogue', emoji: '💬', title: 'Little Chat', zh: '开口小对话',
     path: `/dialogues/${dialogue.id}?from=theme`,
     meta: settings.showZh ? '听一句，说一句 · 3 轮' : 'Listen and answer · 3 turns',
+  })
+  if (story) activities.splice(1, 0, {
+    key: 'story', emoji: '🎬', title: 'Animated Story', zh: '动画小剧场',
+    path: `/stories/${story.id}?from=theme`,
+    meta: settings.showZh ? story.zh : story.title,
   })
 
   const open = (path: string) => {
@@ -127,7 +134,7 @@ export function ThemePage({ themeId }: Props) {
                 key={a.key}
                 className="activity"
                 onClick={() => open(a.path!)}
-                aria-label={`${a.title} ${a.zh}`}
+                aria-label={`${a.title}${settings.showZh ? ` ${a.zh}` : ''}`}
               >
                 <span className="emoji activity__emoji" aria-hidden="true">
                   {a.emoji}

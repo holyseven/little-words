@@ -1,0 +1,312 @@
+.story-stage {
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid #d9c9ae;
+  border-radius: 24px;
+  background: #f2e6d1;
+  box-shadow: 0 14px 34px rgb(99 77 46 / 9%), inset 0 0 0 1px rgb(255 255 255 / 30%);
+}
+
+.story-stage__svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 560;
+  overflow: hidden;
+}
+
+/* Placement is on parent <g>s; animation transforms remain local on Safari. */
+.story-stage__breathe {
+  animation: story-breathe 4s ease-in-out infinite;
+  transform-origin: 0 0;
+}
+
+.story-stage__person--child .story-stage__breathe {
+  animation-delay: -.9s;
+}
+
+.story-stage__eyes {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: story-blink 5.7s ease-in-out infinite;
+}
+
+.story-stage__person .story-stage__eyes {
+  animation-delay: -2.3s;
+}
+
+.story-stage__mouth {
+  transform-origin: 0 0;
+  animation: story-talk .36s ease-in-out infinite alternate;
+}
+
+.story-stage__person .story-stage__mouth {
+  animation-duration: .3s;
+}
+
+.story-stage__wave-arm {
+  transform-origin: 0 0;
+  transform: rotate(-137deg);
+  animation: story-bear-wave 1.35s ease-in-out infinite;
+}
+
+.story-stage__point-arm {
+  transform-origin: 0 0;
+  transform: rotate(-65deg);
+  animation: story-point 3s ease-in-out infinite;
+}
+
+.story-stage__person-wave {
+  transform-origin: 0 0;
+  transform: rotate(-146deg);
+  animation: story-person-wave 1.65s ease-in-out infinite;
+}
+
+.story-stage__offer-arm {
+  transform-origin: 0 0;
+  transform: rotate(66deg);
+  animation: story-offer 1s ease-out both;
+}
+
+.story-stage__introduce-arm {
+  transform-origin: 0 0;
+  transform: rotate(-67deg);
+  animation: story-introduce 1s ease-out both;
+}
+
+.story-stage__nod-head {
+  transform-origin: 0 30px;
+  animation: story-nod 1.6s ease-in-out 2;
+}
+
+.story-stage__family-entry {
+  animation: story-family-enter 1.65s cubic-bezier(.2, .65, .3, 1) both;
+}
+
+.story-stage__plant-leaves {
+  transform-origin: 0 0;
+  animation: story-plant-sway 7s ease-in-out infinite;
+}
+
+.story-stage__accent {
+  transform-origin: 0 0;
+  animation: story-accent 2.7s ease-in-out infinite;
+}
+
+.story-stage__prop-appear {
+  animation: story-prop-appear .8s ease-out both;
+}
+
+.story-stage__give-pencil {
+  animation: story-give-pencil 1.3s cubic-bezier(.35, .05, .25, 1) both;
+}
+
+.story-stage__return-book {
+  animation: story-return-book 1.3s cubic-bezier(.35, .05, .25, 1) both;
+}
+
+.story-stage__exchange-guide {
+  animation: story-guide 2s ease-in-out both;
+}
+
+.story-stage__bag-open {
+  transform-origin: 0 0;
+  transform: translateY(-20px) rotate(-10deg) scaleY(-.65);
+  animation: story-open-bag .9s ease-in-out both;
+}
+
+.story-stage__case-reveal {
+  animation: story-case-reveal 1.4s cubic-bezier(.2, .7, .25, 1) both;
+}
+
+.story-stage__case-open {
+  transform-origin: 0 0;
+  transform: translateY(-15px) scaleY(-.8);
+  animation: story-open-case 1s ease-in-out both;
+}
+
+.story-stage__color-entry {
+  animation: story-color-enter 1.4s cubic-bezier(.2, .65, .25, 1) both;
+}
+
+.story-stage__balloon-float {
+  transform-origin: 0 0;
+  animation: story-balloon-float 4.8s ease-in-out infinite;
+}
+
+.story-stage__balloon-float--late {
+  animation-delay: -2s;
+}
+
+.story-stage__balloon-float--happy {
+  animation: story-balloon-happy 2.8s ease-in-out infinite;
+}
+
+.story-stage__star-float {
+  transform-origin: 0 0;
+  animation: story-star-float 4.5s ease-in-out infinite;
+}
+
+.story-stage.is-complete .story-stage__accent {
+  animation-duration: 3.2s;
+}
+
+/* A new closing tableau must show the final pose, not a paused entrance frame. */
+.story-stage.is-complete * {
+  animation: none !important;
+}
+
+.story-stage.is-paused *,
+.story-stage.is-paused *::before,
+.story-stage.is-paused *::after {
+  animation-play-state: paused !important;
+}
+
+.story-stage:not(.has-started) *,
+.story-stage:not(.has-started) *::before,
+.story-stage:not(.has-started) *::after {
+  animation: none !important;
+}
+
+@keyframes story-breathe {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-1px) scale(1.006, 1.012); }
+}
+
+@keyframes story-blink {
+  0%, 44%, 48%, 100% { transform: scaleY(1); }
+  46% { transform: scaleY(.12); }
+}
+
+@keyframes story-talk {
+  0% { transform: scale(.9, .35); }
+  35% { transform: scale(1, .9); }
+  70% { transform: scale(.8, .5); }
+  100% { transform: scale(1.05, 1); }
+}
+
+@keyframes story-bear-wave {
+  0%, 100% { transform: rotate(-137deg); }
+  50% { transform: rotate(-162deg); }
+}
+
+@keyframes story-person-wave {
+  0%, 100% { transform: rotate(-146deg); }
+  50% { transform: rotate(-169deg); }
+}
+
+@keyframes story-point {
+  0%, 100% { transform: rotate(-65deg); }
+  50% { transform: rotate(-71deg); }
+}
+
+@keyframes story-offer {
+  from { transform: rotate(12deg); }
+  to { transform: rotate(66deg); }
+}
+
+@keyframes story-introduce {
+  from { transform: rotate(-12deg); }
+  to { transform: rotate(-67deg); }
+}
+
+@keyframes story-nod {
+  0%, 100% { transform: rotate(0); }
+  45% { transform: translateY(4px) rotate(5deg); }
+  75% { transform: translateY(-1px) rotate(-2deg); }
+}
+
+@keyframes story-family-enter {
+  0% { opacity: 0; transform: translate(129px, -7px); }
+  12% { opacity: 1; }
+  35% { transform: translate(82px, 0) rotate(-2deg); }
+  62% { transform: translate(35px, -5px) rotate(1.5deg); }
+  86% { transform: translate(5px, 0) rotate(-.5deg); }
+  100% { opacity: 1; transform: translate(0, 0) rotate(0); }
+}
+
+@keyframes story-plant-sway {
+  0%, 100% { transform: rotate(-1deg); }
+  50% { transform: rotate(1.5deg); }
+}
+
+@keyframes story-accent {
+  0%, 100% { transform: translateY(0) scale(.87); opacity: .7; }
+  50% { transform: translateY(-7px) scale(1); opacity: 1; }
+}
+
+@keyframes story-prop-appear {
+  from { opacity: .3; transform: translateY(7px) rotate(-7deg); }
+  to { opacity: 1; transform: translateY(0) rotate(0); }
+}
+
+@keyframes story-give-pencil {
+  0%, 12% { transform: translateX(0) rotate(0); }
+  55% { transform: translate(-145px, -35px) rotate(-10deg); }
+  100% { transform: translate(-273px, 0) rotate(0); }
+}
+
+@keyframes story-return-book {
+  0%, 12% { transform: translateX(-273px) rotate(0); }
+  55% { transform: translate(-125px, -29px) rotate(7deg); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
+@keyframes story-guide {
+  0% { opacity: 0; }
+  35% { opacity: .8; }
+  100% { opacity: 0; }
+}
+
+@keyframes story-open-bag {
+  from { transform: translateY(0) rotate(0) scaleY(1); }
+  to { transform: translateY(-20px) rotate(-10deg) scaleY(-.65); }
+}
+
+@keyframes story-case-reveal {
+  0%, 15% { opacity: 0; transform: translateY(65px) scale(.7); }
+  45% { opacity: 1; }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes story-open-case {
+  from { transform: translateY(0) scaleY(1); }
+  to { transform: translateY(-15px) scaleY(-.8); }
+}
+
+@keyframes story-color-enter {
+  from { opacity: 0; transform: translateY(50px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes story-balloon-float {
+  0%, 100% { transform: translate(0, 0) rotate(-3deg); }
+  50% { transform: translate(5px, -14px) rotate(3deg); }
+}
+
+@keyframes story-balloon-happy {
+  0%, 100% { transform: translate(0, 0) rotate(-4deg); }
+  50% { transform: translate(4px, -24px) rotate(4deg); }
+}
+
+@keyframes story-star-float {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-9px) rotate(5deg); }
+}
+
+@media (max-width: 600px) {
+  .story-stage { border-radius: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .story-stage *,
+  .story-stage *::before,
+  .story-stage *::after {
+    animation: none !important;
+  }
+
+  .story-stage__give-pencil { transform: translateX(-273px); }
+  .story-stage__return-book { transform: translateX(0); }
+  .story-stage__exchange-guide { opacity: 0; }
+}

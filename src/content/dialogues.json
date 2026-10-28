@@ -70,21 +70,21 @@
         "wordId": "mum",
         "prompt": { "en": "Who is she?", "zh": "她是谁？" },
         "answer": { "en": "This is my mum.", "zh": "这是我的妈妈。" },
-        "reply": { "en": "Hello, Mum!", "zh": "妈妈，你好！" }
+        "reply": { "en": "Nice to meet you!", "zh": "很高兴认识你！" }
       },
       {
         "id": "family-dad",
         "wordId": "dad",
         "prompt": { "en": "Who is he?", "zh": "他是谁？" },
         "answer": { "en": "This is my dad.", "zh": "这是我的爸爸。" },
-        "reply": { "en": "Hello, Dad!", "zh": "爸爸，你好！" }
+        "reply": { "en": "Nice to meet you!", "zh": "很高兴认识你！" }
       },
       {
         "id": "family-grandma",
         "wordId": "grandma",
         "prompt": { "en": "Is this your grandma?", "zh": "这是你的奶奶或外婆吗？" },
         "answer": { "en": "Yes, it is.", "zh": "是的。" },
-        "reply": { "en": "Hello, Grandma!", "zh": "奶奶或外婆，你好！" }
+        "reply": { "en": "Nice to meet you!", "zh": "很高兴认识你！" }
       }
     ]
   },

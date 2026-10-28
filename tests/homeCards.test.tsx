@@ -65,4 +65,21 @@ describe('首页主题卡片', () => {
     expect(html).toContain('More themes')
     expect(html).not.toContain('已学')
   })
+
+  it('课本和单词两个分页各显示一个动画目录入口，并遵循中文开关', () => {
+    state.progress = emptyProgress()
+    for (const section of ['course', 'words'] as const) {
+      const html = render(section)
+      expect(html.match(/class="home-dialogues stories-entry"/g), section).toHaveLength(1)
+      expect(html, section).toContain('动画小剧场')
+      expect(html, section).toContain('看原创动画，听 Momo 和小朋友说英语')
+    }
+    state.showZh = false
+    for (const section of ['course', 'words'] as const) {
+      const html = render(section)
+      expect(html, section).toContain('Story theater')
+      expect(html, section).not.toContain('动画小剧场')
+      expect(html, section).not.toContain('看原创动画')
+    }
+  })
 })

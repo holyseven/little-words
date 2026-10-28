@@ -74,6 +74,17 @@ export function Home() {
     </button>
   )
 
+  const storyEntry = (
+    <button className="home-dialogues stories-entry" onClick={() => { sfx.tap(); navigate('/stories') }}>
+      <span className="emoji" aria-hidden="true">🎬</span>
+      <span>
+        <strong>{settings.showZh ? '动画小剧场' : 'Story theater'}</strong>
+        <small>{settings.showZh ? '看原创动画，听 Momo 和小朋友说英语' : 'Watch original stories and listen to Momo and a friend.'}</small>
+      </span>
+      <span className="home-dialogues__arrow" aria-hidden="true">→</span>
+    </button>
+  )
+
   const themeCard = (theme: Theme, unitNumber?: number) => {
     const tp = getThemeProgress(progress, theme.id)
     const learned = theme.words.filter((word) => tp.learned.includes(word.id)).length
@@ -144,11 +155,13 @@ export function Home() {
 
       {section === 'course' ? (
         <div className="home__course-scroll">
+          {storyEntry}
           {dialogueEntry}
           <CourseHome />
         </div>
       ) : (
         <div className="home__words-scroll">
+          {storyEntry}
           {dialogueEntry}
           <section className="word-gardens" aria-labelledby="textbook-gardens-title">
             <h2 id="textbook-gardens-title">{settings.showZh ? '跟课本一起学' : 'Learn with your textbook'}</h2>
