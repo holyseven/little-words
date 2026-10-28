@@ -19,6 +19,8 @@ export interface Settings {
   currentUnitId: string
   dailySource: 'course' | 'themes'
   courseRate: number
+  /** 原创动画的播放倍率，与课本媒体和单词语速分别保存。 */
+  storyRate: number
   /** 跟读评估通道；默认先尝试 Azure，失败时自动回退 Vosk。 */
   repeatEngine: 'azure' | 'vosk'
 }
@@ -33,13 +35,16 @@ export const defaultSettings: Settings = {
   currentUnitId: 'g1t1-u1',
   dailySource: 'course',
   courseRate: 1,
+  storyRate: 1,
   repeatEngine: 'azure',
 }
 
 export async function loadSettings(): Promise<Settings> {
   const saved = await dbGet<Partial<Settings>>(KEY_SETTINGS)
   // 合并默认值：老版本存档缺字段时也能正常启动
-  return { ...defaultSettings, ...saved }
+  const settings = { ...defaultSettings, ...saved }
+  if (![0.7, 0.85, 1].includes(settings.storyRate)) settings.storyRate = defaultSettings.storyRate
+  return settings
 }
 
 export async function saveSettings(s: Settings): Promise<void> {

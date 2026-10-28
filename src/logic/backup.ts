@@ -147,6 +147,10 @@ export function parseBackup(text: string): { progress: Progress; settings?: Part
     if (![0.7, 0.85, 1].includes(s.courseRate as number)) return fail()
     settings.courseRate = s.courseRate as number
   }
+  if (s.storyRate !== undefined) {
+    if (![0.7, 0.85, 1].includes(s.storyRate as number)) return fail()
+    settings.storyRate = s.storyRate as number
+  }
   if (s.repeatEngine !== undefined) {
     if (s.repeatEngine !== 'azure' && s.repeatEngine !== 'vosk') return fail()
     settings.repeatEngine = s.repeatEngine

@@ -1,6 +1,8 @@
 import { getDialogueScene } from './dialogues'
+import type { Phrase } from './phrases'
+import scripts from './storyScripts.json'
 
-export type AnimatedStoryId = 'family' | 'school-things' | 'colors'
+export type AnimatedStoryId = 'numbers' | 'family' | 'classroom' | 'school-things' | 'colors'
 
 export interface StoryLine {
   id: string
@@ -20,11 +22,17 @@ export interface AnimatedStory {
   themeId: string
   emoji: string
   chapters: { en: string; zh: string }[]
+  learning: {
+    wordIds: string[]
+    pattern: Phrase
+    /** A child's existing line to say after watching; not a mastery score. */
+    practiceLineId: string
+  }
   lines: StoryLine[]
 }
 
 /**
- * 应用原创小剧场，不是课本原片；每章沿用已有对话和本地配音。
+ * 首批三段应用原创小剧场沿用已有对话；新剧本单独编写，不是课本原片。
  * 台词按「Momo 提问 → 小朋友回答 → Momo 回应」播放，供画面同步使用。
  */
 function story(metadata: Omit<AnimatedStory, 'lines'>): AnimatedStory {
@@ -43,7 +51,7 @@ function story(metadata: Omit<AnimatedStory, 'lines'>): AnimatedStory {
   return { ...metadata, lines }
 }
 
-export const animatedStories: AnimatedStory[] = [
+const dialogueStories: AnimatedStory[] = [
   story({
     id: 'family',
     title: 'Momo Visits My Home',
@@ -53,6 +61,11 @@ export const animatedStories: AnimatedStory[] = [
     unitId: 'g1t1-u3',
     themeId: 'family',
     emoji: '🏡',
+    learning: {
+      wordIds: ['mum', 'dad', 'grandma'],
+      pattern: { en: 'This is my …', zh: '这是我的……' },
+      practiceLineId: 'family-mum-answer',
+    },
     chapters: [
       { en: 'Meet Mum', zh: '见见妈妈' },
       { en: 'Meet Dad', zh: '见见爸爸' },
@@ -68,6 +81,11 @@ export const animatedStories: AnimatedStory[] = [
     unitId: 'g1t1-u5',
     themeId: 'school-things',
     emoji: '🎒',
+    learning: {
+      wordIds: ['pencil', 'book', 'pencil-case'],
+      pattern: { en: 'Here you are.', zh: '给你。' },
+      practiceLineId: 'school-things-pencil-answer',
+    },
     chapters: [
       { en: 'A Pencil, Please', zh: '借一支铅笔' },
       { en: 'Your Book', zh: '找到你的书' },
@@ -83,6 +101,11 @@ export const animatedStories: AnimatedStory[] = [
     unitId: 'g1t1-u6',
     themeId: 'colors',
     emoji: '🎈',
+    learning: {
+      wordIds: ['color-red', 'color-blue', 'color-yellow'],
+      pattern: { en: 'It is …', zh: '是……色。' },
+      practiceLineId: 'colors-red-answer',
+    },
     chapters: [
       { en: 'A Red Balloon', zh: '红气球' },
       { en: 'A Blue Balloon', zh: '蓝气球' },
@@ -90,6 +113,12 @@ export const animatedStories: AnimatedStory[] = [
     ],
   }),
 ]
+
+/** JSON is shared with the build-time audio generator; content tests verify its schema and curriculum links. */
+export const animatedStories: AnimatedStory[] = [
+  ...dialogueStories,
+  ...(scripts as AnimatedStory[]),
+].sort((a, b) => a.unitId.localeCompare(b.unitId))
 
 export function getAnimatedStory(id: string | undefined): AnimatedStory | undefined {
   return animatedStories.find((item) => item.id === id)

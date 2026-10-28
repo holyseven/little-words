@@ -43,28 +43,33 @@ let activePlayback: { id: number; onCancel?: () => void } | null = null
 let sequenceTimer: ReturnType<typeof setTimeout> | null = null
 let playbackRate = 1
 // Retain only a small set of recent speed variants on memory-limited tablets.
-const stretched = new Map<AudioBuffer, AudioBuffer>()
+const stretched: { original: AudioBuffer; rate: number; buffer: AudioBuffer }[] = []
 const MAX_STRETCHED_CLIPS = 20
 export function setClipRate(rate: number): void {
   const next = Math.max(0.7, Math.min(1, rate)) / 0.85
-  if (next !== playbackRate) stretched.clear()
+  if (next !== playbackRate) stretched.length = 0
   playbackRate = next
 }
 
-function bufferAtSpeed(buffer: AudioBuffer, ctx: AudioContext): AudioBuffer {
-  if (playbackRate === 1) return buffer
-  const cached = stretched.get(buffer)
-  if (cached) {
-    stretched.delete(buffer)
-    stretched.set(buffer, cached)
-    return cached
+function clipRateOverride(rate: number | undefined): number | undefined {
+  if (rate === undefined || !Number.isFinite(rate) || rate <= 0) return undefined
+  return Math.max(0.5, Math.min(2, rate))
+}
+
+function bufferAtSpeed(buffer: AudioBuffer, ctx: AudioContext, rate: number): AudioBuffer {
+  if (rate === 1) return buffer
+  const cachedIndex = stretched.findIndex((item) => item.original === buffer && item.rate === rate)
+  if (cachedIndex !== -1) {
+    const [cached] = stretched.splice(cachedIndex, 1)
+    stretched.push(cached)
+    return cached.buffer
   }
   // Length changes without resampling, so vowels keep their original pitch.
-  const audio = timeStretch(buffer, playbackRate)
+  const audio = timeStretch(buffer, rate)
   const result = ctx.createBuffer(audio.channels.length, audio.length, audio.sampleRate)
   audio.channels.forEach((samples, channel) => result.getChannelData(channel).set(samples))
-  stretched.set(buffer, result)
-  if (stretched.size > MAX_STRETCHED_CLIPS) stretched.delete(stretched.keys().next().value!)
+  stretched.push({ original: buffer, rate, buffer: result })
+  if (stretched.length > MAX_STRETCHED_CLIPS) stretched.shift()
   return result
 }
 
@@ -155,6 +160,8 @@ export function stopClip(): void {
 }
 
 export interface PlayOptions {
+  /** 此次请求的实际倍速（1 为文件原速），不改变全局朗读设置。有效范围 0.5–2。 */
+  playbackRate?: number
   onEnd?: () => void
   /** 被其他人声或 stop 打断；与正常完成回调互斥。 */
   onCancel?: () => void
@@ -198,6 +205,7 @@ export async function playClipSequence(items: readonly SequenceClip[], opts: Pla
     }
     await playInRequest(item.key, {
       fallbackText: item.fallbackText,
+      playbackRate: opts.playbackRate,
       onEnd: () => {
         if (index === queue.length) {
           finishPlayback(requestId, opts.onEnd)
@@ -224,13 +232,14 @@ function finishPlayback(requestId: number, onEnd?: () => void): void {
 /** 播放序列中的一项，不创建新请求，也不会取消同一序列。 */
 async function playInRequest(key: string, opts: PlayOptions, requestId: number): Promise<void> {
   if (requestId !== generation) return
+  const rateOverride = clipRateOverride(opts.playbackRate)
   let ended = false
   const finish = () => {
     if (ended || requestId !== generation) return
     ended = true
     opts.onEnd?.()
   }
-  const useFallback = () => fallback({ ...opts, onEnd: finish })
+  const useFallback = () => fallback({ ...opts, playbackRate: rateOverride, onEnd: finish })
 
   const ctx = getAudioContext()
 
@@ -283,7 +292,7 @@ async function playInRequest(key: string, opts: PlayOptions, requestId: number):
 
   const source = ctx.createBufferSource()
   try {
-    source.buffer = bufferAtSpeed(buf, ctx)
+    source.buffer = bufferAtSpeed(buf, ctx, rateOverride ?? playbackRate)
   } catch (error) {
     // Keep the original voice if the device cannot prepare a speed variant.
     console.warn('[clips] 语速处理失败，使用原速', error)
@@ -305,7 +314,12 @@ async function playInRequest(key: string, opts: PlayOptions, requestId: number):
 
 function fallback(opts: PlayOptions): void {
   if (opts.fallbackText) {
-    speak(opts.fallbackText, { onEnd: opts.onEnd })
+    // Recorded voices are prepared at the normal teaching pace; keep that
+    // baseline for this request without overwriting the global TTS setting.
+    speak(opts.fallbackText, {
+      onEnd: opts.onEnd,
+      ...(opts.playbackRate === undefined ? {} : { rate: 0.85 * opts.playbackRate }),
+    })
   } else {
     opts.onEnd?.()
   }

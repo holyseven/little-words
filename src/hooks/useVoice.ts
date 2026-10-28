@@ -1,5 +1,5 @@
 /**
- * 人声播放 hook —— 优先播预生成的 Ava (Premium) 片段，缺失时回落 TTS。
+ * 人声播放 hook —— 优先播预生成的片段，缺失时回落 TTS。
  *
  * 组件卸载时自动停止，避免离开页面后还在念上一页的词。
  */
@@ -7,7 +7,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { clipId, hasClip, phraseId, playClip, playClipSequence, preloadClips, stopClip } from '../audio/clips'
+import { characterClipId } from '../audio/characterVoices'
 import type { Word } from '../content/types'
+import type { CharacterId } from '../content/voiceCast'
 
 export function useVoice() {
   const [speaking, setSpeaking] = useState(false)
@@ -84,11 +86,24 @@ export function useVoice() {
     void playClipSequence(texts.map((text) => ({ key: clipId('p', phraseId(text)), fallbackText: text })), beginPlayback(onEnd))
   }, [beginPlayback])
 
+  /** 指定角色朗读，保留真实结束与被打断时的状态同步。 */
+  const sayCharacterPhrase = useCallback((text: string, speaker: CharacterId, onEnd?: () => void) => {
+    play(characterClipId(speaker, text), text, onEnd)
+  }, [play])
+
+  /** 同一段示范按角色切换声音，整段完成前保持 speaking。 */
+  const sayCharacterPhrases = useCallback((items: { text: string; speaker: CharacterId }[], onEnd?: () => void) => {
+    void playClipSequence(
+      items.map(({ text, speaker }) => ({ key: characterClipId(speaker, text), fallbackText: text })),
+      beginPlayback(onEnd),
+    )
+  }, [beginPlayback])
+
   const stop = useCallback(() => {
     playId.current++
     stopClip()
     setSpeaking(false)
   }, [])
 
-  return { sayWord, sayWords, saySentence, sayPhrase, sayPhrases, stop, speaking, preloadClips, hasClip }
+  return { sayWord, sayWords, saySentence, sayPhrase, sayPhrases, sayCharacterPhrase, sayCharacterPhrases, stop, speaking, preloadClips, hasClip }
 }

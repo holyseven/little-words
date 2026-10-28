@@ -6,9 +6,10 @@ import { Momo } from '../components/Mascot/Momo'
 import { InlineWordRepeat, type InlineWordRepeatHandle } from '../components/InlineWordRepeat'
 import { burstSmall, clearConfetti } from '../components/Confetti'
 import { themes } from '../content'
-import { dialogueScenes, getDialogueScene } from '../content/dialogues'
+import { dialogueScenes, getDialogueScene, type DialogueTurn } from '../content/dialogues'
 import { getCourseUnit } from '../content/curriculum'
-import { phraseId } from '../audio/clips'
+import type { CharacterId } from '../content/voiceCast'
+import { characterClipId } from '../audio/characterVoices'
 import { WordArt } from '../content/svg/WordArt'
 import { advanceDialogue, initialDialogueState, type DialogueAction, type DialogueResponse } from '../logic/dialogue'
 import { useApp } from '../store/AppContext'
@@ -19,6 +20,13 @@ import { usePageVisible } from '../hooks/useGameLoop'
 import { useSfx } from '../hooks/useSfx'
 import { NotFound } from './NotFound'
 import './Dialogues.css'
+
+/** The same cast is used for preload, whole examples and individual review lines. */
+const voicedTurn = (turn: DialogueTurn) => [
+  { speaker: 'momo' as const, phrase: turn.prompt },
+  { speaker: 'child' as const, phrase: turn.answer },
+  { speaker: 'momo' as const, phrase: turn.reply },
+]
 
 export function Dialogues() {
   const { settings, progress } = useApp()
@@ -39,7 +47,7 @@ export function Dialogues() {
 export function DialoguePractice({ sceneId, from }: { sceneId: string; from?: 'course' | 'theme' }) {
   const scene = getDialogueScene(sceneId)
   const { settings, reward } = useApp()
-  const { sayPhrase, sayPhrases, speaking, stop, preloadClips } = useVoice()
+  const { sayCharacterPhrase, sayCharacterPhrases, speaking, stop, preloadClips } = useVoice()
   const { unlock } = useAudioUnlocked()
   const visible = usePageVisible()
   const paused = !visible || !!reward
@@ -84,10 +92,10 @@ export function DialoguePractice({ sceneId, from }: { sceneId: string; from?: 'c
     autoTimer.current = setTimeout(() => {
       if (announced.current === spokenKey || document.hidden) return
       announced.current = spokenKey
-      sayPhrase(state.phase === 'answering' ? turn.prompt.en : turn.reply.en)
+      sayCharacterPhrase(state.phase === 'answering' ? turn.prompt.en : turn.reply.en, 'momo')
     }, 300)
     return () => clearTimeout(autoTimer.current)
-  }, [paused, turn, state.phase, spokenKey, sayPhrase, stop])
+  }, [paused, turn, state.phase, spokenKey, sayCharacterPhrase, stop])
 
   useEffect(() => () => { clearTimeout(autoTimer.current); clearConfetti() }, [])
 
@@ -106,14 +114,14 @@ export function DialoguePractice({ sceneId, from }: { sceneId: string; from?: 'c
   const start = (restart = false) => {
     unlock(); silence(); announced.current = ''
     transition({ type: restart ? 'restart' : 'start' })
-    preloadClips(scene.turns.flatMap((item) => [item.prompt, item.answer, item.reply]).map((phrase) => `p/${phraseId(phrase.en)}`))
+    preloadClips(scene.turns.flatMap(voicedTurn).map(({ speaker, phrase }) => characterClipId(speaker, phrase.en)))
   }
   const completeTurn = (mode: DialogueResponse) => {
     if (paused || !transition({ type: 'answer', index: state.index, mode })) return
     if (mode === 'self') silence()
     if (mode === 'spoken') sfx.correct()
   }
-  const hear = (phrase: string) => { if (!paused) { unlock(); silence(); sayPhrase(phrase) } }
+  const hear = (phrase: string, speaker: CharacterId) => { if (!paused) { unlock(); silence(); sayCharacterPhrase(phrase, speaker) } }
   const next = () => {
     if (paused || speaking) return
     silence()
@@ -130,16 +138,16 @@ export function DialoguePractice({ sceneId, from }: { sceneId: string; from?: 'c
         <BigButton icon="▶" variant="primary" onClick={() => start()} disabled={paused}>{text('开始对话', 'Start chatting')}</BigButton>
       </section> : state.phase === 'done' ? <>
         <section className="dialogue__finish"><span className="emoji" aria-hidden="true">🎉</span><h2>{text('今天也勇敢开口啦！', 'You had a little chat!')}</h2><p>{text(`完成了 ${scene.turns.length} 轮练习，再听一遍吧。`, `${scene.turns.length} turns practiced. Listen again!`)}</p></section>
-        <div className="dialogue__actions"><BigButton icon={speaking ? '■' : '🔊'} onClick={() => { unlock(); if (speaking) silence(); else sayPhrases(scene.turns.flatMap((item) => [item.prompt.en, item.answer.en, item.reply.en])) }} disabled={paused}>{text(speaking ? '停止示范' : '听完整示范', speaking ? 'Stop example' : 'Hear the whole example')}</BigButton><BigButton icon="🔁" variant="primary" onClick={() => start(true)} disabled={paused}>{text('再聊一次', 'Chat again')}</BigButton></div>
+        <div className="dialogue__actions"><BigButton icon={speaking ? '■' : '🔊'} onClick={() => { unlock(); if (speaking) silence(); else sayCharacterPhrases(scene.turns.flatMap(voicedTurn).map(({ speaker, phrase }) => ({ text: phrase.en, speaker }))) }} disabled={paused}>{text(speaking ? '停止示范' : '听完整示范', speaking ? 'Stop example' : 'Hear the whole example')}</BigButton><BigButton icon="🔁" variant="primary" onClick={() => start(true)} disabled={paused}>{text('再聊一次', 'Chat again')}</BigButton></div>
         <div className="dialogue__review" aria-label={text('对话示范', 'Conversation example')}>{scene.turns.map((item, index) => <section key={item.id}>
           <h3>{text(`第 ${index + 1} 轮`, `Turn ${index + 1}`)}</h3>
-          {[{ role: 'Momo', phrase: item.prompt }, { role: text('参考回答', 'Example answer'), phrase: item.answer }, { role: 'Momo', phrase: item.reply }].map(({ role, phrase }, line) => <button key={line} onClick={() => hear(phrase.en)} disabled={paused}><small>{role} · 🔊</small><strong lang="en">{phrase.en}</strong>{settings.showZh && <span>{phrase.zh}</span>}</button>)}
+          {voicedTurn(item).map(({ speaker, phrase }, line) => <button key={line} onClick={() => hear(phrase.en, speaker)} disabled={paused}><small>{speaker === 'momo' ? 'Momo' : text('参考回答', 'Example answer')} · 🔊</small><strong lang="en">{phrase.en}</strong>{settings.showZh && <span>{phrase.zh}</span>}</button>)}
         </section>)}</div>
         <BigButton icon="💬" onClick={() => navigate('/dialogues')}>{text('换个话题', 'Choose another chat')}</BigButton>
       </> : <>
         <div className="dialogue__dots" aria-label={text(`第 ${state.index + 1} 轮，共 ${scene.turns.length} 轮`, `Turn ${state.index + 1} of ${scene.turns.length}`)}>{scene.turns.map((item, index) => <span key={item.id} className={index <= state.index ? 'is-active' : ''} aria-hidden="true">{index < state.index ? '✓' : index + 1}</span>)}</div>
-        <section className="dialogue__prompt"><Momo /><div className="dialogue__bubble"><small>Momo</small><h2 lang="en">{turn.prompt.en}</h2>{settings.showZh && <p>{turn.prompt.zh}</p>}<button className="dialogue__listen" onClick={() => hear(turn.prompt.en)} disabled={paused}>{text('🔊 再听问题', '🔊 Hear Momo again')}</button></div>{artWord && <WordArt word={artWord} className="dialogue__art" />}</section>
-        <section className="dialogue__answer"><small>{text(replyDone ? '这一轮的参考回答' : '轮到你啦 · 可以这样说', replyDone ? 'Example answer' : 'Your turn · You can say')}</small><h2 lang="en">{turn.answer.en}</h2>{settings.showZh && <p>{turn.answer.zh}</p>}<button className="dialogue__listen" onClick={() => hear(turn.answer.en)} disabled={paused}>{text('🔊 听回答示范', '🔊 Hear the example answer')}</button></section>
+        <section className="dialogue__prompt"><Momo /><div className="dialogue__bubble"><small>Momo</small><h2 lang="en">{turn.prompt.en}</h2>{settings.showZh && <p>{turn.prompt.zh}</p>}<button className="dialogue__listen" onClick={() => hear(turn.prompt.en, 'momo')} disabled={paused}>{text('🔊 再听问题', '🔊 Hear Momo again')}</button></div>{artWord && <WordArt word={artWord} className="dialogue__art" />}</section>
+        <section className="dialogue__answer"><small>{text(replyDone ? '这一轮的参考回答' : '轮到你啦 · 可以这样说', replyDone ? 'Example answer' : 'Your turn · You can say')}</small><h2 lang="en">{turn.answer.en}</h2>{settings.showZh && <p>{turn.answer.zh}</p>}<button className="dialogue__listen" onClick={() => hear(turn.answer.en, 'child')} disabled={paused}>{text('🔊 听回答示范', '🔊 Hear the example answer')}</button></section>
         {replyDone && <section className="dialogue__reply" aria-live="polite"><small>Momo</small><h2 lang="en">{turn.reply.en}</h2>{settings.showZh && <p>{turn.reply.zh}</p>}{state.responses[state.index] === 'self' && <small>{text('已完成自主练习', 'Self practice completed')}</small>}</section>}
         <div className={`dialogue__actions${replyDone ? ' is-replied' : ''}`}>
           <InlineWordRepeat key={turn.id} ref={repeat} word={turn.answer.en} candidates={scene.turns.map((item) => item.answer.en)} engine={settings.repeatEngine} showZh={settings.showZh} practiceKind="sentence" hideIdleNotice disabled={paused || speaking || replyDone} buttonText={text('我来回答', 'My turn')} onBeforeStart={() => { unlock(); silence(false) }} onSuccess={() => completeTurn('spoken')} />

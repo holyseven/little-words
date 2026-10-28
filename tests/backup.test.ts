@@ -1,7 +1,8 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createBackup, parseBackup } from '../src/logic/backup'
 import { emptyProgress } from '../src/store/progress'
-import { defaultSettings } from '../src/store/settings'
+import { defaultSettings, loadSettings } from '../src/store/settings'
+import * as db from '../src/store/db'
 import { ensureDaily } from '../src/logic/daily'
 import { themes } from '../src/content'
 
@@ -16,6 +17,32 @@ describe('进度备份', () => {
   })
   it('兼容原始 version 1 进度对象和空 daily.tasks', () => {
     expect(parseBackup(JSON.stringify(emptyProgress())).progress).toMatchObject(emptyProgress())
+  })
+  it.each([0.7, 0.85, 1])('备份往返保存动画倍率 %s，保留独立的课本和单词语速', (storyRate) => {
+    const settings = { ...defaultSettings, storyRate, courseRate: 0.85, rate: 0.7 }
+    const exported = createBackup(emptyProgress(), settings)
+    expect(exported.settings.storyRate).toBe(storyRate)
+    expect(parseBackup(JSON.stringify(exported)).settings).toMatchObject({ storyRate, courseRate: 0.85, rate: 0.7 })
+  })
+  it('旧备份缺少动画倍率时使用正常速度', () => {
+    const value = backup()
+    const { storyRate: _storyRate, ...settings } = value.settings
+    expect(parseBackup(JSON.stringify({ ...value, settings })).settings?.storyRate).toBe(1)
+  })
+  it.each([0, 0.5, 1.2, '0.7', null, true, {}, []])('拒绝非法动画倍率 %j', (storyRate) => {
+    const value = backup()
+    expect(() => parseBackup(JSON.stringify({ ...value, settings: { ...value.settings, storyRate } }))).toThrow()
+  })
+  it('加载旧设置和非法动画倍率时恢复正常速度，保留其它设置', async () => {
+    const read = vi.spyOn(db, 'dbGet')
+    try {
+      for (const storyRate of [undefined, null, 0.5, NaN, '0.7']) {
+        read.mockResolvedValueOnce({ storyRate, courseRate: 0.7, rate: 0.85, sfx: false })
+        expect(await loadSettings()).toMatchObject({ storyRate: 1, courseRate: 0.7, rate: 0.85, sfx: false })
+      }
+      read.mockResolvedValueOnce({ storyRate: 0.85 })
+      expect((await loadSettings()).storyRate).toBe(0.85)
+    } finally { read.mockRestore() }
   })
   it.each(['not json', 'null', '[]', '{"version":2}', '{"version":1,"stars":-1}'])('拒绝损坏或不兼容的数据 %s', (text) => {
     expect(() => parseBackup(text)).toThrow()

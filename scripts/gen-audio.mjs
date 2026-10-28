@@ -18,7 +18,7 @@
  * 用法：
  *   npm run audio            # 只生成缺失/变更的片段
  *   npm run audio -- --force # 全部重新生成
- *   npm run audio -- --voice "Zoe (Premium)"
+ *   npm run audio -- --voice "Zoe (Premium)" # 只改变通用发音，角色声线固定
  */
 
 import { execFile } from 'node:child_process'
@@ -41,6 +41,7 @@ const themesDir = join(root, 'src', 'content', 'themes')
 const outDir = join(root, 'public', 'audio')
 /** 清单放 src/：需要被 import 进包，运行时才能同步知道有哪些片段 */
 const manifestPath = join(root, 'src', 'content', 'audioManifest.json')
+const voiceCastPath = join(root, 'src', 'content', 'voiceCast.json')
 
 /**
  * 语音优先级。第一个已安装的会被采用。
@@ -96,9 +97,7 @@ async function listVoices() {
     .filter(Boolean)
 }
 
-async function pickVoice() {
-  const voices = await listVoices()
-
+function pickVoice(voices) {
   if (voiceOverride) {
     if (!voices.some((v) => v.name === voiceOverride)) {
       throw new Error(`找不到语音 "${voiceOverride}"。可用：\n  ${voices.map((v) => v.name).join('\n  ')}`)
@@ -119,6 +118,30 @@ async function pickVoice() {
   )
 }
 
+/** 所有固定声线都先检查，避免生成到一半才发现缺声，或静默替换成另一角色。 */
+async function loadVoiceCast(voices) {
+  const cast = JSON.parse(await readFile(voiceCastPath, 'utf8'))
+  if (!cast || Array.isArray(cast) || typeof cast !== 'object') {
+    throw new Error('voiceCast.json 必须是按角色 id 索引的配音配置。')
+  }
+  for (const required of ['momo', 'child']) {
+    if (!(required in cast)) throw new Error(`voiceCast.json 缺少角色 ${required}。`)
+  }
+  for (const [id, profile] of Object.entries(cast)) {
+    if (!/^[a-z][a-z0-9-]*$/.test(id) || !profile || typeof profile !== 'object' ||
+        typeof profile.name !== 'string' || !profile.name.trim() ||
+        !['male', 'female'].includes(profile.gender) ||
+        typeof profile.voice !== 'string' ||
+        !Number.isFinite(profile.rate) || profile.rate <= 0) {
+      throw new Error(`voiceCast.json 的角色 ${id} 配置无效。`)
+    }
+    if (!voices.some((voice) => voice.name === profile.voice && voice.lang === 'en_US')) {
+      throw new Error(`角色 ${profile.name} (${id}) 需要已安装的英文语音 "${profile.voice}"；未找到，已停止生成，不会替换声线。`)
+    }
+  }
+  return cast
+}
+
 /* -------------------------------------------------------------------------- */
 /* 待生成的片段清单                                                            */
 /* -------------------------------------------------------------------------- */
@@ -127,7 +150,7 @@ async function pickVoice() {
  * 收集所有需要音频的文本。
  * id 用作文件名，必须是文件系统安全的；文本参与哈希，改了文案会自动重新生成。
  */
-async function collectClips() {
+async function collectClips(cast) {
   const clips = []
 
   // 单词与例句
@@ -160,6 +183,21 @@ async function collectClips() {
 
   // 对话的提问、回答示范和回应都生成完整句子，断网也能听完整场景。
   const dialogueScenes = JSON.parse(await readFile(join(root, 'src', 'content', 'dialogues.json'), 'utf8'))
+  const characterTexts = new Set()
+  function addCharacterClip(speaker, text) {
+    if (!(speaker in cast) || typeof text !== 'string' || !text.trim()) {
+      throw new Error(`无效的角色台词：${speaker} / ${text}`)
+    }
+    const speakerText = `${speaker}|${text}`
+    if (characterTexts.has(speakerText)) return
+    characterTexts.add(speakerText)
+    clips.push({
+      id: `v/${speaker}/${slug(text)}`,
+      text,
+      rate: cast[speaker].rate,
+      voice: cast[speaker].voice,
+    })
+  }
   for (const scene of dialogueScenes) {
     for (const turn of scene.turns) {
       for (const phrase of [turn.prompt, turn.answer, turn.reply]) {
@@ -168,7 +206,17 @@ async function collectClips() {
         seen.add(text)
         clips.push({ id: `p/${slug(text)}`, text, rate: RATE_SENTENCE })
       }
+      // 同一句话的男女声分别保存，角色固定，不受 --voice 通用语音选项影响。
+      for (const [speaker, phrase] of [['momo', turn.prompt], ['child', turn.answer], ['momo', turn.reply]]) {
+        addCharacterClip(speaker, phrase.en)
+      }
     }
+  }
+
+  // 原创动画拥有独立剧本，和对话共用角色声线，按角色与文本复用片段。
+  const storyScripts = JSON.parse(await readFile(join(root, 'src', 'content', 'storyScripts.json'), 'utf8'))
+  for (const story of storyScripts) {
+    for (const line of story.lines) addCharacterClip(line.speaker, line.en)
   }
 
   // 同一 slug 只允许同一句话，避免生成器静默覆盖另一条台词。
@@ -243,10 +291,13 @@ async function renderClip(clip, voice, tmp) {
 /* -------------------------------------------------------------------------- */
 
 async function main() {
-  const voice = await pickVoice()
-  const clips = await collectClips()
+  const voices = await listVoices()
+  const voice = pickVoice(voices)
+  const cast = await loadVoiceCast(voices)
+  const clips = await collectClips(cast)
 
   console.log(`[audio] 语音：${voice}`)
+  for (const profile of Object.values(cast)) console.log(`[audio] 角色 ${profile.name}：${profile.voice}`)
   console.log(`[audio] 片段：${clips.length} 个`)
 
   await mkdir(outDir, { recursive: true })
@@ -270,18 +321,19 @@ async function main() {
 
   try {
     for (const clip of clips) {
-      const hash = hashOf(clip.text, voice, clip.rate)
+      const actualVoice = clip.voice ?? voice
+      const hash = hashOf(clip.text, actualVoice, clip.rate)
       const outPath = join(outDir, `${clip.id}.m4a`)
       const cached = prev[clip.id]
 
       if (cached?.hash === hash && existsSync(outPath)) {
-        manifest[clip.id] = cached
+        manifest[clip.id] = clip.voice ? { ...cached, voice: actualVoice } : cached
         skipped++
         continue
       }
 
-      const { durationMs } = await renderClip(clip, voice, tmp)
-      manifest[clip.id] = { hash, text: clip.text, durationMs }
+      const { durationMs } = await renderClip(clip, actualVoice, tmp)
+      manifest[clip.id] = { hash, text: clip.text, durationMs, ...(clip.voice ? { voice: actualVoice } : {}) }
       rendered++
 
       if (rendered % 10 === 0) process.stdout.write(`\r[audio] 已生成 ${rendered} …`)
@@ -293,16 +345,23 @@ async function main() {
   // 清掉词表里已删除的词留下的孤儿文件
   const valid = new Set(clips.map((c) => `${c.id}.m4a`))
   let removed = 0
-  for (const sub of ['w', 's', 'p']) {
+  async function removeOrphans(sub) {
     const dir = join(outDir, sub)
-    if (!existsSync(dir)) continue
-    for (const f of await readdir(dir)) {
-      if (!valid.has(`${sub}/${f}`)) {
-        await rm(join(dir, f))
+    if (!existsSync(dir)) return
+    for (const entry of await readdir(dir, { withFileTypes: true })) {
+      const relativePath = `${sub}/${entry.name}`
+      if (entry.isDirectory()) {
+        await removeOrphans(relativePath)
+        if ((await readdir(join(outDir, relativePath))).length === 0) {
+          await rm(join(outDir, relativePath), { recursive: true })
+        }
+      } else if (!valid.has(relativePath)) {
+        await rm(join(outDir, relativePath))
         removed++
       }
     }
   }
+  for (const sub of ['w', 's', 'p', 'v']) await removeOrphans(sub)
 
   await writeFile(
     manifestPath,
@@ -322,4 +381,3 @@ main().catch((err) => {
   console.error(`\n[audio] 失败：${err.message}`)
   process.exit(1)
 })
-

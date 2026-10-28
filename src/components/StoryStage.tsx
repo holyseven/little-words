@@ -1,12 +1,13 @@
-import { useEffect, useId, useState } from 'react'
+import { useEffect, useId, useState, type CSSProperties } from 'react'
 import './StoryStage.css'
 
 export interface StoryStageProps {
-  storyId: 'family' | 'school-things' | 'colors'
+  storyId: 'family' | 'school-things' | 'colors' | 'numbers' | 'classroom'
   lineIndex: number
   speaking: boolean
   running: boolean
   complete?: boolean
+  rate?: number
   label: string
 }
 
@@ -98,13 +99,15 @@ function Bear({ talking, wave = false, point = false }: {
   )
 }
 
-function Person({ kind, talking = false, wave = false, point = false, nod = false, look = 'gold' }: {
+function Person({ kind, talking = false, wave = false, point = false, nod = false, look = 'gold', reach, seated = false }: {
   kind: PersonKind
   talking?: boolean
   wave?: boolean
   point?: boolean
   nod?: boolean
   look?: 'gold' | 'mint' | 'berry'
+  reach?: 'left' | 'right'
+  seated?: boolean
 }) {
   const child = kind === 'child'
   const mum = kind === 'mum'
@@ -112,15 +115,15 @@ function Person({ kind, talking = false, wave = false, point = false, nod = fals
   const grandma = kind === 'grandma'
   const skin = grandma ? '#e7be9f' : '#f0c7a6'
   const shirt = child ? look === 'mint' ? '#8eaa9f' : look === 'berry' ? '#c29499' : '#d5a45f' : mum ? '#b5a1be' : dad ? '#7d9ba0' : '#abbaa0'
-  const hair = grandma ? '#b9b6b0' : dad ? '#60524a' : child && look === 'berry' ? '#775541' : '#5c453c'
+  const hair = grandma ? '#b9b6b0' : dad ? '#60524a' : '#5c453c'
   const headY = child ? -164 : -225
   const shoulderY = child ? -115 : -176
   return (
     <g className={`story-stage__person story-stage__person--${kind}${talking ? ' is-speaking' : ''}`}>
       <g className="story-stage__breathe">
         {child ? <>
-          <path d="M-27-49L-24-7H-7L-5-50M5-50L7-7H24L27-49" fill="#7c8992" />
-          <path d="M-25-12H-7L-6 0H-35Q-36-8-25-12M7-12H24Q36-8 35 0H6Z" fill="#826d5b" />
+          <path d={seated ? 'M-27-49L-37-31L-31-7H-14L-18-27L-3-39M4-48L32-39L33-7H16L14-26L-2-34' : 'M-27-49L-24-7H-7L-5-50M5-50L7-7H24L27-49'} fill="#7c8992" />
+          <path d={seated ? 'M-32-12H-14L-13 0H-42Q-43-8-32-12M16-12H33Q45-8 44 0H15Z' : 'M-25-12H-7L-6 0H-35Q-36-8-25-12M7-12H24Q36-8 35 0H6Z'} fill="#826d5b" />
           <path d="M-34-108Q0-123 34-108L37-47Q0-35-37-47Z" fill={shirt} />
           <path d="M-11-117v12q11 12 22 0v-12" fill={skin} />
           <path d="M-15-109l15 15 15-15" stroke="#f0d6a5" strokeWidth="5" fill="none" />
@@ -137,13 +140,13 @@ function Person({ kind, talking = false, wave = false, point = false, nod = fals
           {grandma && <path d="M-35-147L-24-74M35-147L24-74" fill="none" stroke="#8f9f84" strokeWidth="3" />}
         </>}
         <g transform={`translate(${-1 * (child ? 29 : 36)} ${shoulderY + 9})`}>
-          <g className={point ? 'story-stage__offer-arm' : 'story-stage__rest-arm'}>
+          <g className={reach === 'left' ? 'story-stage__reach-left' : point ? 'story-stage__offer-arm' : 'story-stage__rest-arm'}>
             <path d={child ? 'M0 0Q-20 18-17 47' : 'M0 0Q-24 32-17 72'} stroke={shirt} strokeWidth={child ? 20 : 23} strokeLinecap="round" fill="none" />
             <circle cx="-17" cy={child ? 50 : 76} r={child ? 10 : 12} fill={skin} />
           </g>
         </g>
         <g transform={`translate(${child ? 29 : 36} ${shoulderY + 9})`}>
-          <g className={wave ? 'story-stage__person-wave' : point ? 'story-stage__introduce-arm' : 'story-stage__rest-arm'}>
+          <g className={reach === 'right' ? 'story-stage__reach-right' : wave ? 'story-stage__person-wave' : point ? 'story-stage__introduce-arm' : 'story-stage__rest-arm'}>
             <path d={child ? 'M0 0Q21 16 18 46' : 'M0 0Q26 31 19 72'} stroke={shirt} strokeWidth={child ? 20 : 23} strokeLinecap="round" fill="none" />
             <circle cx={child ? 18 : 19} cy={child ? 49 : 76} r={child ? 10 : 12} fill={skin} />
             {wave && <path d={child ? 'M14 42l-2-10M21 42l2-9' : 'M14 68l-3-12M22 67l3-11'} stroke={skin} strokeWidth="5" strokeLinecap="round" />}
@@ -151,22 +154,12 @@ function Person({ kind, talking = false, wave = false, point = false, nod = fals
         </g>
         <g transform={`translate(0 ${headY})`}>
           <g className={nod ? 'story-stage__nod-head' : 'story-stage__person-head'}>
-            {child && look === 'mint' && <>
-              <path d="M-25-26Q-57-43-52-7Q-53 16-37 24Q-28 6-23-12M25-26Q57-43 52-7Q53 16 37 24Q28 6 23-12" fill={hair} />
-              <path d="M-40-19l-10-6 1 13 10-3M40-19l10-6-1 13-10-3" fill="#c7ab88" />
-            </>}
             {mum && <path d="M-40-10Q-48-58 0-57Q48-57 41-6L45 43Q0 63-45 43Z" fill={hair} />}
             {grandma && <circle cx="18" cy="-45" r="22" fill={hair} />}
             <ellipse cy="1" rx={child ? 37 : 38} ry={child ? 40 : 44} fill={skin} />
             <ellipse cx="-37" cy="4" rx="6" ry="10" fill={skin} />
             <ellipse cx="37" cy="4" rx="6" ry="10" fill={skin} />
-            {child && look === 'mint' ? <path d="M-36 0Q-45-51 0-52Q45-51 36 0L27-14L24-32Q14-12 0-16Q-14-12-24-32L-28-12Z" fill={hair} /> : child && look === 'berry' ? <>
-              <path d="M-36 0Q-43-47 0-50Q43-48 38-3L28-12L24-26Q0-16-23-29L-28-6Z" fill={hair} />
-              <g fill={hair}>
-                <circle cx="-31" cy="-31" r="15" /><circle cx="-12" cy="-43" r="17" />
-                <circle cx="9" cy="-44" r="16" /><circle cx="28" cy="-32" r="15" />
-              </g>
-            </> : child ? <>
+            {child ? <>
               <path d="M-36 0Q-47-52-1-51Q43-52 39-6L27-16L21-35Q4-8-14-17L-18-4L-28-19Z" fill={hair} />
               <path d="M-11-46q-4-15 10-20M-5-46q8-15 20-10" fill="none" stroke={hair} strokeWidth="5" strokeLinecap="round" />
             </> : dad ? <path d="M-37-6Q-46-54 4-54Q45-53 38-5L28-13L27-30Q5-24-13-35Q-18-16-28-14L-28 2Z" fill={hair} /> : grandma ? <>
@@ -486,8 +479,186 @@ function ColorsScene({ act, phase, speaking, complete }: { act: number; phase: n
   </g>
 }
 
-/** Animated illustrations follow the nine existing dialogue audio lines. */
-export function StoryStage({ storyId, lineIndex, speaking, running, complete = false, label }: StoryStageProps) {
+function Garden({ gradientId }: { gradientId: string }) {
+  return <g aria-hidden="true">
+    <defs>
+      <linearGradient id={`${gradientId}-garden`} x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stopColor="#d8e7df" /><stop offset="1" stopColor="#f7efd6" />
+      </linearGradient>
+      <linearGradient id={`${gradientId}-stream`} x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stopColor="#96bcb9" /><stop offset=".5" stopColor="#b4d0c7" /><stop offset="1" stopColor="#96bcb9" />
+      </linearGradient>
+    </defs>
+    <path d="M0 0H1000V560H0Z" fill={`url(#${gradientId}-garden)`} />
+    <circle cx="827" cy="103" r="44" fill="#f4dda0" />
+    <g fill="#fff9e9" opacity=".82">
+      <path d="M100 108q-12-26 11-37q16-10 31 5q14-19 31-8q17 8 11 25q21-2 22 15Z" />
+      <path d="M603 85q-9-22 11-30q16-6 25 7q15-10 27 0q12 9 4 23Z" />
+    </g>
+    <path d="M0 257Q126 163 274 239Q390 153 526 239Q685 145 815 232Q906 173 1000 239V560H0Z" fill="#b4c6a6" />
+    <path d="M0 324Q149 246 325 310Q474 261 641 315Q817 249 1000 319V560H0Z" fill="#c7d0aa" />
+    <path d="M0 397Q169 349 349 384L363 560H0ZM650 384Q824 347 1000 390V560H639Z" fill="#d7d7ae" />
+    <path d="M453 302Q405 347 354 389Q338 466 363 560H639Q654 461 650 389Q572 343 545 302Z" fill={`url(#${gradientId}-stream)`} />
+    <path d="M354 390Q338 467 363 560M650 390Q654 467 639 560" stroke="#a8bc99" strokeWidth="10" fill="none" />
+    <g className="story-stage__water-ripples" fill="none" stroke="#e2eee0" strokeWidth="4" strokeLinecap="round" opacity=".72">
+      <path d="M461 337h35M531 362h37M397 402h44M557 423h42M419 499h55M524 533h57" />
+    </g>
+    <path d="M47 481Q166 438 297 475M707 476Q835 437 956 473" fill="none" stroke="#e8dfbb" strokeWidth="34" strokeLinecap="round" />
+    {[{ x: 77, y: 358 }, { x: 902, y: 382 }, { x: 293, y: 334 }].map(({ x, y }) => <g key={x} transform={`translate(${x} ${y})`}>
+      <path d="M0 32V0M0 19Q-19 7-21 16Q-15 28 0 24" fill="none" stroke="#92a77d" strokeWidth="4" strokeLinecap="round" />
+      <g fill="#e4c7b2"><ellipse cy="-7" rx="6" ry="10" /><ellipse cx="8" cy="-1" rx="10" ry="6" /><ellipse cy="6" rx="6" ry="10" /><ellipse cx="-8" cy="-1" rx="10" ry="6" /></g>
+      <circle cy="-1" r="5" fill="#e6c77e" />
+    </g>)}
+    <g transform="translate(73 254)">
+      <path d="M0 111V-17M0 20L-28-1M0 3L25-28" fill="none" stroke="#ab9674" strokeWidth="16" strokeLinecap="round" />
+      <path d="M-50 1Q-77-42-40-67Q-35-104 9-94Q49-116 65-68Q99-41 65-8Q31 24-2 3Q-30 23-50 1" fill="#a2b698" />
+      <path d="M-39-49Q-11-77 15-55" stroke="#bac7a7" strokeWidth="7" strokeLinecap="round" fill="none" />
+    </g>
+    <g transform="translate(916 292) scale(.75)"><Plant x={0} y={0} /></g>
+  </g>
+}
+
+function BridgeBlock({ number }: { number: number }) {
+  const color = ['#d5af76', '#9eafa0', '#c69d94'][number - 1]
+  return <g>
+    <path d="M-45-17L-35-28H43L45-17Z" fill={['#ead1a2', '#bdc9b3', '#dec0b1'][number - 1]} />
+    <rect x="-45" y="-17" width="90" height="33" rx="6" fill={color} />
+    <path d="M-35 10H35" stroke="#826d55" strokeWidth="2" strokeLinecap="round" opacity=".16" />
+    <circle r="10" fill="#fff5dc" opacity=".8" />
+    <text x="0" y="5" textAnchor="middle" fill="#76644f" fontSize="15" fontWeight="700" fontFamily="system-ui, sans-serif">{number}</text>
+  </g>
+}
+
+function NumbersScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
+  const crossing = act === 2 && phase === 2
+  const blockX = [407, 500, 593]
+  return <g>
+    <Shadow x={830} width={48} />
+    <g transform={`translate(${complete ? 700 : 224} 468) scale(1.04)`}>
+      <g className={crossing && !complete ? 'story-stage__cross-bridge' : ''}>
+        <ellipse cy="3" rx="59" ry="12" fill="#9f8b74" opacity=".16" />
+        <Bear talking={speaking && phase !== 1} point={!complete && phase === 0} wave={complete || crossing} />
+      </g>
+    </g>
+    <g transform="translate(830 469) scale(1.04)"><Person kind="child" talking={speaking && phase === 1} point={!complete && phase < 2} wave={complete || crossing} /></g>
+    {blockX.map((x, i) => {
+      const placed = complete || i < act || (i === act && phase === 2)
+      if (i > act && !complete) return null
+      if (placed) return <g key={i} transform={`translate(${x} 453)`}><BridgeBlock number={i + 1} /></g>
+      return <g key={i} transform={`translate(${x} 453)`}>
+        <g className={phase === 1 ? 'story-stage__place-block' : ''} style={{ '--block-start-x': `${742 - x}px`, '--block-mid-x': `${(742 - x) / 2}px`, transform: phase === 0 ? `translate(${742 - x}px, -86px)` : undefined } as CSSProperties}>
+          <BridgeBlock number={i + 1} />
+        </g>
+      </g>
+    })}
+    {phase === 2 && <Accent x={blockX[act]} y={393} />}
+    {(crossing || complete) && <><Accent x={705} y={209} kind="heart" /><Accent x={898} y={243} /><Accent x={517} y={364} /></>}
+  </g>
+}
+
+function ClassroomRoom({ act, phase, complete }: { act: number; phase: number; complete: boolean }) {
+  const doorOpen = complete || act > 0 || phase > 0
+  const windowOpen = complete || act > 1 || (act === 1 && phase > 0)
+  return <g aria-hidden="true">
+    <path d="M0 0H1000V560H0Z" fill="#f4e8d0" />
+    <path d="M0 398H1000V560H0Z" fill="#d8c4a2" />
+    <path d="M0 392H1000" stroke="#c5b48e" strokeWidth="12" />
+    <path d="M0 400H1000" stroke="#f8edcf" strokeWidth="4" />
+    <path d="M0 460H1000M0 525H1000M171 400L110 560M409 400L386 560M653 400L680 560M872 400L960 560" stroke="#c2a987" strokeWidth="2" opacity=".4" />
+    <g>
+      <path d="M77 396V142Q77 95 124 95H225Q272 95 272 142V396Z" fill="#bca486" />
+      <path d="M91 394V145Q91 110 126 110H222Q257 110 257 145V394Z" fill="#dfd6bc" />
+      <path d="M91 347Q175 318 257 347V394H91Z" fill="#b9c6a5" />
+      <path d="M127 188L174 143L222 188V279H127Z" fill="#e9debd" />
+      <path d="M120 188L174 137L229 188" fill="none" stroke="#b8aa8d" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
+      <g transform="translate(92 110)">
+        <g className={`${doorOpen ? 'story-stage__door-open' : ''}${act === 0 && phase === 1 && !complete ? ' story-stage__opening-door' : ''}`}>
+          <path d="M0 284V36Q0 0 36 0H129Q165 0 165 36V284Z" fill="#c7a882" stroke="#b59672" strokeWidth="3" />
+          <rect x="19" y="34" width="127" height="106" rx="44" fill="#e6d8b4" />
+          <path d="M82 37V137M21 88H144" stroke="#d3bd97" strokeWidth="6" />
+          <rect x="20" y="162" width="125" height="101" rx="7" fill="none" stroke="#b89871" strokeWidth="3" />
+          <path d="M142 208h15" stroke="#927a57" strokeWidth="7" strokeLinecap="round" />
+          <circle cx="141" cy="208" r="7" fill="#d8bb76" />
+        </g>
+      </g>
+      <rect x="78" y="393" width="193" height="11" rx="3" fill="#b79c78" />
+    </g>
+    <g>
+      <rect x="300" y="145" width="253" height="189" rx="7" fill="#d2bea1" />
+      <rect x="309" y="154" width="235" height="171" rx="3" fill="#c4dcd1" />
+      <circle cx="478" cy="190" r="23" fill="#f1dda7" />
+      <path d="M309 280Q365 238 425 277Q492 232 544 276V325H309Z" fill="#a9c09f" />
+      <path d="M309 305Q378 274 442 309Q490 274 544 295V325H309Z" fill="#91ad92" />
+      <g transform="translate(309 154)">
+        <g className={`${windowOpen ? 'story-stage__window-left-open' : ''}${act === 1 && phase === 1 && !complete ? ' story-stage__opening-window-left' : ''}`}>
+          <rect x="0" y="0" width="116" height="171" rx="2" fill="#d9e6d7" fillOpacity=".34" stroke="#f8edcf" strokeWidth="8" />
+          <path d="M2 83H112" stroke="#f8edcf" strokeWidth="6" />
+          <path d="M105 134v17" stroke="#a89875" strokeWidth="5" strokeLinecap="round" />
+        </g>
+      </g>
+      <g transform="translate(544 154)">
+        <g className={`${windowOpen ? 'story-stage__window-right-open' : ''}${act === 1 && phase === 1 && !complete ? ' story-stage__opening-window-right' : ''}`}>
+          <rect x="-116" y="0" width="116" height="171" rx="2" fill="#d9e6d7" fillOpacity=".34" stroke="#f8edcf" strokeWidth="8" />
+          <path d="M-112 83H-2" stroke="#f8edcf" strokeWidth="6" />
+          <path d="M-105 134v17" stroke="#a89875" strokeWidth="5" strokeLinecap="round" />
+        </g>
+      </g>
+      <rect x="292" y="331" width="270" height="13" rx="5" fill="#e9d6b6" />
+      {windowOpen && <g className="story-stage__cool-breeze" fill="none" stroke="#fbf9e8" strokeWidth="4" strokeLinecap="round" opacity=".74">
+        <path d="M382 225q50-21 95 1q39 20 66 0M394 252q38-13 71 2q34 17 66 1M445 286q39-15 73 0" />
+      </g>}
+    </g>
+    <g>
+      <rect x="655" y="77" width="284" height="213" rx="10" fill="#bea484" />
+      <rect x="665" y="87" width="264" height="193" rx="4" fill="#8ba59a" />
+      <path d="M698 133H805M698 150H766" stroke="#dce4ce" strokeWidth="5" strokeLinecap="round" />
+      <path d="M734 242v-57q0-20 18-20q18 0 18 20v57M734 210h36" fill="none" stroke="#e8e7c9" strokeWidth="5" strokeLinecap="round" />
+      <path d="M837 180L853 215L891 220L863 244L869 280L837 261L805 280L811 244L783 220L821 215Z" transform="translate(188 3) scale(.8)" fill="none" stroke="#dcca8c" strokeWidth="5" strokeLinejoin="round" />
+      <rect x="668" y="280" width="266" height="10" rx="3" fill="#d4b68c" />
+      <rect x="868" y="271" width="24" height="8" rx="3" fill="#eadfba" />
+    </g>
+    <Plant x={941} y={429} small />
+    <g transform="translate(610 61)"><circle r="29" fill="#cbb397" /><circle r="23" fill="#fbf4df" /><path d="M0-14V0L10 7" fill="none" stroke="#9b957d" strokeWidth="3" strokeLinecap="round" /><circle r="3" fill="#9b957d" /></g>
+  </g>
+}
+
+function ClassroomChair() {
+  return <g>
+    <path d="M-34-111L-35 1M35-111L39 1M-32-41L-42 1M33-41L25 1" stroke="#a98b68" strokeWidth="10" strokeLinecap="round" />
+    <rect x="-41" y="-121" width="83" height="55" rx="10" fill="#bbab85" />
+    <path d="M-30-107H31M-30-93H31" stroke="#d4c59f" strokeWidth="5" strokeLinecap="round" />
+    <path d="M-40-51H33L48-36H-47Z" fill="#d9be91" />
+    <path d="M-47-36H48" stroke="#b49770" strokeWidth="8" strokeLinecap="round" />
+  </g>
+}
+
+function ClassroomScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
+  const arrived = complete || act > 0
+  const sitting = complete || (act === 2 && phase > 0)
+  const childX = act === 0 ? 322 : act === 1 ? 365 : sitting ? 738 : 639
+  return <g>
+    <ClassroomRoom act={act} phase={phase} complete={complete} />
+    <ellipse cx="706" cy="480" rx="133" ry="20" fill="#ad9777" opacity=".13" />
+    <g transform="translate(738 474)"><ClassroomChair /></g>
+    <g transform={`translate(${arrived ? 495 : 166} 468) scale(1.04)`}>
+      <g className={act === 0 && phase === 2 && !complete ? 'story-stage__enter-classroom' : ''}>
+        <ellipse cy="3" rx="59" ry="12" fill="#9f8b74" opacity=".16" />
+        <Bear talking={speaking && phase !== 1} wave={complete || (act === 0 && phase === 2)} point={!complete && act === 2} />
+      </g>
+    </g>
+    <g transform={`translate(${childX} ${sitting ? 475 : 468}) scale(1.04)`}>
+      <g className={act === 2 && phase === 1 && !complete ? 'story-stage__sit-on-chair' : ''}>
+        <Person kind="child" talking={speaking && phase === 1} reach={phase === 1 && act === 0 ? 'left' : phase === 1 && act === 1 ? 'right' : undefined} seated={sitting} nod={sitting} wave={complete} />
+      </g>
+    </g>
+    {act === 0 && phase === 2 && <Accent x={420} y={204} kind="heart" />}
+    {act === 1 && phase === 2 && <Accent x={602} y={337} />}
+    {(act === 2 && phase === 2 || complete) && <><Accent x={672} y={242} kind="heart" /><Accent x={823} y={348} /></>}
+  </g>
+}
+
+/** Each action follows its corresponding spoken line; paused stages keep their pose. */
+export function StoryStage({ storyId, lineIndex, speaking, running, complete = false, rate = 1, label }: StoryStageProps) {
   const id = useId().replace(/:/g, '')
   const [startedFor, setStartedFor] = useState<string | null>(running ? storyId : null)
   useEffect(() => { if (running) setStartedFor(storyId) }, [running, storyId])
@@ -495,12 +666,14 @@ export function StoryStage({ storyId, lineIndex, speaking, running, complete = f
   const act = Math.floor(currentLine / 3)
   const phase = currentLine % 3
   const sceneProps = { act, phase, speaking: speaking && !complete, complete }
+  const safeRate = Number.isFinite(rate) && rate > 0 ? rate : 1
+  const timing = { '--story-tick': `${1 / safeRate}s` } as CSSProperties
   return (
-    <div className={`story-stage story-stage--${storyId}${running ? ' is-running' : ' is-paused'}${running || startedFor === storyId ? ' has-started' : ''}${complete ? ' is-complete' : ''}`}>
+    <div className={`story-stage story-stage--${storyId}${running ? ' is-running' : ' is-paused'}${running || startedFor === storyId ? ' has-started' : ''}${complete ? ' is-complete' : ''}`} style={timing}>
       <svg className="story-stage__svg" viewBox="0 0 1000 560" role="img" aria-label={label} focusable="false">
         <title>{label}</title>
-        <Room storyId={storyId} gradientId={`story-${id}`} />
-        {storyId === 'family' ? <FamilyScene {...sceneProps} /> : storyId === 'school-things' ? <SchoolScene {...sceneProps} /> : <ColorsScene {...sceneProps} />}
+        {storyId === 'numbers' ? <Garden gradientId={`story-${id}`} /> : storyId !== 'classroom' && <Room storyId={storyId} gradientId={`story-${id}`} />}
+        {storyId === 'family' ? <FamilyScene {...sceneProps} /> : storyId === 'school-things' ? <SchoolScene {...sceneProps} /> : storyId === 'colors' ? <ColorsScene {...sceneProps} /> : storyId === 'numbers' ? <NumbersScene {...sceneProps} /> : <ClassroomScene {...sceneProps} />}
         <path d="M25 16H975" stroke="#fffaf0" strokeWidth="2" opacity=".35" strokeLinecap="round" />
       </svg>
     </div>

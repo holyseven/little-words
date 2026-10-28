@@ -1,0 +1,14 @@
+{
+  "momo": {
+    "name": "Momo",
+    "gender": "female",
+    "voice": "Ava (Premium)",
+    "rate": 165
+  },
+  "child": {
+    "name": "小朋友",
+    "gender": "male",
+    "voice": "Evan (Enhanced)",
+    "rate": 165
+  }
+}

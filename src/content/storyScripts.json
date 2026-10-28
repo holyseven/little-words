@@ -1,0 +1,204 @@
+[
+  {
+    "id": "numbers",
+    "title": "Three Blocks to Cross",
+    "zh": "三块积木搭小桥",
+    "summary": "小河挡住了去路。和 Momo 一起数一数，搭好三块积木的小桥。",
+    "summaryEn": "A stream is in the way. Count one, two and three blocks, then cross the little bridge with Momo.",
+    "unitId": "g1t1-u2",
+    "themeId": "numbers",
+    "emoji": "🌉",
+    "chapters": [
+      {
+        "en": "One Block",
+        "zh": "一块积木"
+      },
+      {
+        "en": "Two Blocks",
+        "zh": "两块积木"
+      },
+      {
+        "en": "Three Blocks",
+        "zh": "三块积木搭好桥"
+      }
+    ],
+    "learning": {
+      "wordIds": [
+        "num-one",
+        "num-two",
+        "num-three"
+      ],
+      "pattern": {
+        "en": "I have …",
+        "zh": "我有……"
+      },
+      "practiceLineId": "numbers-three-answer"
+    },
+    "lines": [
+      {
+        "id": "numbers-one-prompt",
+        "speaker": "momo",
+        "en": "How many blocks?",
+        "zh": "有几块积木？",
+        "chapter": 0
+      },
+      {
+        "id": "numbers-one-answer",
+        "speaker": "child",
+        "en": "I have one block.",
+        "zh": "我有一块积木。",
+        "chapter": 0
+      },
+      {
+        "id": "numbers-one-reply",
+        "speaker": "momo",
+        "en": "One. We need more!",
+        "zh": "一块。我们还需要更多！",
+        "chapter": 0
+      },
+      {
+        "id": "numbers-two-prompt",
+        "speaker": "momo",
+        "en": "How many blocks?",
+        "zh": "有几块积木？",
+        "chapter": 1
+      },
+      {
+        "id": "numbers-two-answer",
+        "speaker": "child",
+        "en": "I have two blocks.",
+        "zh": "我有两块积木。",
+        "chapter": 1
+      },
+      {
+        "id": "numbers-two-reply",
+        "speaker": "momo",
+        "en": "Two. One more, please!",
+        "zh": "两块。请再来一块！",
+        "chapter": 1
+      },
+      {
+        "id": "numbers-three-prompt",
+        "speaker": "momo",
+        "en": "How many blocks?",
+        "zh": "有几块积木？",
+        "chapter": 2
+      },
+      {
+        "id": "numbers-three-answer",
+        "speaker": "child",
+        "en": "I have three blocks.",
+        "zh": "我有三块积木。",
+        "chapter": 2
+      },
+      {
+        "id": "numbers-three-reply",
+        "speaker": "momo",
+        "en": "Three! Let's cross the bridge!",
+        "zh": "三块！我们过小桥吧！",
+        "chapter": 2
+      }
+    ]
+  },
+  {
+    "id": "classroom",
+    "title": "Welcome to Class, Momo!",
+    "zh": "Momo 来上课",
+    "summary": "打开门迎接 Momo，开窗吹吹风，再找张椅子一起上课。",
+    "summaryEn": "Welcome Momo in, open the window, and find a chair to learn together.",
+    "unitId": "g1t1-u4",
+    "themeId": "classroom",
+    "emoji": "🏫",
+    "chapters": [
+      {
+        "en": "Open the Door",
+        "zh": "开门迎接 Momo"
+      },
+      {
+        "en": "Open the Window",
+        "zh": "开窗吹吹风"
+      },
+      {
+        "en": "Find a Chair",
+        "zh": "坐下来上课"
+      }
+    ],
+    "learning": {
+      "wordIds": [
+        "door",
+        "window",
+        "chair"
+      ],
+      "pattern": {
+        "en": "I can …",
+        "zh": "我能……"
+      },
+      "practiceLineId": "classroom-door-answer"
+    },
+    "lines": [
+      {
+        "id": "classroom-door-prompt",
+        "speaker": "momo",
+        "en": "Can you open the door?",
+        "zh": "你能打开门吗？",
+        "chapter": 0
+      },
+      {
+        "id": "classroom-door-answer",
+        "speaker": "child",
+        "en": "I can open the door.",
+        "zh": "我能打开门。",
+        "chapter": 0
+      },
+      {
+        "id": "classroom-door-reply",
+        "speaker": "momo",
+        "en": "Thank you. Let's go in!",
+        "zh": "谢谢。我们进去吧！",
+        "chapter": 0
+      },
+      {
+        "id": "classroom-window-prompt",
+        "speaker": "momo",
+        "en": "Can you open the window?",
+        "zh": "你能打开窗户吗？",
+        "chapter": 1
+      },
+      {
+        "id": "classroom-window-answer",
+        "speaker": "child",
+        "en": "I can open the window.",
+        "zh": "我能打开窗户。",
+        "chapter": 1
+      },
+      {
+        "id": "classroom-window-reply",
+        "speaker": "momo",
+        "en": "Thank you! It's nice and cool.",
+        "zh": "谢谢！真凉快。",
+        "chapter": 1
+      },
+      {
+        "id": "classroom-chair-prompt",
+        "speaker": "momo",
+        "en": "Can you find a chair?",
+        "zh": "你能找到一张椅子吗？",
+        "chapter": 2
+      },
+      {
+        "id": "classroom-chair-answer",
+        "speaker": "child",
+        "en": "I can sit on this chair.",
+        "zh": "我能坐在这张椅子上。",
+        "chapter": 2
+      },
+      {
+        "id": "classroom-chair-reply",
+        "speaker": "momo",
+        "en": "Great! Let's learn together.",
+        "zh": "太好了！我们一起学习吧。",
+        "chapter": 2
+      }
+    ]
+  }
+]

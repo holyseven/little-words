@@ -1847,6 +1847,24 @@
       "text": "Hello, my friend!",
       "durationMs": 1396
     },
+    "v/momo/hello": {
+      "hash": "c737d5f5298a",
+      "text": "Hello!",
+      "durationMs": 589,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/hello": {
+      "hash": "c468af6b65ed",
+      "text": "Hello!",
+      "durationMs": 493,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/hello-my-friend": {
+      "hash": "2fa9ac146e72",
+      "text": "Hello, my friend!",
+      "durationMs": 1330,
+      "voice": "Ava (Premium)"
+    },
     "p/how-are-you": {
       "hash": "6bc5fa721cee",
       "text": "How are you?",
@@ -1862,6 +1880,24 @@
       "text": "Me too!",
       "durationMs": 495
     },
+    "v/momo/how-are-you": {
+      "hash": "6a9ac84826b8",
+      "text": "How are you?",
+      "durationMs": 684,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-am-happy": {
+      "hash": "1eddf2bbc20e",
+      "text": "I am happy.",
+      "durationMs": 625,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/me-too": {
+      "hash": "437084b10b35",
+      "text": "Me too!",
+      "durationMs": 574,
+      "voice": "Ava (Premium)"
+    },
     "p/goodbye": {
       "hash": "5153b21fc368",
       "text": "Goodbye!",
@@ -1871,6 +1907,24 @@
       "hash": "121ca6c2f67c",
       "text": "See you!",
       "durationMs": 589
+    },
+    "v/momo/goodbye": {
+      "hash": "db364562faa5",
+      "text": "Goodbye!",
+      "durationMs": 560,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/goodbye": {
+      "hash": "5153b21fc368",
+      "text": "Goodbye!",
+      "durationMs": 494,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/see-you": {
+      "hash": "ae613b98e533",
+      "text": "See you!",
+      "durationMs": 670,
+      "voice": "Ava (Premium)"
     },
     "p/how-many-dots": {
       "hash": "404dc34a496f",
@@ -1887,6 +1941,24 @@
       "text": "Yes, two dots!",
       "durationMs": 1385
     },
+    "v/momo/how-many-dots": {
+      "hash": "f9c79ce621dc",
+      "text": "How many dots?",
+      "durationMs": 986,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/two": {
+      "hash": "a50721a0fd95",
+      "text": "Two.",
+      "durationMs": 345,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/yes-two-dots": {
+      "hash": "bf4d51a1f724",
+      "text": "Yes, two dots!",
+      "durationMs": 1402,
+      "voice": "Ava (Premium)"
+    },
     "p/what-number-is-this": {
       "hash": "c6bb22363231",
       "text": "What number is this?",
@@ -1901,6 +1973,24 @@
       "hash": "b8f140f2e6b1",
       "text": "Yes, three!",
       "durationMs": 1229
+    },
+    "v/momo/what-number-is-this": {
+      "hash": "fa54f748fdc8",
+      "text": "What number is this?",
+      "durationMs": 1118,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/three": {
+      "hash": "bdce4247603d",
+      "text": "Three.",
+      "durationMs": 427,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/yes-three": {
+      "hash": "1affc991320c",
+      "text": "Yes, three!",
+      "durationMs": 1104,
+      "voice": "Ava (Premium)"
     },
     "p/can-you-count-to-three": {
       "hash": "f929906ad2fb",
@@ -1917,6 +2007,24 @@
       "text": "Great counting!",
       "durationMs": 789
     },
+    "v/momo/can-you-count-to-three": {
+      "hash": "580faf241f03",
+      "text": "Can you count to three?",
+      "durationMs": 1184,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/one-two-three": {
+      "hash": "d66ac9a17d2a",
+      "text": "One, two, three.",
+      "durationMs": 1797,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/great-counting": {
+      "hash": "066d1c6d7c72",
+      "text": "Great counting!",
+      "durationMs": 924,
+      "voice": "Ava (Premium)"
+    },
     "p/who-is-she": {
       "hash": "5320e821e4e2",
       "text": "Who is she?",
@@ -1932,6 +2040,24 @@
       "text": "Nice to meet you!",
       "durationMs": 856
     },
+    "v/momo/who-is-she": {
+      "hash": "fa325f8aae4f",
+      "text": "Who is she?",
+      "durationMs": 701,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/this-is-my-mum": {
+      "hash": "9a3c27881424",
+      "text": "This is my mum.",
+      "durationMs": 863,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/nice-to-meet-you": {
+      "hash": "3843cb099f3b",
+      "text": "Nice to meet you!",
+      "durationMs": 977,
+      "voice": "Ava (Premium)"
+    },
     "p/who-is-he": {
       "hash": "67771e0eaffc",
       "text": "Who is he?",
@@ -1942,6 +2068,18 @@
       "text": "This is my dad.",
       "durationMs": 827
     },
+    "v/momo/who-is-he": {
+      "hash": "476d9c45fd8d",
+      "text": "Who is he?",
+      "durationMs": 665,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/this-is-my-dad": {
+      "hash": "d792299b84dd",
+      "text": "This is my dad.",
+      "durationMs": 827,
+      "voice": "Evan (Enhanced)"
+    },
     "p/is-this-your-grandma": {
       "hash": "ca0c3cd5fb71",
       "text": "Is this your grandma?",
@@ -1951,6 +2089,18 @@
       "hash": "7da5b35c4408",
       "text": "Yes, it is.",
       "durationMs": 1183
+    },
+    "v/momo/is-this-your-grandma": {
+      "hash": "f2fde0c80f41",
+      "text": "Is this your grandma?",
+      "durationMs": 1065,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/yes-it-is": {
+      "hash": "7da5b35c4408",
+      "text": "Yes, it is.",
+      "durationMs": 1183,
+      "voice": "Evan (Enhanced)"
     },
     "p/what-is-this": {
       "hash": "683123bb1081",
@@ -1967,6 +2117,24 @@
       "text": "Let's learn here!",
       "durationMs": 1050
     },
+    "v/momo/what-is-this": {
+      "hash": "f512a0c803d5",
+      "text": "What is this?",
+      "durationMs": 730,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/a-desk": {
+      "hash": "ffeade8356bf",
+      "text": "A desk.",
+      "durationMs": 482,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/let-s-learn-here": {
+      "hash": "d22f4e020788",
+      "text": "Let's learn here!",
+      "durationMs": 989,
+      "voice": "Ava (Premium)"
+    },
     "p/is-this-a-chair": {
       "hash": "5ad79f5a2f14",
       "text": "Is this a chair?",
@@ -1976,6 +2144,18 @@
       "hash": "90a5ea74d162",
       "text": "Let's sit down.",
       "durationMs": 836
+    },
+    "v/momo/is-this-a-chair": {
+      "hash": "608c3f4380d8",
+      "text": "Is this a chair?",
+      "durationMs": 862,
+      "voice": "Ava (Premium)"
+    },
+    "v/momo/let-s-sit-down": {
+      "hash": "d8aa23d847f9",
+      "text": "Let's sit down.",
+      "durationMs": 992,
+      "voice": "Ava (Premium)"
     },
     "p/what-can-you-see": {
       "hash": "6ed183eb03b0",
@@ -1992,6 +2172,24 @@
       "text": "Let's draw a cat!",
       "durationMs": 936
     },
+    "v/momo/what-can-you-see": {
+      "hash": "4edcf587165e",
+      "text": "What can you see?",
+      "durationMs": 1013,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/a-blackboard": {
+      "hash": "2e9cc1108d82",
+      "text": "A blackboard.",
+      "durationMs": 806,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/let-s-draw-a-cat": {
+      "hash": "cace78c57d87",
+      "text": "Let's draw a cat!",
+      "durationMs": 1073,
+      "voice": "Ava (Premium)"
+    },
     "p/can-i-have-a-pencil": {
       "hash": "bd64da9502fe",
       "text": "Can I have a pencil?",
@@ -2007,10 +2205,40 @@
       "text": "Thank you!",
       "durationMs": 551
     },
+    "v/momo/can-i-have-a-pencil": {
+      "hash": "6180a0f95f98",
+      "text": "Can I have a pencil?",
+      "durationMs": 1059,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/here-you-are": {
+      "hash": "a9107cf8e84e",
+      "text": "Here you are.",
+      "durationMs": 684,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/thank-you": {
+      "hash": "23d82a206c70",
+      "text": "Thank you!",
+      "durationMs": 571,
+      "voice": "Ava (Premium)"
+    },
     "p/is-this-your-book": {
       "hash": "0969318502df",
       "text": "Is this your book?",
       "durationMs": 783
+    },
+    "v/momo/is-this-your-book": {
+      "hash": "47004d795403",
+      "text": "Is this your book?",
+      "durationMs": 876,
+      "voice": "Ava (Premium)"
+    },
+    "v/momo/here-you-are": {
+      "hash": "dc0d33eadae2",
+      "text": "Here you are.",
+      "durationMs": 872,
+      "voice": "Ava (Premium)"
     },
     "p/what-is-in-your-bag": {
       "hash": "7dd990975e72",
@@ -2027,6 +2255,24 @@
       "text": "Let's open it.",
       "durationMs": 748
     },
+    "v/momo/what-is-in-your-bag": {
+      "hash": "68280696fd71",
+      "text": "What is in your bag?",
+      "durationMs": 1133,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/a-pencil-case": {
+      "hash": "a503aeb4632a",
+      "text": "A pencil case.",
+      "durationMs": 971,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/let-s-open-it": {
+      "hash": "ddc6f4f326fe",
+      "text": "Let's open it.",
+      "durationMs": 982,
+      "voice": "Ava (Premium)"
+    },
     "p/what-color-is-it": {
       "hash": "fa9ed7de8f61",
       "text": "What color is it?",
@@ -2041,6 +2287,24 @@
       "hash": "844f81f62a24",
       "text": "Yes, red!",
       "durationMs": 1028
+    },
+    "v/momo/what-color-is-it": {
+      "hash": "201d1544de89",
+      "text": "What color is it?",
+      "durationMs": 1099,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/it-is-red": {
+      "hash": "6632f84e5b8b",
+      "text": "It is red.",
+      "durationMs": 682,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/yes-red": {
+      "hash": "796791022c6e",
+      "text": "Yes, red!",
+      "durationMs": 983,
+      "voice": "Ava (Premium)"
     },
     "p/is-it-green": {
       "hash": "1831179681a6",
@@ -2057,6 +2321,24 @@
       "text": "You're right!",
       "durationMs": 596
     },
+    "v/momo/is-it-green": {
+      "hash": "85a1aa8e8c74",
+      "text": "Is it green?",
+      "durationMs": 837,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/no-it-is-blue": {
+      "hash": "d606ff0383a7",
+      "text": "No, it is blue.",
+      "durationMs": 1302,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/you-re-right": {
+      "hash": "a79d983f9f87",
+      "text": "You're right!",
+      "durationMs": 617,
+      "voice": "Ava (Premium)"
+    },
     "p/what-color-do-you-see": {
       "hash": "bf26cf0b4b76",
       "text": "What color do you see?",
@@ -2071,6 +2353,120 @@
       "hash": "c056678e49e7",
       "text": "I like yellow!",
       "durationMs": 693
+    },
+    "v/momo/what-color-do-you-see": {
+      "hash": "f698c1d874d3",
+      "text": "What color do you see?",
+      "durationMs": 1403,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/yellow": {
+      "hash": "851ed753d49d",
+      "text": "Yellow.",
+      "durationMs": 489,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/i-like-yellow": {
+      "hash": "369042394fd5",
+      "text": "I like yellow!",
+      "durationMs": 1001,
+      "voice": "Ava (Premium)"
+    },
+    "v/momo/how-many-blocks": {
+      "hash": "50d21d3c460a",
+      "text": "How many blocks?",
+      "durationMs": 1040,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-have-one-block": {
+      "hash": "b3ef97cd3839",
+      "text": "I have one block.",
+      "durationMs": 1055,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/one-we-need-more": {
+      "hash": "29c825ab6c76",
+      "text": "One. We need more!",
+      "durationMs": 1610,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-have-two-blocks": {
+      "hash": "2b53bb9fce70",
+      "text": "I have two blocks.",
+      "durationMs": 1171,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/two-one-more-please": {
+      "hash": "480e8bf97c0c",
+      "text": "Two. One more, please!",
+      "durationMs": 2069,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-have-three-blocks": {
+      "hash": "d1a004d9c934",
+      "text": "I have three blocks.",
+      "durationMs": 1175,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/three-let-s-cross-the-bridge": {
+      "hash": "ed3f27778301",
+      "text": "Three! Let's cross the bridge!",
+      "durationMs": 2003,
+      "voice": "Ava (Premium)"
+    },
+    "v/momo/can-you-open-the-door": {
+      "hash": "f90d5b013821",
+      "text": "Can you open the door?",
+      "durationMs": 1154,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-can-open-the-door": {
+      "hash": "7af639ab6b4a",
+      "text": "I can open the door.",
+      "durationMs": 1073,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/thank-you-let-s-go-in": {
+      "hash": "8cc551804022",
+      "text": "Thank you. Let's go in!",
+      "durationMs": 1693,
+      "voice": "Ava (Premium)"
+    },
+    "v/momo/can-you-open-the-window": {
+      "hash": "3aeccd51b9e9",
+      "text": "Can you open the window?",
+      "durationMs": 1295,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-can-open-the-window": {
+      "hash": "b97684acdd2d",
+      "text": "I can open the window.",
+      "durationMs": 1077,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/thank-you-it-s-nice-and-cool": {
+      "hash": "67f2d175333b",
+      "text": "Thank you! It's nice and cool.",
+      "durationMs": 1913,
+      "voice": "Ava (Premium)"
+    },
+    "v/momo/can-you-find-a-chair": {
+      "hash": "132c39fc42c7",
+      "text": "Can you find a chair?",
+      "durationMs": 1334,
+      "voice": "Ava (Premium)"
+    },
+    "v/child/i-can-sit-on-this-chair": {
+      "hash": "4ec1d25f6024",
+      "text": "I can sit on this chair.",
+      "durationMs": 1226,
+      "voice": "Evan (Enhanced)"
+    },
+    "v/momo/great-let-s-learn-together": {
+      "hash": "5d12bb4f3ee4",
+      "text": "Great! Let's learn together.",
+      "durationMs": 1936,
+      "voice": "Ava (Premium)"
     }
   }
 }

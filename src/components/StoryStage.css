@@ -18,138 +18,194 @@
 
 /* Placement is on parent <g>s; animation transforms remain local on Safari. */
 .story-stage__breathe {
-  animation: story-breathe 4s ease-in-out infinite;
+  animation: story-breathe calc(var(--story-tick, 1s) * 4) ease-in-out infinite;
   transform-origin: 0 0;
 }
 
 .story-stage__person--child .story-stage__breathe {
-  animation-delay: -.9s;
+  animation-delay: calc(var(--story-tick, 1s) * -.9);
 }
 
 .story-stage__eyes {
   transform-box: fill-box;
   transform-origin: center;
-  animation: story-blink 5.7s ease-in-out infinite;
+  animation: story-blink calc(var(--story-tick, 1s) * 5.7) ease-in-out infinite;
 }
 
 .story-stage__person .story-stage__eyes {
-  animation-delay: -2.3s;
+  animation-delay: calc(var(--story-tick, 1s) * -2.3);
 }
 
 .story-stage__mouth {
   transform-origin: 0 0;
-  animation: story-talk .36s ease-in-out infinite alternate;
+  animation: story-talk calc(var(--story-tick, 1s) * .36) ease-in-out infinite alternate;
 }
 
 .story-stage__person .story-stage__mouth {
-  animation-duration: .3s;
+  animation-duration: calc(var(--story-tick, 1s) * .3);
 }
 
 .story-stage__wave-arm {
   transform-origin: 0 0;
   transform: rotate(-137deg);
-  animation: story-bear-wave 1.35s ease-in-out infinite;
+  animation: story-bear-wave calc(var(--story-tick, 1s) * 1.35) ease-in-out infinite;
 }
 
 .story-stage__point-arm {
   transform-origin: 0 0;
   transform: rotate(-65deg);
-  animation: story-point 3s ease-in-out infinite;
+  animation: story-point calc(var(--story-tick, 1s) * 3) ease-in-out infinite;
 }
 
 .story-stage__person-wave {
   transform-origin: 0 0;
   transform: rotate(-146deg);
-  animation: story-person-wave 1.65s ease-in-out infinite;
+  animation: story-person-wave calc(var(--story-tick, 1s) * 1.65) ease-in-out infinite;
 }
 
 .story-stage__offer-arm {
   transform-origin: 0 0;
   transform: rotate(66deg);
-  animation: story-offer 1s ease-out both;
+  animation: story-offer calc(var(--story-tick, 1s) * 1) ease-out both;
 }
 
 .story-stage__introduce-arm {
   transform-origin: 0 0;
   transform: rotate(-67deg);
-  animation: story-introduce 1s ease-out both;
+  animation: story-introduce calc(var(--story-tick, 1s) * 1) ease-out both;
 }
 
 .story-stage__nod-head {
   transform-origin: 0 30px;
-  animation: story-nod 1.6s ease-in-out 2;
+  animation: story-nod calc(var(--story-tick, 1s) * 1.6) ease-in-out 2;
 }
 
 .story-stage__family-entry {
-  animation: story-family-enter 1.65s cubic-bezier(.2, .65, .3, 1) both;
+  animation: story-family-enter calc(var(--story-tick, 1s) * 1.65) cubic-bezier(.2, .65, .3, 1) both;
 }
 
 .story-stage__plant-leaves {
   transform-origin: 0 0;
-  animation: story-plant-sway 7s ease-in-out infinite;
+  animation: story-plant-sway calc(var(--story-tick, 1s) * 7) ease-in-out infinite;
 }
 
 .story-stage__accent {
   transform-origin: 0 0;
-  animation: story-accent 2.7s ease-in-out infinite;
+  animation: story-accent calc(var(--story-tick, 1s) * 2.7) ease-in-out infinite;
 }
 
 .story-stage__prop-appear {
-  animation: story-prop-appear .8s ease-out both;
+  animation: story-prop-appear calc(var(--story-tick, 1s) * .8) ease-out both;
 }
 
 .story-stage__give-pencil {
-  animation: story-give-pencil 1.3s cubic-bezier(.35, .05, .25, 1) both;
+  animation: story-give-pencil calc(var(--story-tick, 1s) * 1.3) cubic-bezier(.35, .05, .25, 1) both;
 }
 
 .story-stage__return-book {
-  animation: story-return-book 1.3s cubic-bezier(.35, .05, .25, 1) both;
+  animation: story-return-book calc(var(--story-tick, 1s) * 1.3) cubic-bezier(.35, .05, .25, 1) both;
 }
 
 .story-stage__exchange-guide {
-  animation: story-guide 2s ease-in-out both;
+  animation: story-guide calc(var(--story-tick, 1s) * 2) ease-in-out both;
 }
 
 .story-stage__bag-open {
   transform-origin: 0 0;
   transform: translateY(-20px) rotate(-10deg) scaleY(-.65);
-  animation: story-open-bag .9s ease-in-out both;
+  animation: story-open-bag calc(var(--story-tick, 1s) * .9) ease-in-out both;
 }
 
 .story-stage__case-reveal {
-  animation: story-case-reveal 1.4s cubic-bezier(.2, .7, .25, 1) both;
+  animation: story-case-reveal calc(var(--story-tick, 1s) * 1.4) cubic-bezier(.2, .7, .25, 1) both;
 }
 
 .story-stage__case-open {
   transform-origin: 0 0;
   transform: translateY(-15px) scaleY(-.8);
-  animation: story-open-case 1s ease-in-out both;
+  animation: story-open-case calc(var(--story-tick, 1s) * 1) ease-in-out both;
 }
 
 .story-stage__color-entry {
-  animation: story-color-enter 1.4s cubic-bezier(.2, .65, .25, 1) both;
+  animation: story-color-enter calc(var(--story-tick, 1s) * 1.4) cubic-bezier(.2, .65, .25, 1) both;
 }
 
 .story-stage__balloon-float {
   transform-origin: 0 0;
-  animation: story-balloon-float 4.8s ease-in-out infinite;
+  animation: story-balloon-float calc(var(--story-tick, 1s) * 4.8) ease-in-out infinite;
 }
 
 .story-stage__balloon-float--late {
-  animation-delay: -2s;
+  animation-delay: calc(var(--story-tick, 1s) * -2);
 }
 
 .story-stage__balloon-float--happy {
-  animation: story-balloon-happy 2.8s ease-in-out infinite;
+  animation: story-balloon-happy calc(var(--story-tick, 1s) * 2.8) ease-in-out infinite;
 }
 
 .story-stage__star-float {
   transform-origin: 0 0;
-  animation: story-star-float 4.5s ease-in-out infinite;
+  animation: story-star-float calc(var(--story-tick, 1s) * 4.5) ease-in-out infinite;
+}
+
+.story-stage__reach-left,
+.story-stage__reach-right {
+  transform-origin: 0 0;
+  animation: story-reach-left calc(var(--story-tick, 1s) * .8) ease-out both;
+  transform: rotate(110deg);
+}
+
+.story-stage__reach-right {
+  transform: rotate(-119deg);
+  animation-name: story-reach-right;
+}
+
+.story-stage__place-block {
+  transform: translate(0, 0);
+  animation: story-place-block calc(var(--story-tick, 1s) * 1.65) cubic-bezier(.2, .65, .3, 1) both;
+}
+
+.story-stage__cross-bridge {
+  transform: translate(458px, 0);
+  animation: story-cross-bridge calc(var(--story-tick, 1s) * 2.6) ease-in-out both;
+}
+
+.story-stage__water-ripples {
+  animation: story-water-ripples calc(var(--story-tick, 1s) * 4) ease-in-out infinite;
+}
+
+.story-stage__door-open,
+.story-stage__window-left-open,
+.story-stage__window-right-open {
+  transform-origin: 0 0;
+  transform: scaleX(.25);
+}
+
+.story-stage__opening-door {
+  animation: story-open-door calc(var(--story-tick, 1s) * 1.35) ease-in-out both;
+}
+
+.story-stage__opening-window-left,
+.story-stage__opening-window-right {
+  animation: story-open-window calc(var(--story-tick, 1s) * 1.35) ease-in-out both;
+}
+
+.story-stage__enter-classroom {
+  transform: translateX(316.35px);
+  animation: story-enter-classroom calc(var(--story-tick, 1s) * 2) ease-in-out both;
+}
+
+.story-stage__cool-breeze {
+  animation: story-cool-breeze calc(var(--story-tick, 1s) * 3.6) ease-in-out infinite;
+}
+
+.story-stage__sit-on-chair {
+  transform: translate(0, 0);
+  animation: story-sit-on-chair calc(var(--story-tick, 1s) * 1.3) ease-in-out both;
 }
 
 .story-stage.is-complete .story-stage__accent {
-  animation-duration: 3.2s;
+  animation-duration: calc(var(--story-tick, 1s) * 3.2);
 }
 
 /* A new closing tableau must show the final pose, not a paused entrance frame. */
@@ -293,6 +349,66 @@
 @keyframes story-star-float {
   0%, 100% { transform: translateY(0) rotate(-5deg); }
   50% { transform: translateY(-9px) rotate(5deg); }
+}
+
+@keyframes story-reach-left {
+  from { transform: rotate(0); }
+  to { transform: rotate(110deg); }
+}
+
+@keyframes story-reach-right {
+  from { transform: rotate(0); }
+  to { transform: rotate(-119deg); }
+}
+
+@keyframes story-place-block {
+  0%, 8% { transform: translate(var(--block-start-x), -86px) rotate(-5deg); }
+  52% { transform: translate(var(--block-mid-x), -120px) rotate(5deg); }
+  88% { transform: translate(0, -5px) rotate(0); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+
+@keyframes story-cross-bridge {
+  0%, 9% { transform: translate(0, 0); }
+  27% { transform: translate(104px, -14px) rotate(-2deg); }
+  43% { transform: translate(202px, -30px) rotate(1.5deg); }
+  59% { transform: translate(298px, -28px) rotate(-1.5deg); }
+  76% { transform: translate(382px, -18px) rotate(1deg); }
+  100% { transform: translate(458px, 0) rotate(0); }
+}
+
+@keyframes story-water-ripples {
+  0%, 100% { transform: translateY(0); opacity: .5; }
+  50% { transform: translateY(8px); opacity: .9; }
+}
+
+@keyframes story-open-door {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(.25); }
+}
+
+@keyframes story-open-window {
+  from { transform: scaleX(1); }
+  to { transform: scaleX(.25); }
+}
+
+@keyframes story-enter-classroom {
+  0%, 6% { transform: translate(0, 0); }
+  30% { transform: translate(96px, -6px) rotate(-2deg); }
+  56% { transform: translate(190px, 0) rotate(1.5deg); }
+  78% { transform: translate(270px, -5px) rotate(-1deg); }
+  100% { transform: translate(316.35px, 0) rotate(0); }
+}
+
+@keyframes story-cool-breeze {
+  0%, 100% { transform: translateX(-8px); opacity: .4; }
+  50% { transform: translateX(18px); opacity: .85; }
+}
+
+@keyframes story-sit-on-chair {
+  0%, 8% { transform: translate(-95.19px, -6.73px); }
+  65% { transform: translate(-5px, -15px); }
+  100% { transform: translate(0, 0); }
 }
 
 @media (max-width: 600px) {

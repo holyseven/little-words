@@ -94,14 +94,19 @@ describe('预生成音频（人声）', () => {
   })
 
   it('没有清单之外的孤儿音频文件', () => {
-    for (const sub of ['w', 's', 'p']) {
+    const checkDirectory = (sub: string): void => {
       const dir = join(audioDir, sub)
-      if (!existsSync(dir)) continue
-      for (const f of readdirSync(dir)) {
-        const key = `${sub}/${f.replace(/\.m4a$/, '')}`
-        expect(clips[key], `孤儿文件: ${sub}/${f}`).toBeDefined()
+      if (!existsSync(dir)) return
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        if (entry.isDirectory()) {
+          checkDirectory(`${sub}/${entry.name}`)
+        } else {
+          const key = `${sub}/${entry.name.replace(/\.m4a$/, '')}`
+          expect(clips[key], `孤儿文件: ${sub}/${entry.name}`).toBeDefined()
+        }
       }
     }
+    for (const sub of ['w', 's', 'p', 'v']) checkDirectory(sub)
   })
 
   it('时长在合理范围内（异常值说明渲染出了问题）', () => {

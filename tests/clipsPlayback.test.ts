@@ -183,6 +183,85 @@ describe('人声异步加载与游戏切换', () => {
 
 
 describe('变速朗读保持原来音调', () => {
+  it('此次请求的实际倍速不污染全局朗读速度，1 倍表示文件原速', async () => {
+    const { playClip, setClipRate } = await import('../src/audio/clips')
+    setClipRate(1)
+    const playing = playClip('w/cat', { playbackRate: 0.7 })
+    await deliver('cat')
+    await playing
+    expect(sources[0].buffer.length).toBe(Math.round(8000 / 0.7))
+
+    await playClip('w/cat')
+    expect(sources[1].buffer.length).toBe(Math.round(8000 / (1 / 0.85)))
+    await playClip('w/cat', { playbackRate: 1 })
+    expect(sources[2].buffer.length).toBe(8000)
+    expect(sources.every((source) => source.playbackRate.value === 1)).toBe(true)
+    expect(fetch).toHaveBeenCalledOnce()
+  })
+
+  it('同一片段的不同倍速分别缓存，切回来可复用正确的音频', async () => {
+    const { playClip } = await import('../src/audio/clips')
+    const playing = playClip('w/cat', { playbackRate: 0.7 })
+    await deliver('cat')
+    await playing
+    const slow = sources[0].buffer
+
+    await playClip('w/cat', { playbackRate: 0.85 })
+    const medium = sources[1].buffer
+    expect(medium).not.toBe(slow)
+    expect(medium.length).toBe(Math.round(8000 / 0.85))
+    await playClip('w/cat', { playbackRate: 0.7 })
+    expect(sources[2].buffer).toBe(slow)
+    expect((context as any).createBuffer).toHaveBeenCalledTimes(3)
+  })
+
+  it('最多缓存 20 个变速版本，优先保留刚刚重听的版本', async () => {
+    const { playClip } = await import('../src/audio/clips')
+    const playing = playClip('w/cat', { playbackRate: 0.5 })
+    await deliver('cat')
+    await playing
+    const oldest = sources[0].buffer
+    for (let i = 1; i < 20; i++) await playClip('w/cat', { playbackRate: 0.5 + i / 100 })
+    const recent = sources[1].buffer
+    await playClip('w/cat', { playbackRate: 0.51 })
+    expect(sources[sources.length - 1].buffer).toBe(recent)
+    await playClip('w/cat', { playbackRate: 0.9 })
+    await playClip('w/cat', { playbackRate: 0.51 })
+    expect(sources[sources.length - 1].buffer).toBe(recent)
+    await playClip('w/cat', { playbackRate: 0.5 })
+    expect(sources[sources.length - 1].buffer).not.toBe(oldest)
+    expect((context as any).createBuffer).toHaveBeenCalledTimes(23)
+  })
+
+  it.each([NaN, Infinity, -Infinity, 0, -1])('无效的单次倍速 %s 使用原有全局速度', async (playbackRate) => {
+    const { playClip, setClipRate } = await import('../src/audio/clips')
+    setClipRate(0.85)
+    const playing = playClip('w/cat', { playbackRate })
+    await deliver('cat')
+    await playing
+    expect(sources[0].buffer.length).toBe(8000)
+    expect(sources[0].playbackRate.value).toBe(1)
+  })
+
+  it.each([[0.01, 0.5], [99, 2]])('单次倍速 %s 限制为 %s，避免占用过多内存', async (requested, effective) => {
+    const { playClip } = await import('../src/audio/clips')
+    const playing = playClip('w/cat', { playbackRate: requested })
+    await deliver('cat')
+    await playing
+    expect(sources[0].buffer.length).toBe(Math.round(8000 / effective))
+    expect(sources[0].playbackRate.value).toBe(1)
+  })
+
+  it('缺失片段的 TTS 只对有单次倍速的请求覆盖语速', async () => {
+    const { playClip } = await import('../src/audio/clips')
+    await playClip('missing/cat', { fallbackText: 'cat', playbackRate: 0.7 })
+    expect(speech.speak.mock.calls[0][1].rate).toBeCloseTo(0.85 * 0.7)
+    await playClip('missing/dog', { fallbackText: 'dog' })
+    expect(speech.speak.mock.calls[1][1]).not.toHaveProperty('rate')
+    await playClip('missing/cow', { fallbackText: 'cow', playbackRate: NaN })
+    expect(speech.speak.mock.calls[2][1]).not.toHaveProperty('rate')
+  })
+
   it('慢速通过延长音频实现，播放节点仍用原速且可以重用', async () => {
     const { playClip, setClipRate } = await import('../src/audio/clips')
     setClipRate(0.7)
@@ -230,6 +309,39 @@ describe('变速朗读保持原来音调', () => {
 
 describe('整组单词串行朗读', () => {
   beforeEach(() => vi.useFakeTimers())
+
+  it('整组单次倍速应用到每个片段，正常结束后再推进下一项', async () => {
+    const { playClipSequence } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    const playing = playClipSequence([{ key: 'w/cat' }, { key: 'w/dog' }], { playbackRate: 0.7, onEnd })
+    await deliver('cat')
+    await playing
+    expect(sources[0].buffer.length).toBe(Math.round(8000 / 0.7))
+    expect(requests.has('/audio/w/dog.m4a')).toBe(false)
+    sources[0].onended!()
+    await vi.advanceTimersByTimeAsync(250)
+    await deliver('dog')
+    await vi.advanceTimersByTimeAsync(0)
+    expect(sources[1].buffer.length).toBe(Math.round(8000 / 0.7))
+    expect(sources.every((source) => source.playbackRate.value === 1)).toBe(true)
+    expect(onEnd).not.toHaveBeenCalled()
+    sources[1].onended!()
+    expect(onEnd).toHaveBeenCalledOnce()
+  })
+
+  it('整组 TTS 兜底保留单次倍速，逐项完成', async () => {
+    speech.speak.mockImplementation((_text: string, opts: { onEnd?: () => void }) => opts.onEnd?.())
+    const { playClipSequence } = await import('../src/audio/clips')
+    const onEnd = vi.fn()
+    await playClipSequence([
+      { key: 'missing/one', fallbackText: 'one' },
+      { key: 'missing/two', fallbackText: 'two' },
+    ], { playbackRate: 0.85, onEnd })
+    await vi.advanceTimersByTimeAsync(250)
+    expect(speech.speak.mock.calls.map(([text]) => text)).toEqual(['one', 'two'])
+    for (const [, opts] of speech.speak.mock.calls) expect(opts.rate).toBeCloseTo(0.85 * 0.85)
+    expect(onEnd).toHaveBeenCalledOnce()
+  })
 
   it('按顺序播放，词间留 250ms，整组只完成一次', async () => {
     const { playClipSequence, stopClip } = await import('../src/audio/clips')
