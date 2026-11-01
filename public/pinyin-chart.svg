@@ -1,0 +1,1071 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="6400" height="3900" viewBox="0 0 6400 3900">
+<rect x="0" y="0" width="6400" height="3900" fill="#FBFCFD"/>
+<rect x="110" y="95" width="16" height="161" fill="#177A70"/>
+<text x="164" y="173.5" fill="#153A43" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="94" font-weight="700" text-anchor="start">汉语拼音声韵拼读表</text>
+<text x="170" y="269.0" fill="#536A77" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="42" font-weight="400" text-anchor="start">左侧找声母，上方找韵母，交叉格读拼音</text>
+<text x="6290" y="149.0" fill="#177A70" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="42" font-weight="700" text-anchor="end">含三拼音节</text>
+<text x="6290" y="220.5" fill="#637889" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="33" font-weight="400" text-anchor="end">不标声调 · 可放大查看</text>
+<rect x="110" y="322" width="6180" height="116" fill="#EAF3F4"/>
+<text x="150" y="393.5" fill="#176D69" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="35" font-weight="700" text-anchor="start">读表示例</text>
+<text x="430" y="396.0" fill="#253447" font-family="Arial" font-size="42" font-weight="400" text-anchor="start">b + a → ba</text>
+<text x="1110" y="392.0" fill="#253447" font-family="Arial" font-size="42" font-weight="400" text-anchor="start">j + ia → jia</text>
+<text x="1860" y="392.0" fill="#253447" font-family="Arial" font-size="42" font-weight="400" text-anchor="start">h + uang → huang</text>
+<text x="6250" y="392.0" fill="#526A75" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="32" font-weight="400" text-anchor="end">空白格：不作常规拼读     †：少见或口语音节</text>
+<rect x="110" y="498" width="6180" height="2666" fill="#FFFFFF"/>
+<rect x="333" y="498" width="2093" height="70" fill="#176D69"/>
+<text x="1379.5" y="545.0" fill="#FFFFFF" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="34" font-weight="700" text-anchor="middle">基础与独立韵母</text>
+<rect x="333" y="568" width="2093" height="2596" fill="#EDF7F4"/>
+<text x="413.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">a</text>
+<text x="574.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">o</text>
+<text x="735.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">e</text>
+<text x="896.5" y="633.5" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ê</text>
+<text x="1057.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">er</text>
+<text x="1218.5" y="633.5" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ai</text>
+<text x="1379.5" y="633.5" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ei</text>
+<text x="1540.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ao</text>
+<text x="1701.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ou</text>
+<text x="1862.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">an</text>
+<text x="2023.5" y="630.0" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">en</text>
+<text x="2184.5" y="625.5" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ang</text>
+<text x="2345.5" y="625.5" fill="#176D69" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">eng</text>
+<rect x="2426" y="498" width="1610" height="70" fill="#3566A5"/>
+<text x="3231.0" y="545.0" fill="#FFFFFF" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="34" font-weight="700" text-anchor="middle">i 系韵母</text>
+<rect x="2426" y="568" width="1610" height="2596" fill="#EFF4FC"/>
+<text x="2506.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">i</text>
+<text x="2667.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ia</text>
+<text x="2828.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ie</text>
+<text x="2989.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">iao</text>
+<text x="3150.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">iu</text>
+<text x="3311.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ian</text>
+<text x="3472.5" y="633.5" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">in</text>
+<text x="3633.5" y="629.0" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">iang</text>
+<text x="3794.5" y="629.0" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ing</text>
+<text x="3955.5" y="629.0" fill="#3566A5" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">iong</text>
+<rect x="4036" y="498" width="1610" height="70" fill="#A57024"/>
+<text x="4841.0" y="544.5" fill="#FFFFFF" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="34" font-weight="700" text-anchor="middle">u 系韵母</text>
+<rect x="4036" y="568" width="1610" height="2596" fill="#FCF5E7"/>
+<text x="4116.5" y="629.5" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">u</text>
+<text x="4277.5" y="630.0" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ua</text>
+<text x="4438.5" y="630.0" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">uo</text>
+<text x="4599.5" y="633.5" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">uai</text>
+<text x="4760.5" y="633.5" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ui</text>
+<text x="4921.5" y="630.0" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">uan</text>
+<text x="5082.5" y="630.0" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">un</text>
+<text x="5243.5" y="625.5" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">uang</text>
+<text x="5404.5" y="625.5" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ueng</text>
+<text x="5565.5" y="625.5" fill="#A57024" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ong</text>
+<rect x="5646" y="498" width="644" height="70" fill="#8052A1"/>
+<text x="5968.0" y="544.5" fill="#FFFFFF" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="34" font-weight="700" text-anchor="middle">ü 系韵母</text>
+<rect x="5646" y="568" width="644" height="2596" fill="#F5EFFA"/>
+<text x="5726.5" y="633.0" fill="#8052A1" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ü</text>
+<text x="5887.5" y="633.0" fill="#8052A1" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">üe</text>
+<text x="6048.5" y="633.0" fill="#8052A1" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">üan</text>
+<text x="6209.5" y="633.0" fill="#8052A1" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">ün</text>
+<rect x="110" y="498" width="223" height="170" fill="#173D47"/>
+<polyline points="135,525 308,641" stroke="#A0B5BC" stroke-width="2" fill="none"/>
+<text x="313" y="551.5" fill="#FFFFFF" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="28" font-weight="400" text-anchor="end">韵母 →</text>
+<text x="132" y="640.0" fill="#FFFFFF" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="28" font-weight="400" text-anchor="start">声母 ↓</text>
+<rect x="110" y="668" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="737.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">b</text>
+<text x="413.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ba</text>
+<text x="574.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bo</text>
+<text x="1218.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bai</text>
+<text x="1379.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bei</text>
+<text x="1540.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bao</text>
+<text x="1862.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ban</text>
+<text x="2023.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ben</text>
+<text x="2184.5" y="730.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bang</text>
+<text x="2345.5" y="730.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">beng</text>
+<text x="2506.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bi</text>
+<text x="2828.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bie</text>
+<text x="2989.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">biao</text>
+<text x="3311.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bian</text>
+<text x="3472.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bin</text>
+<text x="3794.5" y="730.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bing</text>
+<text x="4116.5" y="734.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">bu</text>
+<rect x="110" y="772" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="772" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="772" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="832.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">p</text>
+<text x="413.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pa</text>
+<text x="574.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">po</text>
+<text x="1218.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pai</text>
+<text x="1379.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pei</text>
+<text x="1540.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pao</text>
+<text x="1701.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pou</text>
+<text x="1862.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pan</text>
+<text x="2023.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pen</text>
+<text x="2184.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pang</text>
+<text x="2345.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">peng</text>
+<text x="2506.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pi</text>
+<text x="2828.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pie</text>
+<text x="2989.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">piao</text>
+<text x="3311.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pian</text>
+<text x="3472.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pin</text>
+<text x="3794.5" y="834.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ping</text>
+<text x="4116.5" y="830.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">pu</text>
+<rect x="110" y="876" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="941.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">m</text>
+<text x="413.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ma</text>
+<text x="574.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mo</text>
+<text x="735.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">me</text>
+<text x="1218.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mai</text>
+<text x="1379.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mei</text>
+<text x="1540.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mao</text>
+<text x="1701.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mou</text>
+<text x="1862.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">man</text>
+<text x="2023.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">men</text>
+<text x="2184.5" y="934.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mang</text>
+<text x="2345.5" y="934.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">meng</text>
+<text x="2506.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mi</text>
+<text x="2828.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mie</text>
+<text x="2989.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">miao</text>
+<text x="3150.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">miu</text>
+<text x="3311.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mian</text>
+<text x="3472.5" y="942.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">min</text>
+<text x="3794.5" y="938.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ming</text>
+<text x="4116.5" y="938.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">mu</text>
+<rect x="110" y="980" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="980" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="980" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="1049.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">f</text>
+<text x="413.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fa</text>
+<text x="574.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fo</text>
+<text x="1379.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fei</text>
+<text x="1701.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fou</text>
+<text x="1862.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fan</text>
+<text x="2023.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fen</text>
+<text x="2184.5" y="1042.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fang</text>
+<text x="2345.5" y="1042.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">feng</text>
+<text x="4116.5" y="1046.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">fu</text>
+<rect x="110" y="1084" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="1153.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">d</text>
+<text x="413.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">da</text>
+<text x="735.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">de</text>
+<text x="1218.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dai</text>
+<text x="1379.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dei</text>
+<text x="1540.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dao</text>
+<text x="1701.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dou</text>
+<text x="1862.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dan</text>
+<text x="2023.5" y="1150.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">den</text>
+<text x="2059.5" y="1119.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="2184.5" y="1146.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dang</text>
+<text x="2345.5" y="1146.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">deng</text>
+<text x="2506.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">di</text>
+<text x="2667.5" y="1150.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dia</text>
+<text x="2697.0" y="1119.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="2828.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">die</text>
+<text x="2989.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">diao</text>
+<text x="3150.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">diu</text>
+<text x="3311.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dian</text>
+<text x="3794.5" y="1146.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ding</text>
+<text x="4116.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">du</text>
+<text x="4438.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">duo</text>
+<text x="4760.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dui</text>
+<text x="4921.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">duan</text>
+<text x="5082.5" y="1150.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dun</text>
+<text x="5565.5" y="1146.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">dong</text>
+<rect x="110" y="1188" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="1188" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="1257.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">t</text>
+<text x="413.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ta</text>
+<text x="735.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">te</text>
+<text x="1218.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tai</text>
+<text x="1379.5" y="1254.5" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tei</text>
+<text x="1403.5" y="1223.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="1540.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tao</text>
+<text x="1701.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tou</text>
+<text x="1862.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tan</text>
+<text x="2184.5" y="1250.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tang</text>
+<text x="2345.5" y="1250.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">teng</text>
+<text x="2506.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ti</text>
+<text x="2828.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tie</text>
+<text x="2989.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tiao</text>
+<text x="3311.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tian</text>
+<text x="3794.5" y="1250.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ting</text>
+<text x="4116.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tu</text>
+<text x="4438.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tuo</text>
+<text x="4760.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tui</text>
+<text x="4921.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tuan</text>
+<text x="5082.5" y="1254.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tun</text>
+<text x="5565.5" y="1250.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">tong</text>
+<rect x="110" y="1292" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="1357.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">n</text>
+<text x="413.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">na</text>
+<text x="735.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ne</text>
+<text x="1218.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nai</text>
+<text x="1379.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nei</text>
+<text x="1540.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nao</text>
+<text x="1701.5" y="1354.5" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nou</text>
+<text x="1737.5" y="1327.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="1862.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nan</text>
+<text x="2023.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nen</text>
+<text x="2184.5" y="1350.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nang</text>
+<text x="2345.5" y="1350.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">neng</text>
+<text x="2506.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ni</text>
+<text x="2828.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nie</text>
+<text x="2989.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">niao</text>
+<text x="3150.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">niu</text>
+<text x="3311.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nian</text>
+<text x="3472.5" y="1358.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nin</text>
+<text x="3633.5" y="1354.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">niang</text>
+<text x="3794.5" y="1354.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ning</text>
+<text x="4116.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nu</text>
+<text x="4438.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nuo</text>
+<text x="4921.5" y="1354.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nuan</text>
+<text x="5082.5" y="1354.5" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nun</text>
+<text x="5118.5" y="1327.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="5565.5" y="1350.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nong</text>
+<text x="5726.5" y="1357.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nü</text>
+<text x="5887.5" y="1357.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">nüe</text>
+<rect x="110" y="1396" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="1396" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="1465.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">l</text>
+<text x="413.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">la</text>
+<text x="574.5" y="1462.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lo</text>
+<text x="593.0" y="1431.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="735.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">le</text>
+<text x="1218.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lai</text>
+<text x="1379.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lei</text>
+<text x="1540.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lao</text>
+<text x="1701.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lou</text>
+<text x="1862.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lan</text>
+<text x="2184.5" y="1458.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lang</text>
+<text x="2345.5" y="1458.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">leng</text>
+<text x="2506.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">li</text>
+<text x="2667.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lia</text>
+<text x="2828.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lie</text>
+<text x="2989.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">liao</text>
+<text x="3150.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">liu</text>
+<text x="3311.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lian</text>
+<text x="3472.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lin</text>
+<text x="3633.5" y="1458.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">liang</text>
+<text x="3794.5" y="1458.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ling</text>
+<text x="4116.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lu</text>
+<text x="4438.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">luo</text>
+<text x="4921.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">luan</text>
+<text x="5082.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lun</text>
+<text x="5565.5" y="1458.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">long</text>
+<text x="5726.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lü</text>
+<text x="5887.5" y="1462.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">lüe</text>
+<rect x="110" y="1500" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="1560.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">g</text>
+<text x="413.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ga</text>
+<text x="735.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ge</text>
+<text x="1218.5" y="1562.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gai</text>
+<text x="1379.5" y="1562.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gei</text>
+<text x="1540.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gao</text>
+<text x="1701.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gou</text>
+<text x="1862.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gan</text>
+<text x="2023.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gen</text>
+<text x="2184.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gang</text>
+<text x="2345.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">geng</text>
+<text x="4116.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gu</text>
+<text x="4277.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gua</text>
+<text x="4438.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">guo</text>
+<text x="4599.5" y="1562.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">guai</text>
+<text x="4760.5" y="1562.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gui</text>
+<text x="4921.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">guan</text>
+<text x="5082.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gun</text>
+<text x="5243.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">guang</text>
+<text x="5565.5" y="1558.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">gong</text>
+<rect x="110" y="1604" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="1604" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="1673.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">k</text>
+<text x="413.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ka</text>
+<text x="735.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ke</text>
+<text x="1218.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kai</text>
+<text x="1379.5" y="1670.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kei</text>
+<text x="1408.0" y="1639.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="1540.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kao</text>
+<text x="1701.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kou</text>
+<text x="1862.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kan</text>
+<text x="2023.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ken</text>
+<text x="2184.5" y="1666.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kang</text>
+<text x="2345.5" y="1666.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">keng</text>
+<text x="4116.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ku</text>
+<text x="4277.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kua</text>
+<text x="4438.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kuo</text>
+<text x="4599.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kuai</text>
+<text x="4760.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kui</text>
+<text x="4921.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kuan</text>
+<text x="5082.5" y="1670.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kun</text>
+<text x="5243.5" y="1666.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kuang</text>
+<text x="5565.5" y="1666.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">kong</text>
+<rect x="110" y="1708" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="1777.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">h</text>
+<text x="413.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ha</text>
+<text x="735.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">he</text>
+<text x="1218.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hai</text>
+<text x="1379.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hei</text>
+<text x="1540.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hao</text>
+<text x="1701.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hou</text>
+<text x="1862.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">han</text>
+<text x="2023.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hen</text>
+<text x="2184.5" y="1770.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hang</text>
+<text x="2345.5" y="1770.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">heng</text>
+<text x="4116.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hu</text>
+<text x="4277.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hua</text>
+<text x="4438.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">huo</text>
+<text x="4599.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">huai</text>
+<text x="4760.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hui</text>
+<text x="4921.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">huan</text>
+<text x="5082.5" y="1774.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hun</text>
+<text x="5243.5" y="1770.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">huang</text>
+<text x="5565.5" y="1770.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">hong</text>
+<rect x="110" y="1812" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="1812" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="1876.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">j</text>
+<text x="2506.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ji</text>
+<text x="2667.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jia</text>
+<text x="2828.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jie</text>
+<text x="2989.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jiao</text>
+<text x="3150.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jiu</text>
+<text x="3311.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jian</text>
+<text x="3472.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jin</text>
+<text x="3633.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jiang</text>
+<text x="3794.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jing</text>
+<text x="3955.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jiong</text>
+<text x="5726.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ju</text>
+<text x="5887.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jue</text>
+<text x="6048.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">juan</text>
+<text x="6209.5" y="1874.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">jun</text>
+<rect x="110" y="1916" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="1976.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">q</text>
+<text x="2506.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qi</text>
+<text x="2667.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qia</text>
+<text x="2828.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qie</text>
+<text x="2989.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qiao</text>
+<text x="3150.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qiu</text>
+<text x="3311.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qian</text>
+<text x="3472.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qin</text>
+<text x="3633.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qiang</text>
+<text x="3794.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qing</text>
+<text x="3955.5" y="1978.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qiong</text>
+<text x="5726.5" y="1974.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qu</text>
+<text x="5887.5" y="1974.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">que</text>
+<text x="6048.5" y="1974.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">quan</text>
+<text x="6209.5" y="1974.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">qun</text>
+<rect x="110" y="2020" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="2020" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="2085.0" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">x</text>
+<text x="2506.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xi</text>
+<text x="2667.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xia</text>
+<text x="2828.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xie</text>
+<text x="2989.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xiao</text>
+<text x="3150.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xiu</text>
+<text x="3311.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xian</text>
+<text x="3472.5" y="2086.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xin</text>
+<text x="3633.5" y="2082.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xiang</text>
+<text x="3794.5" y="2082.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xing</text>
+<text x="3955.5" y="2082.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xiong</text>
+<text x="5726.5" y="2082.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xu</text>
+<text x="5887.5" y="2082.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xue</text>
+<text x="6048.5" y="2082.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xuan</text>
+<text x="6209.5" y="2082.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">xun</text>
+<rect x="110" y="2124" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="2193.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">zh</text>
+<text x="413.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zha</text>
+<text x="735.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhe</text>
+<text x="1218.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhai</text>
+<text x="1379.5" y="2190.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhei</text>
+<text x="1419.0" y="2159.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="1540.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhao</text>
+<text x="1701.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhou</text>
+<text x="1862.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhan</text>
+<text x="2023.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhen</text>
+<text x="2184.5" y="2186.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhang</text>
+<text x="2345.5" y="2186.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zheng</text>
+<text x="2506.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhi</text>
+<text x="4116.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhu</text>
+<text x="4277.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhua</text>
+<text x="4438.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhuo</text>
+<text x="4599.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhuai</text>
+<text x="4760.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhui</text>
+<text x="4921.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhuan</text>
+<text x="5082.5" y="2190.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhun</text>
+<text x="5243.5" y="2186.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhuang</text>
+<text x="5565.5" y="2186.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zhong</text>
+<rect x="110" y="2228" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="2228" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="2297.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">ch</text>
+<text x="413.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cha</text>
+<text x="735.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">che</text>
+<text x="1218.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chai</text>
+<text x="1540.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chao</text>
+<text x="1701.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chou</text>
+<text x="1862.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chan</text>
+<text x="2023.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chen</text>
+<text x="2184.5" y="2290.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chang</text>
+<text x="2345.5" y="2290.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cheng</text>
+<text x="2506.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chi</text>
+<text x="4116.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chu</text>
+<text x="4277.5" y="2294.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chua</text>
+<text x="4323.5" y="2263.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="4438.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chuo</text>
+<text x="4599.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chuai</text>
+<text x="4760.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chui</text>
+<text x="4921.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chuan</text>
+<text x="5082.5" y="2294.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chun</text>
+<text x="5243.5" y="2290.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chuang</text>
+<text x="5565.5" y="2290.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">chong</text>
+<rect x="110" y="2332" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="2401.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">sh</text>
+<text x="413.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sha</text>
+<text x="735.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">she</text>
+<text x="1218.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shai</text>
+<text x="1379.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shei</text>
+<text x="1540.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shao</text>
+<text x="1701.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shou</text>
+<text x="1862.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shan</text>
+<text x="2023.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shen</text>
+<text x="2184.5" y="2394.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shang</text>
+<text x="2345.5" y="2394.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sheng</text>
+<text x="2506.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shi</text>
+<text x="4116.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shu</text>
+<text x="4277.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shua</text>
+<text x="4438.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shuo</text>
+<text x="4599.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shuai</text>
+<text x="4760.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shui</text>
+<text x="4921.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shuan</text>
+<text x="5082.5" y="2398.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shun</text>
+<text x="5243.5" y="2394.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">shuang</text>
+<rect x="110" y="2436" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="2436" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="2501.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">r</text>
+<text x="735.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">re</text>
+<text x="1540.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">rao</text>
+<text x="1701.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">rou</text>
+<text x="1862.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ran</text>
+<text x="2023.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ren</text>
+<text x="2184.5" y="2494.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">rang</text>
+<text x="2345.5" y="2494.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">reng</text>
+<text x="2506.5" y="2502.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ri</text>
+<text x="4116.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ru</text>
+<text x="4438.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ruo</text>
+<text x="4760.5" y="2502.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">rui</text>
+<text x="4921.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ruan</text>
+<text x="5082.5" y="2498.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">run</text>
+<text x="5565.5" y="2494.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">rong</text>
+<rect x="110" y="2540" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="2605.0" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">z</text>
+<text x="413.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">za</text>
+<text x="735.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ze</text>
+<text x="1218.5" y="2606.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zai</text>
+<text x="1379.5" y="2606.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zei</text>
+<text x="1540.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zao</text>
+<text x="1701.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zou</text>
+<text x="1862.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zan</text>
+<text x="2023.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zen</text>
+<text x="2184.5" y="2598.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zang</text>
+<text x="2345.5" y="2598.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zeng</text>
+<text x="2506.5" y="2606.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zi</text>
+<text x="4116.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zu</text>
+<text x="4438.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zuo</text>
+<text x="4760.5" y="2606.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zui</text>
+<text x="4921.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zuan</text>
+<text x="5082.5" y="2602.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zun</text>
+<text x="5565.5" y="2598.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">zong</text>
+<rect x="110" y="2644" width="223" height="104" fill="#E9F0F3"/>
+<rect x="333" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="2644" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="2709.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">c</text>
+<text x="413.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ca</text>
+<text x="735.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ce</text>
+<text x="1218.5" y="2710.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cai</text>
+<text x="1540.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cao</text>
+<text x="1701.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cou</text>
+<text x="1862.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">can</text>
+<text x="2023.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cen</text>
+<text x="2184.5" y="2702.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cang</text>
+<text x="2345.5" y="2702.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ceng</text>
+<text x="2506.5" y="2710.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ci</text>
+<text x="4116.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cu</text>
+<text x="4438.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cuo</text>
+<text x="4760.5" y="2710.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cui</text>
+<text x="4921.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cuan</text>
+<text x="5082.5" y="2706.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cun</text>
+<text x="5565.5" y="2702.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">cong</text>
+<rect x="110" y="2748" width="223" height="104" fill="#E9F0F3"/>
+<text x="221.5" y="2813.5" fill="#173D47" font-family="Arial" font-size="48" font-weight="700" text-anchor="middle">s</text>
+<text x="413.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sa</text>
+<text x="735.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">se</text>
+<text x="1218.5" y="2814.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sai</text>
+<text x="1540.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sao</text>
+<text x="1701.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sou</text>
+<text x="1862.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">san</text>
+<text x="2023.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sen</text>
+<text x="2184.5" y="2806.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sang</text>
+<text x="2345.5" y="2806.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">seng</text>
+<text x="2506.5" y="2814.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">si</text>
+<text x="4116.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">su</text>
+<text x="4438.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">suo</text>
+<text x="4760.5" y="2814.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sui</text>
+<text x="4921.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">suan</text>
+<text x="5082.5" y="2810.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">sun</text>
+<text x="5565.5" y="2806.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">song</text>
+<rect x="110" y="2852" width="223" height="104" fill="#E8E8F2"/>
+<rect x="333" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="2852" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="2898.0" fill="#5B5075" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">y*</text>
+<text x="221.5" y="2940.5" fill="#68617C" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" text-anchor="middle">拼写字母</text>
+<text x="574.5" y="2910.5" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yo</text>
+<text x="598.5" y="2887.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="2506.5" y="2914.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yi</text>
+<text x="2667.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ya</text>
+<text x="2828.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ye</text>
+<text x="2989.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yao</text>
+<text x="3150.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">you</text>
+<text x="3311.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yan</text>
+<text x="3472.5" y="2914.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yin</text>
+<text x="3633.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yang</text>
+<text x="3794.5" y="2914.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ying</text>
+<text x="3955.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yong</text>
+<text x="5726.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yu</text>
+<text x="5887.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yue</text>
+<text x="6048.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yuan</text>
+<text x="6209.5" y="2910.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">yun</text>
+<rect x="110" y="2956" width="223" height="104" fill="#E8E8F2"/>
+<text x="221.5" y="3006.5" fill="#5B5075" font-family="Arial" font-size="43" font-weight="700" text-anchor="middle">w*</text>
+<text x="221.5" y="3044.5" fill="#68617C" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" text-anchor="middle">拼写字母</text>
+<text x="4116.5" y="3018.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wu</text>
+<text x="4277.5" y="3018.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wa</text>
+<text x="4438.5" y="3018.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wo</text>
+<text x="4599.5" y="3022.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wai</text>
+<text x="4760.5" y="3022.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wei</text>
+<text x="4921.5" y="3018.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wan</text>
+<text x="5082.5" y="3018.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wen</text>
+<text x="5243.5" y="3014.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">wang</text>
+<text x="5404.5" y="3014.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">weng</text>
+<rect x="110" y="3060" width="223" height="104" fill="#E8E8F2"/>
+<rect x="333" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="494" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="655" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="816" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="977" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1138" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1299" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1460" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1621" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1782" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="1943" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2104" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2265" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2426" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2587" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2748" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="2909" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3070" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3231" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3392" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3553" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3714" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="3875" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4036" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4197" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4358" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4519" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4680" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="4841" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5002" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5163" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5324" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5485" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5646" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5807" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="5968" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<rect x="6129" y="3060" width="161" height="104" fill="#FFFFFF"/>
+<text x="221.5" y="3107.5" fill="#5B5075" font-family="Arial" font-size="39" font-weight="700" text-anchor="middle">∅</text>
+<text x="221.5" y="3148.5" fill="#68617C" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="23" font-weight="400" text-anchor="middle">直接成音</text>
+<text x="413.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">a</text>
+<text x="574.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">o</text>
+<text x="735.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">e</text>
+<text x="896.5" y="3126.0" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ê</text>
+<text x="910.5" y="3095.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<text x="1057.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">er</text>
+<text x="1218.5" y="3126.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ai</text>
+<text x="1379.5" y="3126.0" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ei</text>
+<text x="1540.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ao</text>
+<text x="1701.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ou</text>
+<text x="1862.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">an</text>
+<text x="2023.5" y="3122.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">en</text>
+<text x="2184.5" y="3118.5" fill="#233648" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">ang</text>
+<text x="2345.5" y="3118.5" fill="#7C621E" font-family="Arial" font-size="39" font-weight="400" text-anchor="middle">eng</text>
+<text x="2381.5" y="3095.0" fill="#9B741F" font-family="Arial" font-size="25" font-weight="400" text-anchor="start">†</text>
+<polyline points="333,568 333,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="494,568 494,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="655,568 655,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="816,568 816,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="977,568 977,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="1138,568 1138,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="1299,568 1299,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="1460,568 1460,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="1621,568 1621,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="1782,568 1782,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="1943,568 1943,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="2104,568 2104,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="2265,568 2265,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="2426,568 2426,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="2587,568 2587,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="2748,568 2748,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="2909,568 2909,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="3070,568 3070,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="3231,568 3231,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="3392,568 3392,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="3553,568 3553,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="3714,568 3714,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="3875,568 3875,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="4036,568 4036,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="4197,568 4197,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="4358,568 4358,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="4519,568 4519,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="4680,568 4680,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="4841,568 4841,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5002,568 5002,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5163,568 5163,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5324,568 5324,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5485,568 5485,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5646,568 5646,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5807,568 5807,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="5968,568 5968,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="6129,568 6129,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="6290,568 6290,3164" stroke="#D2DCE3" stroke-width="1" fill="none"/>
+<polyline points="110,668 6290,668" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,772 6290,772" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,876 6290,876" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,980 6290,980" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1084 6290,1084" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1188 6290,1188" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1292 6290,1292" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1396 6290,1396" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1500 6290,1500" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1604 6290,1604" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1708 6290,1708" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1812 6290,1812" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,1916 6290,1916" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2020 6290,2020" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2124 6290,2124" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2228 6290,2228" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2332 6290,2332" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2436 6290,2436" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2540 6290,2540" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2644 6290,2644" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2748 6290,2748" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2852 6290,2852" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,2956 6290,2956" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,3060 6290,3060" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,3164 6290,3164" stroke="#CBD7DF" stroke-width="1" fill="none"/>
+<polyline points="110,668 6290,668" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<polyline points="333,498 333,3164" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<polyline points="2426,498 2426,3164" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<polyline points="4036,498 4036,3164" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<polyline points="5646,498 5646,3164" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<polyline points="6290,498 6290,3164" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<polyline points="110,1084 6290,1084" stroke="#A9BDC8" stroke-width="3" fill="none"/>
+<polyline points="110,1500 6290,1500" stroke="#A9BDC8" stroke-width="3" fill="none"/>
+<polyline points="110,1812 6290,1812" stroke="#A9BDC8" stroke-width="3" fill="none"/>
+<polyline points="110,2124 6290,2124" stroke="#A9BDC8" stroke-width="3" fill="none"/>
+<polyline points="110,2540 6290,2540" stroke="#A9BDC8" stroke-width="3" fill="none"/>
+<polyline points="110,2852 6290,2852" stroke="#A9BDC8" stroke-width="5" fill="none"/>
+<polyline points="110,498 6290,498 6290,3164 110,3164 110,498" stroke="#8BA6B0" stroke-width="3" fill="none"/>
+<text x="112" y="3247.0" fill="#173D47" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="37" font-weight="700" text-anchor="start">拼写提示</text>
+<text x="112" y="3313.0" fill="#3F5365" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="29" font-weight="400" text-anchor="start">①  j、q、x 与 ü 相拼省略两点：ju、qu、xu；nü、lü、nüe、lüe 保留两点。ju 在 ü 列，juan 在 üan 列。</text>
+<text x="112" y="3371.0" fill="#3F5365" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="29" font-weight="400" text-anchor="start">②  iu / ui / un 是 iou / uei / uen 加声母后的省写；y、w 两行为零声母改写，如 ia→ya、iu→you、uo→wo、ueng→weng。</text>
+<text x="112" y="3428.5" fill="#3F5365" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="29" font-weight="400" text-anchor="start">③  y、w 是拼写字母，并非直接与整组韵母相加；∅ 行为不加 y、w 的零声母音节。yo 是特殊叹词。</text>
+<text x="112" y="3488.0" fill="#3F5365" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="29" font-weight="400" text-anchor="start">④  zhi、chi、shi、ri、zi、ci、si 统一放在 i 列，i 的实际发音不同；er、ê 仅独立成音。纯辅音叹词及方言用音未列。</text>
+<polyline points="112,3743 6288,3743" stroke="#D5DFE5" stroke-width="2" fill="none"/>
+<text x="112" y="3804.5" fill="#687F8D" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="25" font-weight="400" text-anchor="start">拼写依据：《汉语拼音方案》；参照香港中文大学、香港浸会大学普通话音节表。</text>
+<text x="6288" y="3804.5" fill="#687F8D" font-family="Hiragino Sans GB, Microsoft YaHei, sans-serif" font-size="25" font-weight="400" text-anchor="end">37 列韵母拼写 · 含扩展韵母与独立韵母</text>
+</svg>
