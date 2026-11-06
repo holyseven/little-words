@@ -1,0 +1,54 @@
+.blade-force {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 390px;
+  margin-top: 8px;
+  color: #365b4b;
+  font-family: inherit;
+}
+
+.blade-force__drawing {
+  display: block;
+  width: 100%;
+  height: 170px;
+  overflow: visible;
+}
+
+.blade-force__push-label,
+.blade-force__axis-label { font: 14px var(--font); }
+
+.blade-force__axis-label {
+  paint-order: stroke;
+  stroke: #fcf7ec;
+  stroke-width: 3px;
+  stroke-opacity: .9;
+  stroke-linejoin: round;
+}
+
+.blade-force__caption {
+  display: grid;
+  min-height: 43px;
+  margin: 1px 0 0;
+  font-size: 15px;
+  line-height: 22px;
+  text-align: center;
+  font-weight: 550;
+  text-shadow: 0 0 5px #fff9ed, 0 0 5px #fff9ed;
+}
+
+.blade-force__caption-item { grid-area: 1 / 1; }
+.blade-force__caption-item > span { display: block; }
+.blade-force__caption small {
+  display: block;
+  margin: 0;
+  color: #6c806f;
+  font-size: 13px;
+  line-height: 19px;
+  font-weight: 400;
+}
+
+.blade-force__view { display: flex; align-items: baseline; gap: 9px; color: #78846b; font-size: 11px; line-height: 18px; }
+.blade-force__view small { font-size: 10px; }
+.windmill-drawing--compact .blade-force__drawing { height: 160px; }
+.windmill-drawing--compact .blade-force__caption { font-size: 14px; }
+.windmill-drawing--compact .blade-force__caption small { font-size: 12px; }

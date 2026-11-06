@@ -1,0 +1,160 @@
+.windmill-stage .ss-stage { overflow: hidden; background: #edf0df; border-radius: 0; color: #544b3b; font-family: var(--font); }
+.windmill-stage .windmill-drawing { position: absolute; inset: 0; isolation: isolate; }
+.windmill-stage .windmill-drawing__scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.windmill-stage .windmill-drawing__weather { position: absolute; z-index: 2; top: 26px; right: 28px; display: flex; align-items: center; gap: 10px; width: 140px; color: #64785d; font-size: 14px; font-weight: 650; }
+.windmill-stage .windmill-drawing__weather span { display: block; }
+.windmill-stage .windmill-drawing__weather small { display: block; margin-top: 3px; font-size: 11px; font-weight: 500; color: #6c7b63; }
+.windmill-stage .windmill-drawing__weather-mark { width: 9px; height: 9px; border-radius: 50%; background: #91a77e; }
+.windmill-stage .windmill-drawing[data-wind='0'] .windmill-drawing__weather-mark { background: #b1ad9e; }
+.windmill-stage .windmill-drawing__lesson { position: absolute; left: 48px; top: 82px; width: 364px; opacity: 0; visibility: hidden; transform: translateY(8px); will-change: transform; transition: opacity .35s ease, transform .6s cubic-bezier(.25,.8,.25,1), visibility .35s; }
+.windmill-stage .windmill-drawing__lesson[data-on] { opacity: 1; visibility: visible; transform: translateY(0); transition-delay: .18s; }
+.windmill-stage .windmill-drawing__mini { display: block; margin-bottom: 22px; color: #7b816a; font-size: 12px; letter-spacing: .03em; }
+.windmill-stage .windmill-drawing__lesson strong { display: block; color: #514c3c; font-size: 35px; line-height: 1.45; font-weight: 750; letter-spacing: -.035em; }
+.windmill-stage .windmill-drawing__lesson p { margin: 12px 0 0; color: #6e7867; font-size: 21px; line-height: 1.4; font-weight: 500; }
+.windmill-stage .windmill-drawing__air-word { display: none; align-items: baseline; gap: 10px; margin-top: 92px; padding-bottom: 5px; color: #6c8e90; font-size: 23px; font-weight: 700; border-bottom: 2px solid #b2c7b8; }
+.windmill-stage .windmill-drawing__air-word small { font-size: 13px; font-weight: 500; color: #78866c; }
+.windmill-stage .windmill-drawing__stream-layer, .windmill-stage .windmill-drawing__turn { transition: opacity .7s ease; }
+.windmill-stage .windmill-drawing__lesson--fold { top: 64px; }
+.windmill-stage .windmill-drawing__lesson--fold .windmill-drawing__mini { margin-bottom: 16px; }
+.windmill-stage .windmill-drawing__lesson--fold strong { font-size: 30px; }
+.windmill-stage .windmill-drawing__lesson--fold p { font-size: 18px; margin-top: 10px; }
+.windmill-stage .windmill-drawing__detail { display: block; width: 310px; height: 195px; margin-top: 0; }
+.windmill-stage .windmill-drawing__side-note { display: block; color: #827962; font-size: 11px; margin-top: -4px; }
+.windmill-stage .windmill-drawing__pin-label { position: absolute; top: 154px; left: 762px; opacity: 0; transition: opacity .5s ease; }
+.windmill-stage .windmill-drawing__pin-label[data-on] { opacity: 1; }
+.windmill-stage .windmill-drawing__pin-label > span { display: block; color: #836d49; font-size: 16px; font-weight: 650; }
+.windmill-stage .windmill-drawing__pin-label small { display: block; font-size: 12px; font-weight: 500; margin-top: 4px; }
+.windmill-stage .windmill-drawing__pin-label::before { content: ''; position: absolute; right: calc(100% + 10px); top: 37px; width: 122px; height: 1px; background: #a18a63; transform-origin: right; transform: rotate(-23deg); }
+.windmill-stage .windmill-drawing__key { position: absolute; bottom: 21px; left: 48px; display: flex; align-items: center; flex-wrap: wrap; gap: 6px; max-width: 430px; color: #71806d; font-size: 11px; line-height: 1.4; }
+.windmill-stage .windmill-drawing__key i { width: 5px; height: 5px; border-radius: 50%; background: #75a9ba; }
+.windmill-stage .windmill-drawing__key span { color: #7c876e; }
+.windmill-stage .windmill-drawing__reduced { position: absolute; bottom: 20px; right: 24px; font-size: 11px; color: #73795f; }
+
+/* The phone is a second composition: wheel above, explanation below, all text 1:1. */
+.windmill-stage .windmill-drawing--compact .windmill-drawing__scene { height: 320px; }
+.windmill-stage .windmill-drawing--compact { background: #f3f0dd; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__weather { top: 17px; right: 18px; font-size: 11px; gap: 7px; width: 120px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__weather small { font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__weather-mark { width: 6px; height: 6px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson { left: 22px; top: 328px; width: 314px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__mini { margin-bottom: 8px; font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson strong { font-size: 22px; line-height: 1.35; letter-spacing: -.02em; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson strong br, .windmill-stage .windmill-drawing--compact .windmill-drawing__lesson p br { display: none; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson p { font-size: 15px; line-height: 1.4; margin-top: 7px; max-width: 310px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__air-word { display: none; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson--fold .windmill-drawing__detail { position: absolute; width: 133px; height: 92px; top: -242px; left: -8px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson--fold .windmill-drawing__side-note { display: none; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label { top: 230px; left: 273px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label > span { font-size: 12px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label small { font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label::before { width: 78px; top: -5px; transform: rotate(41deg); }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__key { bottom: 19px; left: 22px; right: 20px; font-size: 11px; row-gap: 2px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__key span { display: block; width: 100%; padding-left: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__reduced { bottom: 69px; right: 22px; font-size: 11px; }
+@media (prefers-reduced-motion: reduce) { .windmill-stage .windmill-drawing * { transition: none !important; } }
+
+.windmill-stage .windmill-drawing__front { position: absolute; left: 300px; top: 377px; opacity: 1; transition: opacity .5s ease; color: #6b8990; font-size: 13px; line-height: 1.4; }
+.windmill-stage .windmill-drawing__front small { display: block; font-size: 11px; margin-top: 3px; }
+.windmill-stage .windmill-drawing[data-wind='0'] .windmill-drawing__front { opacity: 0; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__front { left: 20px; top: 267px; font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__front small { font-size: 11px; max-width: 165px; }
+.windmill-stage .windmill-drawing.is-experiment .windmill-drawing__lesson,
+.windmill-stage .windmill-drawing.is-experiment .windmill-drawing__key,
+.windmill-stage .windmill-drawing.is-experiment .windmill-drawing__pin-label { display: none; }
+
+.windmill-stage .windmill-drawing__weather > span:last-child { flex: 1; min-width: 0; }
+
+.windmill-stage .windmill-drawing__wheel { transition: transform .8s cubic-bezier(.45,0,.1,1); will-change: transform; }
+
+.windmill-stage .windmill-drawing[data-chapter="1"] .windmill-drawing__front { opacity: 0; }
+
+/* Art direction v2: tactile paper, real folded vanes and a layered meadow. */
+.windmill-stage .ss-stage { background: #f7f1e4; color: #2d5147; }
+.windmill-stage .windmill-drawing__lesson { z-index: 3; top: 76px; }
+.windmill-stage .windmill-drawing__lesson strong { color: #2f5145; font-size: 37px; line-height: 1.38; letter-spacing: -.045em; }
+.windmill-stage .windmill-drawing__lesson p { color: #5b7567; font-size: 21px; }
+.windmill-stage .windmill-drawing__mini { color: #7f876d; letter-spacing: .06em; font-size: 11px; margin-bottom: 24px; }
+.windmill-stage .windmill-drawing__weather { z-index: 4; top: 20px; right: 20px; width: 161px; padding: 10px 12px; gap: 8px; border-radius: 15px; background: rgb(255 252 243 / 75%); backdrop-filter: blur(8px); color: #3e6553; }
+.windmill-stage .windmill-drawing__weather small { color: #688373; }
+.windmill-stage .windmill-drawing__weather-mark { background: #91ae86; width: 7px; height: 7px; flex: none; }
+.windmill-stage .windmill-drawing__lesson--fold { top: 60px; }
+.windmill-stage .windmill-drawing__lesson--fold strong { font-size: 31px; }
+.windmill-stage .windmill-drawing__lesson--fold p { font-size: 19px; }
+.windmill-stage .windmill-drawing__detail { width: 290px; height: 178px; margin: 10px 0 0; filter: drop-shadow(0 10px 8px rgb(107 70 34 / 8%)); }
+.windmill-stage .windmill-drawing__side-note { margin-top: 2px; color: #7a7a60; }
+.windmill-stage .windmill-drawing__key { z-index: 4; bottom: 17px; left: 29px; padding: 7px 11px; max-width: 425px; border-radius: 12px; background: rgb(255 252 242 / 83%); color: #627b6a; backdrop-filter: blur(6px); font-size: 10px; }
+.windmill-stage .windmill-drawing__key span { color: #79917d; }
+.windmill-stage .windmill-drawing__front { z-index: 2; top: 385px; left: 327px; font-size: 12px; color: #648d8c; }
+.windmill-stage .windmill-drawing__foreground { pointer-events: none; }
+.windmill-stage .windmill-drawing__energy-chain { display: flex; align-items: center; gap: 12px; margin-top: 32px; }
+.windmill-stage .windmill-drawing__energy-chain > span { display: flex; flex-direction: column; gap: 6px; align-items: center; justify-content: center; min-width: 76px; padding: 11px 14px; background: rgb(255 251 238 / 86%); border-radius: 14px; color: #527465; font-size: 18px; box-shadow: 0 6px 18px rgb(71 87 48 / 5%); }
+.windmill-stage .windmill-drawing__energy-chain small { font-size: 12px; color: #84907b; }
+.windmill-stage .windmill-drawing__energy-chain i { font-style: normal; font-size: 18px; color: #a18a54; }
+.windmill-stage .windmill-drawing__pin-label { z-index: 4; top: 128px; left: 442px; padding: 8px 12px; border-radius: 12px; background: rgb(255 251 239 / 88%); backdrop-filter: blur(5px); }
+.windmill-stage .windmill-drawing__pin-label::before { right: auto; left: calc(100% + 8px); top: 49px; width: 139px; transform-origin: left; transform: rotate(29deg); }
+.windmill-stage .windmill-drawing__reduced { z-index: 4; background: #fcf7e7d9; padding: 5px 9px; border-radius: 8px; }
+
+.windmill-stage .windmill-drawing--compact { background: #fbf6eb; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__weather { top: 13px; left: 14px; right: auto; width: 135px; padding: 8px 10px; border-radius: 12px; font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__weather small { font-size: 10px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson { left: 22px; top: 337px; width: 314px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__mini { margin-bottom: 9px; font-size: 10px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson strong { font-size: 22px; line-height: 1.38; letter-spacing: -.025em; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson p { font-size: 15px; margin-top: 7px; line-height: 1.4; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson--fold .windmill-drawing__detail { width: 150px; height: 119px; top: -241px; left: -6px; margin: 0; border-radius: 19px; background: rgb(255 250 235 / 82%); padding: 7px; backdrop-filter: blur(5px); box-shadow: 0 12px 30px rgb(86 73 36 / 9%); }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label { left: 257px; top: 266px; padding: 6px 10px; font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label > span { font-size: 11px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label small { font-size: 10px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__pin-label::before { width: 101px; left: auto; right: calc(100% + 6px); top: -5px; transform-origin: right; transform: rotate(54deg); }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__front { top: 267px; left: 18px; padding: 5px 8px; border-radius: 8px; font-size: 10px; background: rgb(255 252 240 / 80%); }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__front small { font-size: 10px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__key { bottom: 16px; left: 18px; right: 16px; padding: 0; background: none; backdrop-filter: none; border-radius: 0; font-size: 10px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__energy-chain { margin-top: 15px; gap: 9px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__energy-chain > span { min-width: 68px; font-size: 15px; padding: 9px 13px; border-radius: 11px; background: #ecf0e4; box-shadow: none; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__energy-chain small { font-size: 10px; }
+.windmill-stage .windmill-drawing--compact[data-chapter='4'] .windmill-drawing__key { display: none; }
+
+.windmill-stage .windmill-drawing__lesson--fold .windmill-drawing__detail { height: 166px; padding: 9px; background: rgb(255 251 239 / 75%); border-radius: 18px; backdrop-filter: blur(5px); }
+.windmill-stage .windmill-drawing__side-note { display: inline-block; padding: 5px 8px; background: rgb(255 251 239 / 88%); border-radius: 7px; margin-top: 6px; }
+.windmill-stage .windmill-drawing:not([data-chapter='0']):not(.is-experiment) .windmill-drawing__front { opacity: 0; }
+
+.windmill-stage .windmill-drawing--compact .windmill-drawing__weather { width: 122px; top: 9px; left: 12px; }
+.windmill-stage .windmill-drawing__pin-label::before { display: none; }
+.windmill-stage .windmill-drawing__pin-leader { transition: opacity .4s ease; }
+.windmill-stage .windmill-drawing[data-chapter='2'] .windmill-drawing__pin-leader { transition-delay: .55s; }
+
+/* The inset now shows the rotor's actual red paper fold, not a different blade. */
+.windmill-stage .windmill-drawing__lesson--fold .windmill-drawing__detail { width: 290px; height: 166px; padding: 0; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson--fold .windmill-drawing__detail { width: 150px; height: 203px; top: -258px; left: -6px; padding: 0; }
+
+/* Air entering the picture is separate from the gold wheel-motion arc. */
+.windmill-stage .windmill-drawing__front-air { transition: opacity .6s ease; pointer-events: none; }
+.windmill-stage .windmill-drawing .windmill-drawing__front { display: none; }
+.windmill-stage .windmill-drawing.is-experiment .windmill-drawing__front { display: block; opacity: 1; top: auto; bottom: 17px; left: 29px; padding: 7px 11px; border-radius: 12px; background: rgb(255 252 242 / 88%); backdrop-filter: blur(6px); }
+.windmill-stage .windmill-drawing--compact:not([data-chapter='0']) .windmill-drawing__key { display: none; }
+.windmill-stage .windmill-drawing--compact:not([data-chapter='0']) .windmill-drawing__front,
+.windmill-stage .windmill-drawing--compact.is-experiment .windmill-drawing__front { display: block; opacity: 1; top: 282px; bottom: auto; left: 18px; width: 222px; padding: 4px 7px; font-size: 10px; line-height: 1.3; border-radius: 8px; background: rgb(255 252 242 / 88%); }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__front small { max-width: none; margin-top: 2px; font-size: 9px; }
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson--fold strong br,
+.windmill-stage .windmill-drawing--compact .windmill-drawing__lesson--fold p br { display: initial; }
+.windmill-stage .windmill-drawing.is-experiment[data-wind='0'] .windmill-drawing__front,
+.windmill-stage .windmill-drawing--compact[data-wind='0'] .windmill-drawing__front { opacity: 0; }
+
+/* Chapter two enlarges one paper vane and the air flowing past it. */
+.windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__lesson--fold { top: 36px; width: 390px; }
+.windmill-stage .windmill-drawing[data-chapter='1'] .windmill-drawing__lesson--fold .windmill-drawing__mini { margin-bottom: 12px; }
+.windmill-stage .windmill-drawing[data-chapter='1'] .windmill-drawing__lesson--fold strong { font-size: 30px; }
+.windmill-stage .windmill-drawing[data-chapter='1'] .windmill-drawing__lesson--fold p { font-size: 17px; margin-top: 8px; }
+.windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__front,
+.windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__key { display: none; }
+.windmill-stage .windmill-drawing--compact[data-chapter='1']:not(.is-experiment) .windmill-drawing__scene { height: 190px; }
+.windmill-stage .windmill-drawing--compact[data-chapter='1']:not(.is-experiment) .windmill-drawing__lesson--fold { top: 205px; left: 22px; width: 314px; }
+.windmill-stage .windmill-drawing--compact[data-chapter='1'] .windmill-drawing__lesson--fold .windmill-drawing__mini { margin-bottom: 9px; }
+.windmill-stage .windmill-drawing--compact[data-chapter='1'] .windmill-drawing__lesson--fold strong { font-size: 22px; }
+.windmill-stage .windmill-drawing--compact[data-chapter='1'] .windmill-drawing__lesson--fold p { font-size: 15px; margin-top: 7px; }
+
+/* Chapter two retains the original hero; one matching paper blade is the detail. */
+.windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__lesson--fold { width: 390px; }
+.windmill-stage .windmill-drawing__weather { will-change: transform; }
+.windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__wheel { transition: none; }
+.windmill-stage .windmill-drawing--compact[data-chapter='1']:not(.is-experiment) .windmill-drawing__lesson--fold { top: 205px; left: 22px; width: 314px; }

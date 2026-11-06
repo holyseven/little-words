@@ -31,6 +31,14 @@ describe('parseRoute', () => {
     expect(parseRoute('/theme/animals/learn')).toEqual({ name: 'learn', themeId: 'animals' })
   })
 
+  it('风车科普动画只接受完整路径', () => {
+    expect(parseRoute('/science/windmill')).toEqual({ name: 'windmill' })
+    expect(parseRoute('/science/windmill?from=stories')).toEqual({ name: 'windmill' })
+    expect(parseRoute('/science').name).toBe('notfound')
+    expect(parseRoute('/science/windmill/extra').name).toBe('notfound')
+    expect(parseRoute('/science/unknown').name).toBe('notfound')
+  })
+
   it('游戏入口', () => {
     expect(parseRoute('/theme/animals/game/listen')).toEqual({
       name: 'game',

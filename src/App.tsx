@@ -3,7 +3,7 @@
  * 音频解锁监听装在 main.tsx（需要在 React 之前就绑上 window 事件）。
  */
 
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 
 import { navigate, useRoute } from './router'
 import { AppProvider, useApp } from './store/AppContext'
@@ -33,6 +33,7 @@ import { WordTrain } from './pages/games/WordTrain'
 import { EnglishTreasure } from './pages/games/EnglishTreasure'
 import { Dialogues, DialoguePractice } from './pages/Dialogues'
 import { Stories, StoryPlayer } from './pages/Stories'
+const Windmill = lazy(() => import('./pages/Windmill').then((module) => ({ default: module.Windmill })))
 
 function Routes() {
   const route = useRoute()
@@ -77,6 +78,8 @@ function Routes() {
       return <Home />
     case 'stories':
       return <Stories />
+    case 'windmill':
+      return <Suspense fallback={<div className="page" aria-busy="true" />}><Windmill key={dataEpoch} /></Suspense>
     case 'story':
       return <StoryPlayer key={`${dataEpoch}:${route.storyId}`} storyId={route.storyId} from={route.from} />
     case 'dialogues':

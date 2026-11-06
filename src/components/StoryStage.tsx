@@ -1,4 +1,6 @@
-import { useEffect, useId, useState, type CSSProperties } from 'react'
+import { memo, useEffect, useId, useRef, useState, type CSSProperties } from 'react'
+import { useStoryClock } from '../hooks/useStoryClock'
+import { easeProgress, lerp } from '../logic/storyMotion'
 import './StoryStage.css'
 
 export interface StoryStageProps {
@@ -9,11 +11,26 @@ export interface StoryStageProps {
   complete?: boolean
   rate?: number
   label: string
+  take?: number
+  showZh?: boolean
 }
 
 type PersonKind = 'child' | 'mum' | 'dad' | 'grandma'
 
-const ink = '#594840'
+const ink = '#514339'
+
+interface SceneProps {
+  act: number
+  phase: number
+  speaking: boolean
+  complete: boolean
+  elapsed: number
+}
+
+// All travel is evaluated on the same pausable clock. Objects keep their identity
+// and land at the exact coordinates used by the following spoken line.
+const progress = (elapsed: number, duration = 1100, delay = 100) => easeProgress(elapsed, duration, delay)
+const arc = (p: number, height: number) => -Math.sin(p * Math.PI) * height
 
 function Face({ talking, adult = false, glasses = false }: {
   talking: boolean
@@ -299,24 +316,27 @@ function Accent({ x, y, kind = 'spark' }: { x: number; y: number; kind?: 'spark'
   </g>
 }
 
-function FamilyScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
+function FamilyScene({ act, phase, speaking, complete, elapsed }: SceneProps) {
   const family: PersonKind[] = ['mum', 'dad', 'grandma']
+  const arrival = phase === 0 ? progress(elapsed, 1050, 60) : 1
   return <g>
     <Shadow x={211} />
-    <Shadow x={434} width={48} />
-    <g transform="translate(211 468) scale(1.1)"><Bear talking={speaking && phase !== 1} wave={phase === 2 || complete} point={phase === 0 && !complete} /></g>
-    <g transform="translate(434 469) scale(1.04)"><Person kind="child" talking={speaking && phase === 1} point={!complete && phase === 1} wave={complete} /></g>
-    {complete ? family.map((kind, i) => <g key={kind} transform={`translate(${605 + i * 125} 468) scale(.88)`}>
-      <ellipse cy="3" rx="48" ry="10" fill="#9f8b74" opacity=".16" />
-      <Person kind={kind} wave />
-    </g>) : <g key={act} transform="translate(747 468)">
-      <g className="story-stage__family-entry">
-        <ellipse cy="3" rx="66" ry="13" fill="#9f8b74" opacity=".16" />
-        <Person kind={family[act]} wave={phase === 2} nod={phase === 1} />
+    <Shadow x={426} width={48} />
+    <g transform="translate(211 468) scale(1.15)"><Bear talking={speaking && phase !== 1} wave={phase === 2 || complete} point={phase === 0 && !complete} /></g>
+    <g transform="translate(426 469) scale(1.1)"><Person kind="child" talking={speaking && phase === 1} point={!complete && phase === 1} wave={complete} /></g>
+    {family.map((kind, i) => {
+      const current = i === act
+      const visible = complete || i <= act
+      // Family members remain in the room after their introduction.
+      const settling = !complete && phase === 0 && i === act - 1
+      const x = current ? lerp(940, 785, complete ? 1 : arrival) : settling ? lerp(785, 570 + i * 90, arrival) : 570 + i * 90
+      const scale = current ? 1 : settling ? lerp(1, .68, arrival) : .68
+      return <g key={kind} opacity={visible ? current && !complete ? Math.min(1, arrival * 4) : 1 : 0} transform={`translate(${x} 468) scale(${scale})`}>
+        <ellipse cy="3" rx="55" ry="11" fill="#9f8b74" opacity=".16" />
+        <Person kind={kind} wave={complete || current && phase === 2} nod={current && phase === 1} />
       </g>
-    </g>}
-    {phase === 2 && <><Accent x={574} y={243} kind="heart" /><Accent x={848} y={164} /></>}
-    {complete && <><Accent x={334} y={181} /><Accent x={535} y={120} kind="heart" /><Accent x={917} y={190} /></>}
+    })}
+    {phase === 2 && !complete && <Accent x={591} y={232} kind="heart" />}
   </g>
 }
 
@@ -342,14 +362,14 @@ function Book() {
   </g>
 }
 
-function Bag({ open }: { open: boolean }) {
+function Bag({ amount }: { amount: number }) {
   return <g>
     <path d="M-18-58v-16q18-21 36 0v16" stroke="#b78d75" strokeWidth="9" fill="none" />
     <path d="M-45-49Q0-77 45-49L53 39Q0 60-53 39Z" fill="#bf9076" />
     <path d="M-44-43Q0-62 44-43L46-20Q0 1-46-20Z" fill="#9d745e" />
     <path d="M-35-41Q0-56 35-41L38-23Q0-7-38-23Z" fill="#705d51" />
     <g transform="translate(0 -46)">
-      <g className={open ? 'story-stage__bag-open' : ''}>
+      <g transform={`translate(0 ${-20 * amount}) rotate(${-10 * amount}) scale(1 ${lerp(1, -.65, amount)})`}>
         <path d="M-45 0Q0-27 45 0L39 41Q0 60-39 41Z" fill="#d0a188" />
         <path d="M-40 11Q0 30 40 11" stroke="#bb8d74" strokeWidth="2" fill="none" />
         <rect x="-7" y="33" width="14" height="17" rx="4" fill="#d7bb83" />
@@ -360,18 +380,18 @@ function Bag({ open }: { open: boolean }) {
   </g>
 }
 
-function PencilCase({ open }: { open: boolean }) {
+function PencilCase({ amount }: { amount: number }) {
   return <g>
     <rect x="-59" y="-14" width="118" height="34" rx="12" fill="#9bac95" />
     <path d="M-48 12H48" stroke="#849a7f" strokeWidth="2" strokeLinecap="round" />
-    {open && <>
+    <g opacity={amount}>
       <rect x="-50" y="-11" width="100" height="23" rx="6" fill="#71876d" />
       <path d="M-38 2H27" stroke="#e2c17e" strokeWidth="7" strokeLinecap="round" />
       <path d="M-34-5H37" stroke="#b7a6b8" strokeWidth="5" strokeLinecap="round" />
       <path d="M-43 8H33" stroke="#e7d8aa" strokeWidth="4" strokeLinecap="round" />
-    </>}
+    </g>
     <g transform="translate(0 -14)">
-      <g className={open ? 'story-stage__case-open' : ''}>
+      <g transform={`translate(0 ${-15 * amount}) scale(1 ${lerp(1, -.8, amount)})`}>
         <rect x="-59" y="-16" width="118" height="29" rx="12" fill="#b4c1a6" />
         <path d="M-47 7H47" stroke="#d5dec8" strokeWidth="2" strokeLinecap="round" />
         <path d="M0-10L3-3L11-2L5 3L7 11L0 7L-7 11L-5 3L-11-2L-3-3Z" fill="#e7d5a5" />
@@ -380,47 +400,41 @@ function PencilCase({ open }: { open: boolean }) {
   </g>
 }
 
-function SchoolScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
-  const pencilAtMomo = act === 0 && phase === 2
-  const bookAtChild = act === 1 && phase === 2
+function SchoolScene({ act, phase, speaking, complete, elapsed }: SceneProps) {
+  const give = phase === 0 ? 0 : phase === 1 ? progress(elapsed, 1150, 160) : 1
+  const returnBook = phase < 2 ? 0 : progress(elapsed, 1150, 120)
+  const reveal = act < 2 ? 0 : phase === 0 ? 0 : phase === 1 ? progress(elapsed, 1000, 300) : 1
+  const open = complete ? 1 : act === 2 && phase === 2 ? progress(elapsed, 850, 100) : 0
+  const layout = phase === 0 ? progress(elapsed, 900, 0) : 1
+  const bagOpen = complete || act === 2 && phase === 2 ? 1 : act === 2 && phase === 1 ? progress(elapsed, 550, 30) : 0
+  const pencilX = act === 0 ? lerp(653, 337, give) : act === 1 ? lerp(337, 372, layout) : 372
+  const pencilY = act === 0 ? 322 + arc(give, 48) : act === 1 ? lerp(322, 336, layout) : 336
+  const bookX = act === 0 ? 465 : act === 1 ? phase === 0 ? lerp(465, 350, layout) : lerp(350, 639, returnBook) : lerp(639, 416, layout)
+  const bookY = act === 0 ? 321 : act === 1 ? phase === 0 ? lerp(321, 316, layout) : 316 + arc(returnBook, 40) : lerp(316, 321, layout)
   return <g>
-    <Shadow x={242} />
-    <Shadow x={736} width={48} />
-    <g transform="translate(242 468) scale(1.1)"><Bear talking={speaking && phase !== 1} wave={complete} point={!complete && (act !== 1 || phase === 2)} /></g>
-    <g transform="translate(736 469) scale(1.04)"><Person kind="child" look="mint" talking={speaking && phase === 1} point={!complete && phase === 1} wave={complete} nod={act === 1 && phase === 1} /></g>
+    <Shadow x={232} /><Shadow x={762} width={48} />
+    <g transform="translate(232 468) scale(1.15)"><Bear talking={speaking && phase !== 1} wave={complete} point={!complete && (act !== 1 || phase === 2)} /></g>
+    <g transform="translate(762 469) scale(1.1)"><Person kind="child" look="mint" talking={speaking && phase === 1} point={!complete && phase === 1} wave={complete} nod={act === 1 && phase === 1} /></g>
     <g>
+      <ellipse cx="496" cy="462" rx="178" ry="15" fill="#9f8b74" opacity=".1" />
       <path d="M367 377L355 460M625 377L637 460" stroke="#b69673" strokeWidth="13" strokeLinecap="round" />
       <path d="M377 393H617" stroke="#c0a283" strokeWidth="9" />
       <path d="M346 350H646Q658 350 658 364V377H334V364Q334 350 346 350" fill="#d3b48d" />
-      <path d="M343 354H648" stroke="#e9cfaa" strokeWidth="5" strokeLinecap="round" />
+      <path d="M343 354H648" stroke="#f2dbb7" strokeWidth="5" strokeLinecap="round" />
       <rect x="336" y="374" width="319" height="10" rx="4" fill="#c1a17d" />
     </g>
-    {complete ? <>
-      <g transform="translate(416 326)"><Book /></g>
-      <g transform="translate(530 330)"><PencilCase open /></g>
-      <g transform="translate(604 305) scale(.8)"><Bag open /></g>
-      <Accent x={499} y={208} />
-      <Accent x={650} y={174} kind="heart" />
-    </> : act === 0 ? <g key={`pencil-${phase}`}>
-      <g transform={pencilAtMomo ? 'translate(350 324)' : 'translate(623 324)'}>
-        <g className={phase === 1 ? 'story-stage__give-pencil' : 'story-stage__prop-appear'}><Pencil /></g>
-      </g>
-      {phase === 1 && <g className="story-stage__exchange-guide" fill="#b8b793">
-        <circle cx="430" cy="297" r="3" /><circle cx="458" cy="290" r="3" /><circle cx="486" cy="289" r="3" /><circle cx="514" cy="292" r="3" />
-      </g>}
-      {phase === 2 && <Accent x={373} y={262} />}
-    </g> : act === 1 ? <g key={`book-${phase}`}>
-      <g transform={bookAtChild ? 'translate(623 316)' : 'translate(350 316)'}>
-        <g className={phase === 2 ? 'story-stage__return-book' : 'story-stage__prop-appear'}><Book /></g>
-      </g>
-      {phase === 2 && <Accent x={626} y={250} />}
-    </g> : <g key="case">
-      <g transform="translate(558 313) scale(.82)"><Bag open={phase > 0} /></g>
-      {phase > 0 && <g transform="translate(548 238)">
-        <g className="story-stage__case-reveal"><PencilCase open={phase === 2} /></g>
-      </g>}
-      {phase === 2 && <><Accent x={454} y={209} /><Accent x={642} y={208} /></>}
-    </g>}
+    {/* Each prop is mounted once: the final travel frame is the next line's start. */}
+    <g data-prop="pencil" transform={`translate(${pencilX} ${pencilY})`}>
+      <Pencil />
+    </g>
+    <g data-prop="book" transform={`translate(${bookX} ${bookY})`}>
+      <Book />
+    </g>
+    <g transform="translate(610 310) scale(.65)"><Bag amount={bagOpen} /></g>
+    <g data-prop="pencil-case" opacity={complete || act === 2 && phase > 0 ? Math.min(1, reveal * 4) : 0} transform={`translate(${lerp(610, 535, reveal)} ${lerp(282, 330, reveal) + arc(reveal, 48)}) scale(${lerp(.65, 1, reveal)})`}>
+      <PencilCase amount={open} />
+    </g>
+    {act === 2 && phase === 2 && <Accent x={526} y={200} />}
   </g>
 }
 
@@ -434,48 +448,26 @@ function Balloon({ color, highlight }: { color: string; highlight: string }) {
   </g>
 }
 
-function YellowStar() {
+function ColorsScene({ act, phase, speaking, complete, elapsed }: SceneProps) {
+  const colors = [ ['#d87360', '#f5bda2'], ['#6d9eb9', '#c4e4ed'], ['#e7bd54', '#fff0b0'] ]
+  const entry = progress(elapsed, 1000, 60)
   return <g>
-    <path d="M0-81L24-30L80-23L39 17L49 73L0 46L-49 73L-39 17L-80-23L-24-30Z" fill="#dfbf6d" stroke="#c9aa60" strokeWidth="3" strokeLinejoin="round" />
-    <path d="M0-60L16-24L52-19" stroke="#f5dfa1" strokeWidth="7" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-    <ellipse cx="-17" cy="-1" rx="4" ry="5" fill="#8f784c" />
-    <ellipse cx="17" cy="-1" rx="4" ry="5" fill="#8f784c" />
-    <path d="M-10 16q10 10 20 0" stroke="#8f784c" strokeWidth="3" fill="none" strokeLinecap="round" />
-    <ellipse cx="-34" cy="13" rx="8" ry="4" fill="#d59d72" opacity=".7" />
-    <ellipse cx="34" cy="13" rx="8" ry="4" fill="#d59d72" opacity=".7" />
-  </g>
-}
-
-function ColorsScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
-  return <g>
-    <Shadow x={228} />
-    <Shadow x={771} width={48} />
-    <g transform="translate(228 468) scale(1.1)"><Bear talking={speaking && phase !== 1} wave={complete || phase === 2} point={!complete && phase === 0} /></g>
-    <g transform="translate(771 469) scale(1.04)"><Person kind="child" look="berry" talking={speaking && phase === 1} wave={complete} point={!complete && phase === 1} nod={act === 1 && phase === 1} /></g>
-    {complete ? <>
-      <g transform="translate(421 287) scale(.68)"><g className="story-stage__balloon-float"><Balloon color="#cb8f7f" highlight="#ebbdac" /></g></g>
-      <g transform="translate(589 284) scale(.68)"><g className="story-stage__balloon-float story-stage__balloon-float--late"><Balloon color="#86a9ba" highlight="#c4d9df" /></g></g>
-      <g transform="translate(507 354) scale(.62)"><g className="story-stage__star-float">
-        <path d="M0 51Q-18 76 0 102Q14 124-2 147" fill="none" stroke="#a6967c" strokeWidth="2.2" />
-        <YellowStar />
-      </g></g>
-      <Accent x={484} y={178} /><Accent x={646} y={331} /><Accent x={354} y={364} />
-    </> : <g key={act} className="story-stage__color-entry">
-      {act < 2 ? <g transform="translate(496 321)">
-        <g className={`story-stage__balloon-float${phase === 2 ? ' story-stage__balloon-float--happy' : ''}`}>
-          <Balloon color={act === 0 ? '#cb8f7f' : '#86a9ba'} highlight={act === 0 ? '#ebbdac' : '#c4d9df'} />
-        </g>
-      </g> : <>
-        <ellipse cx="498" cy="432" rx="69" ry="12" fill="#b7a389" opacity=".2" />
-        <g transform="translate(499 296)"><g className="story-stage__star-float">
-          <path d="M0 51Q-18 76 0 102Q14 124-2 147" fill="none" stroke="#a6967c" strokeWidth="2.2" />
-          <path d="M-6 52L0 43L6 52Z" fill="#dfbf6d" />
-          <YellowStar />
-        </g></g>
-      </>}
-      {phase > 0 && <><Accent x={390} y={210} /><Accent x={610} y={287} /></>}
-      {phase === 2 && <Accent x={511} y={137} kind="heart" />}
-    </g>}
+    <Shadow x={213} /><Shadow x={796} width={48} />
+    <g transform="translate(213 468) scale(1.15)"><Bear talking={speaking && phase !== 1} wave={complete || phase === 2} point={!complete && phase === 0} /></g>
+    <g transform="translate(796 469) scale(1.1)"><Person kind="child" look="berry" talking={speaking && phase === 1} wave={complete} point={!complete && phase === 1} nod={phase === 1} /></g>
+    {colors.map(([color, highlight], i) => {
+      const active = i === act
+      const visible = complete || i <= act
+      const arriving = active && phase === 0 && !complete
+      const settling = !complete && phase === 0 && i === act - 1
+      const x = active ? 501 : settling ? lerp(501, i === 0 ? 355 : 648, entry) : i === 0 ? 355 : 648
+      const y = active ? arriving ? lerp(360, 303, entry) : 303 : settling ? lerp(303, 221, entry) : 221
+      const scale = active ? 1.08 : settling ? lerp(1.08, .48, entry) : .48
+      return <g key={color} data-prop={`balloon-${i}`} opacity={visible ? arriving ? Math.min(1, entry * 4) : 1 : 0} transform={`translate(${x} ${y}) scale(${scale})`}>
+        <g className={active && phase !== 0 ? 'story-stage__balloon-float' : ''}><Balloon color={color} highlight={highlight} /></g>
+      </g>
+    })}
+    {phase === 2 && !complete && <Accent x={612} y={211} kind="heart" />}
   </g>
 }
 
@@ -529,36 +521,31 @@ function BridgeBlock({ number }: { number: number }) {
   </g>
 }
 
-function NumbersScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
+function NumbersScene({ act, phase, speaking, complete, elapsed }: SceneProps) {
   const crossing = act === 2 && phase === 2
+  const travel = complete ? 1 : crossing ? progress(elapsed, 2100, 80) : 0
   const blockX = [407, 500, 593]
   return <g>
     <Shadow x={830} width={48} />
-    <g transform={`translate(${complete ? 700 : 224} 468) scale(1.04)`}>
-      <g className={crossing && !complete ? 'story-stage__cross-bridge' : ''}>
-        <ellipse cy="3" rx="59" ry="12" fill="#9f8b74" opacity=".16" />
-        <Bear talking={speaking && phase !== 1} point={!complete && phase === 0} wave={complete || crossing} />
-      </g>
+    <g data-actor="momo" transform={`translate(${lerp(224, 704, travel)} ${468 + arc(travel, 25)}) scale(1.13)`}>
+      <ellipse cy="3" rx="59" ry="12" fill="#9f8b74" opacity=".16" />
+      <Bear talking={speaking && phase !== 1} point={!complete && phase === 0} wave={complete || crossing} />
     </g>
-    <g transform="translate(830 469) scale(1.04)"><Person kind="child" talking={speaking && phase === 1} point={!complete && phase < 2} wave={complete || crossing} /></g>
+    <g transform="translate(830 469) scale(1.1)"><Person kind="child" talking={speaking && phase === 1} point={!complete && phase < 2} wave={complete || crossing} /></g>
     {blockX.map((x, i) => {
-      const placed = complete || i < act || (i === act && phase === 2)
-      if (i > act && !complete) return null
-      if (placed) return <g key={i} transform={`translate(${x} 453)`}><BridgeBlock number={i + 1} /></g>
-      return <g key={i} transform={`translate(${x} 453)`}>
-        <g className={phase === 1 ? 'story-stage__place-block' : ''} style={{ '--block-start-x': `${742 - x}px`, '--block-mid-x': `${(742 - x) / 2}px`, transform: phase === 0 ? `translate(${742 - x}px, -86px)` : undefined } as CSSProperties}>
-          <BridgeBlock number={i + 1} />
-        </g>
+      const p = complete || i < act || (i === act && phase === 2) ? 1 : i === act && phase === 1 ? progress(elapsed, 1050, 100) : 0
+      const pickup = !complete && i === act && phase === 0 && act > 0 ? progress(elapsed, 600, 0) : 1
+      return <g key={i} data-prop={`block-${i + 1}`} opacity={complete || i <= act ? pickup : 0} transform={`translate(${lerp(lerp(805, 745, pickup), x, p)} ${lerp(lerp(399, 360, pickup), 453, p) + arc(p, 65)})`}>
+        <BridgeBlock number={i + 1} />
       </g>
     })}
-    {phase === 2 && <Accent x={blockX[act]} y={393} />}
-    {(crossing || complete) && <><Accent x={705} y={209} kind="heart" /><Accent x={898} y={243} /><Accent x={517} y={364} /></>}
+    {(crossing || complete) && <g opacity={complete ? 1 : progress(elapsed, 400, 1800)}><Accent x={705} y={205} kind="heart" /></g>}
   </g>
 }
 
-function ClassroomRoom({ act, phase, complete }: { act: number; phase: number; complete: boolean }) {
-  const doorOpen = complete || act > 0 || phase > 0
-  const windowOpen = complete || act > 1 || (act === 1 && phase > 0)
+function ClassroomRoom({ act, phase, complete, elapsed }: SceneProps) {
+  const door = complete || act > 0 || phase === 2 ? 1 : phase === 1 ? progress(elapsed, 1000, 100) : 0
+  const window = complete || act > 1 || act === 1 && phase === 2 ? 1 : act === 1 && phase === 1 ? progress(elapsed, 1000, 100) : 0
   return <g aria-hidden="true">
     <path d="M0 0H1000V560H0Z" fill="#f4e8d0" />
     <path d="M0 398H1000V560H0Z" fill="#d8c4a2" />
@@ -572,7 +559,7 @@ function ClassroomRoom({ act, phase, complete }: { act: number; phase: number; c
       <path d="M127 188L174 143L222 188V279H127Z" fill="#e9debd" />
       <path d="M120 188L174 137L229 188" fill="none" stroke="#b8aa8d" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" />
       <g transform="translate(92 110)">
-        <g className={`${doorOpen ? 'story-stage__door-open' : ''}${act === 0 && phase === 1 && !complete ? ' story-stage__opening-door' : ''}`}>
+        <g data-prop="door" transform={`scale(${lerp(1, .19, door)} 1)`}>
           <path d="M0 284V36Q0 0 36 0H129Q165 0 165 36V284Z" fill="#c7a882" stroke="#b59672" strokeWidth="3" />
           <rect x="19" y="34" width="127" height="106" rx="44" fill="#e6d8b4" />
           <path d="M82 37V137M21 88H144" stroke="#d3bd97" strokeWidth="6" />
@@ -590,23 +577,23 @@ function ClassroomRoom({ act, phase, complete }: { act: number; phase: number; c
       <path d="M309 280Q365 238 425 277Q492 232 544 276V325H309Z" fill="#a9c09f" />
       <path d="M309 305Q378 274 442 309Q490 274 544 295V325H309Z" fill="#91ad92" />
       <g transform="translate(309 154)">
-        <g className={`${windowOpen ? 'story-stage__window-left-open' : ''}${act === 1 && phase === 1 && !complete ? ' story-stage__opening-window-left' : ''}`}>
+        <g data-prop="window-left" transform={`scale(${lerp(1, .18, window)} 1)`}>
           <rect x="0" y="0" width="116" height="171" rx="2" fill="#d9e6d7" fillOpacity=".34" stroke="#f8edcf" strokeWidth="8" />
           <path d="M2 83H112" stroke="#f8edcf" strokeWidth="6" />
           <path d="M105 134v17" stroke="#a89875" strokeWidth="5" strokeLinecap="round" />
         </g>
       </g>
       <g transform="translate(544 154)">
-        <g className={`${windowOpen ? 'story-stage__window-right-open' : ''}${act === 1 && phase === 1 && !complete ? ' story-stage__opening-window-right' : ''}`}>
+        <g data-prop="window-right" transform={`scale(${lerp(1, .18, window)} 1)`}>
           <rect x="-116" y="0" width="116" height="171" rx="2" fill="#d9e6d7" fillOpacity=".34" stroke="#f8edcf" strokeWidth="8" />
           <path d="M-112 83H-2" stroke="#f8edcf" strokeWidth="6" />
           <path d="M-105 134v17" stroke="#a89875" strokeWidth="5" strokeLinecap="round" />
         </g>
       </g>
       <rect x="292" y="331" width="270" height="13" rx="5" fill="#e9d6b6" />
-      {windowOpen && <g className="story-stage__cool-breeze" fill="none" stroke="#fbf9e8" strokeWidth="4" strokeLinecap="round" opacity=".74">
+      <g opacity={window * .74} className="story-stage__cool-breeze" fill="none" stroke="#fbf9e8" strokeWidth="4" strokeLinecap="round">
         <path d="M382 225q50-21 95 1q39 20 66 0M394 252q38-13 71 2q34 17 66 1M445 286q39-15 73 0" />
-      </g>}
+      </g>
     </g>
     <g>
       <rect x="655" y="77" width="284" height="213" rx="10" fill="#bea484" />
@@ -632,50 +619,89 @@ function ClassroomChair() {
   </g>
 }
 
-function ClassroomScene({ act, phase, speaking, complete }: { act: number; phase: number; speaking: boolean; complete: boolean }) {
-  const arrived = complete || act > 0
-  const sitting = complete || (act === 2 && phase > 0)
-  const childX = act === 0 ? 322 : act === 1 ? 365 : sitting ? 738 : 639
+function ClassroomScene({ act, phase, speaking, complete, elapsed }: SceneProps) {
+  const enter = complete || act > 0 ? 1 : phase === 2 ? progress(elapsed, 1200, 100) : 0
+  const sit = complete ? 1 : act === 2 && phase > 0 ? phase === 2 ? 1 : progress(elapsed, 950, 120) : 0
+  // Each new chapter starts from the preceding chapter's settled position.
+  const childX = complete ? 738 : act === 0 ? phase === 2 ? lerp(322, 578, enter) : 322 : act === 1 ? 578 : lerp(578, 738, phase === 0 ? progress(elapsed, 1100, 100) : 1)
   return <g>
-    <ClassroomRoom act={act} phase={phase} complete={complete} />
+    <ClassroomRoom act={act} phase={phase} complete={complete} elapsed={elapsed} speaking={speaking} />
     <ellipse cx="706" cy="480" rx="133" ry="20" fill="#ad9777" opacity=".13" />
     <g transform="translate(738 474)"><ClassroomChair /></g>
-    <g transform={`translate(${arrived ? 495 : 166} 468) scale(1.04)`}>
-      <g className={act === 0 && phase === 2 && !complete ? 'story-stage__enter-classroom' : ''}>
-        <ellipse cy="3" rx="59" ry="12" fill="#9f8b74" opacity=".16" />
-        <Bear talking={speaking && phase !== 1} wave={complete || (act === 0 && phase === 2)} point={!complete && act === 2} />
-      </g>
+    <g data-actor="momo" transform={`translate(${lerp(166, 462, enter)} ${468 + arc(enter, 9)}) scale(1.1)`}>
+      <ellipse cy="3" rx="59" ry="12" fill="#9f8b74" opacity=".16" />
+      <Bear talking={speaking && phase !== 1} wave={complete || act === 0 && phase === 2} point={!complete && act === 2} />
     </g>
-    <g transform={`translate(${childX} ${sitting ? 475 : 468}) scale(1.04)`}>
-      <g className={act === 2 && phase === 1 && !complete ? 'story-stage__sit-on-chair' : ''}>
-        <Person kind="child" talking={speaking && phase === 1} reach={phase === 1 && act === 0 ? 'left' : phase === 1 && act === 1 ? 'right' : undefined} seated={sitting} nod={sitting} wave={complete} />
-      </g>
+    <g data-actor="child" transform={`translate(${childX} ${lerp(468, 475, sit) + arc(sit, 9)}) scale(1.08)`}>
+      <Person kind="child" talking={speaking && phase === 1} reach={phase === 1 && act === 0 ? 'left' : phase === 1 && act === 1 ? 'left' : undefined} seated={sit > .45} nod={sit > .9} wave={complete} />
     </g>
-    {act === 0 && phase === 2 && <Accent x={420} y={204} kind="heart" />}
-    {act === 1 && phase === 2 && <Accent x={602} y={337} />}
-    {(act === 2 && phase === 2 || complete) && <><Accent x={672} y={242} kind="heart" /><Accent x={823} y={348} /></>}
+    {act === 2 && phase === 2 && <Accent x={674} y={234} kind="heart" />}
   </g>
 }
 
-/** Each action follows its corresponding spoken line; paused stages keep their pose. */
-export function StoryStage({ storyId, lineIndex, speaking, running, complete = false, rate = 1, label }: StoryStageProps) {
+const subjects = {
+  family: [['mum', '妈妈'], ['dad', '爸爸'], ['grandma', '奶奶']],
+  'school-things': [['pencil', '铅笔'], ['book', '书'], ['pencil case', '铅笔盒']],
+  colors: [['red', '红色'], ['blue', '蓝色'], ['yellow', '黄色']],
+  numbers: [['one', '一'], ['two', '二'], ['three', '三']],
+  classroom: [['door', '门'], ['window', '窗户'], ['chair', '椅子']],
+} as const
+
+const chapters = {
+  family: [['Meet Mum', '见见妈妈'], ['Meet Dad', '见见爸爸'], ['Meet Grandma', '见见奶奶']],
+  'school-things': [['A pencil to share', '借一支铅笔'], ['Here is your book', '找到你的书'], ['Look inside', '打开铅笔盒']],
+  colors: [['A red balloon', '红气球'], ['A blue balloon', '蓝气球'], ['A yellow balloon', '黄气球']],
+  numbers: [['The first block', '第一块积木'], ['One more block', '再来一块积木'], ['Across we go!', '一起过小桥']],
+  classroom: [['Come on in', '开门迎接 Momo'], ['A little fresh air', '开窗吹吹风'], ['Ready to learn', '坐下来上课']],
+} as const
+
+const Backdrop = memo(function Backdrop({ storyId, id }: { storyId: StoryStageProps['storyId']; id: string }) {
+  return storyId === 'numbers' ? <Garden gradientId={id} /> : storyId !== 'classroom' ? <Room storyId={storyId} gradientId={id} /> : null
+})
+
+/** The spoken line causes the action; the result stays in the room afterward. */
+export function StoryStage({ storyId, lineIndex, speaking, running, complete = false, rate = 1, label, take = 0, showZh = true }: StoryStageProps) {
   const id = useId().replace(/:/g, '')
-  const [startedFor, setStartedFor] = useState<string | null>(running ? storyId : null)
-  useEffect(() => { if (running) setStartedFor(storyId) }, [running, storyId])
-  const currentLine = Math.max(0, Math.min(8, Math.floor(lineIndex)))
+  const container = useRef<HTMLDivElement>(null)
+  const [compact, setCompact] = useState(false)
+  useEffect(() => {
+    if (!container.current || typeof ResizeObserver === 'undefined') return
+    const observer = new ResizeObserver(([entry]) => setCompact(entry.contentRect.width < 600))
+    observer.observe(container.current)
+    return () => observer.disconnect()
+  }, [])
+  const currentLine = Number.isFinite(lineIndex) ? Math.max(0, Math.min(8, Math.floor(lineIndex))) : 0
   const act = Math.floor(currentLine / 3)
   const phase = currentLine % 3
-  const sceneProps = { act, phase, speaking: speaking && !complete, complete }
+  const { elapsed, started, reducedMotion } = useStoryClock({ lineIndex: currentLine, running, complete, rate, take })
+  const sceneProps = { act, phase, elapsed, speaking: speaking && !complete, complete }
   const safeRate = Number.isFinite(rate) && rate > 0 ? rate : 1
-  const timing = { '--story-tick': `${1 / safeRate}s` } as CSSProperties
+  const gestureTime = Number.isFinite(elapsed) && started && !reducedMotion ? elapsed : 4000
+  const wave = gestureTime < 2600 ? Math.sin(gestureTime / 1300 * Math.PI * 2) ** 2 : 0
+  const nod = gestureTime < 1200 ? Math.sin(gestureTime / 1200 * Math.PI) : 0
+  const timing = { '--story-tick': `${1 / safeRate}s`, '--story-wave': wave, '--story-nod': nod, '--story-response': progress(elapsed, 550, 0) } as CSSProperties
+  // Phone shots crop scenery, keeping every actor, prop and landing inside the frame.
+  const phoneCrop = storyId === 'classroom' ? '60 72 880 455' : storyId === 'family' ? '105 110 810 416' : '115 105 790 421'
   return (
-    <div className={`story-stage story-stage--${storyId}${running ? ' is-running' : ' is-paused'}${running || startedFor === storyId ? ' has-started' : ''}${complete ? ' is-complete' : ''}`} style={timing}>
-      <svg className="story-stage__svg" viewBox="0 0 1000 560" role="img" aria-label={label} focusable="false">
-        <title>{label}</title>
-        {storyId === 'numbers' ? <Garden gradientId={`story-${id}`} /> : storyId !== 'classroom' && <Room storyId={storyId} gradientId={`story-${id}`} />}
-        {storyId === 'family' ? <FamilyScene {...sceneProps} /> : storyId === 'school-things' ? <SchoolScene {...sceneProps} /> : storyId === 'colors' ? <ColorsScene {...sceneProps} /> : storyId === 'numbers' ? <NumbersScene {...sceneProps} /> : <ClassroomScene {...sceneProps} />}
-        <path d="M25 16H975" stroke="#fffaf0" strokeWidth="2" opacity=".35" strokeLinecap="round" />
-      </svg>
+    <div ref={container} className={`story-stage story-stage--${storyId}${running ? ' is-running' : ' is-paused'}${started ? ' has-started' : ''}${complete ? ' is-complete' : ''}${compact ? ' is-compact' : ''}${reducedMotion ? ' is-reduced' : ''}`} style={timing} data-line={currentLine}>
+      <div className="story-stage__chapter" aria-hidden="true">
+        <span className="story-stage__chapter-number">0{act + 1}<small> / 03</small></span>
+        <span>{chapters[storyId][act][showZh ? 1 : 0]}</span>
+        <span className="story-stage__chapter-rule" />
+        <span className="story-stage__chapter-cast">Momo & you</span>
+      </div>
+      <div className="story-stage__picture">
+        <svg className="story-stage__svg" viewBox={compact ? phoneCrop : '0 35 1000 490'} role="img" aria-label={label} focusable="false">
+          <title>{label}</title>
+          <Backdrop storyId={storyId} id={`story-${id}`} />
+          {storyId === 'family' ? <FamilyScene {...sceneProps} /> : storyId === 'school-things' ? <SchoolScene {...sceneProps} /> : storyId === 'colors' ? <ColorsScene {...sceneProps} /> : storyId === 'numbers' ? <NumbersScene {...sceneProps} /> : <ClassroomScene {...sceneProps} />}
+        </svg>
+      </div>
+      <div className="story-stage__words" aria-hidden="true">
+        {subjects[storyId].map(([en, zh], i) => <span key={en} className={`${complete || i < act ? 'is-seen' : ''}${i === act ? ' is-active' : ''}`}>
+          <i>{complete || i < act ? '✓' : `0${i + 1}`}</i><b lang="en">{en}</b>{showZh && <small>{zh}</small>}
+        </span>)}
+      </div>
     </div>
   )
 }

@@ -1,0 +1,189 @@
+.windmill-page { --wind-cream: #fbf8ef; --wind-ink: #2d493e; --wind-mint: #e6eddf; --wind-edge: #d6ddce; --wind-coral: #eaa188; --wind-muted: #617268; background: var(--wind-cream); color: var(--wind-ink); }
+.windmill-page .page-header { max-width: 1120px; width: 100%; margin: 0 auto; }
+.windmill-page .page-header h1 { font-size: clamp(21px, 3.2vw, 31px); line-height: 1.2; flex: 1; }
+.windmill-page .page-header h1 small { display: block; margin-top: 5px; font-size: clamp(13px, 1.7vw, 18px); font-weight: 500; }
+.windmill-age { font-size: 15px; text-align: right; font-weight: 700; white-space: nowrap; }
+.windmill-age small { display: block; margin-top: 5px; font-size: 10px; letter-spacing: .1em; }
+.windmill-body { width: 100%; max-width: 1120px; margin: 14px auto 0; padding: 4px 4px 30px; gap: 16px; }
+.windmill-body > * { flex-shrink: 0; }
+.windmill-intro { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 4px 2px; font-size: 13px; color: var(--wind-muted); }
+.windmill-intro > span:first-child { font-weight: 700; letter-spacing: .06em; }
+.windmill-intro > span:first-child > span[aria-hidden] { padding: 0 8px; opacity: .5; }
+.windmill-intro > span:last-child { display: flex; gap: 12px; }
+.windmill-screen { overflow: hidden; border-radius: 24px; border: 1px solid var(--wind-edge); background: #fffdf6; box-shadow: 0 14px 36px #394a1b0d; scroll-margin-top: 4px; }
+.windmill-screen > .windmill-stage { display: block; width: 100%; border-radius: 0; border: 0; }
+.windmill-observe { padding: 20px 24px; border-top: 1px solid var(--wind-edge); background: #eef2e7; }
+.windmill-observe__heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.windmill-observe__heading h2 { font-size: 23px; }
+.windmill-observe__heading h2 small { display: block; margin: 4px 0 0; font-size: 14px; }
+.windmill-observe__heading > button { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; align-items: center; min-height: 64px; padding: 8px 15px; border: 1px solid #d39880; border-radius: 14px; font-size: 16px; font-weight: 700; color: var(--wind-ink); background: #edb299; }
+.windmill-observe__heading > button > small { grid-row: 2; font-size: 12px; font-weight: 500; }
+.windmill-observe__heading > button > span { grid-column: 2; grid-row: 1 / 3; }
+.windmill-observe .windmill-winds button { min-height: 82px; flex-direction: row; flex-wrap: wrap; gap: 5px 9px; }
+.windmill-observe .windmill-winds button > small { flex-basis: 100%; text-align: center; }
+.windmill-observe > p { margin-top: 12px; font-size: 15px; text-align: center; line-height: 1.5; }
+.windmill-observe > p > span { font-size: 13px; margin-left: 10px; color: var(--wind-muted); }
+.windmill-subtitles { border-top: 1px solid var(--wind-edge); min-height: 178px; padding: 22px 34px 26px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 9px; background: #fffdf6; }
+.windmill-subtitles__chapter { color: var(--wind-muted); display: flex; flex-wrap: wrap; justify-content: center; align-items: baseline; gap: 9px; font-size: 12px; font-variant-numeric: tabular-nums; }
+.windmill-subtitles__chapter b { font-size: 16px; color: var(--wind-ink); }
+.windmill-subtitles__chapter > span { font-size: 13px; }
+.windmill-subtitles p:first-of-type { font-size: clamp(21px, 2.4vw, 28px); line-height: 1.65; font-weight: 700; max-width: 940px; text-wrap: balance; }
+.windmill-subtitles p:last-of-type { font-size: clamp(17px, 1.9vw, 21px); line-height: 1.5; max-width: 930px; text-wrap: balance; color: #596f61; }
+.windmill-transport { display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 13px; margin-top: 8px; }
+.windmill-transport .btn { min-height: 76px; border-radius: 16px; border: 1px solid var(--wind-edge); padding: 11px 16px; color: var(--wind-ink); background: #fffdf6; box-shadow: 0 3px 10px #394a1b06; }
+.windmill-transport .btn--primary { background: var(--wind-coral); border-color: #dc9b82; box-shadow: 0 4px 12px #aa624c16; }
+.windmill-transport .btn:disabled { opacity: .45; box-shadow: none; }
+.windmill-transport .btn > span { display: flex; flex-direction: column; gap: 5px; align-items: center; }
+.windmill-transport b { font-size: 21px; }
+.windmill-transport small { font-size: 14px; font-weight: 500; }
+.windmill-status { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 0 3px; }
+.windmill-status p { font-size: 15px; line-height: 1.55; }
+.windmill-status p small { display: block; color: var(--wind-muted); font-size: 13px; }
+.windmill-status > button { min-height: 64px; flex-shrink: 0; padding: 7px 16px; font-size: 16px; border: 1px solid var(--wind-edge); border-radius: 14px; color: var(--wind-ink); background: #fffdf6; }
+.windmill-status > button small { display: block; margin-top: 4px; font-size: 12px; }
+.windmill-chapters { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.windmill-chapters button { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; text-align: left; gap: 7px; min-width: 0; min-height: 128px; padding: 15px 12px 18px; border: 1px solid var(--wind-edge); border-radius: 14px; color: var(--wind-ink); background: #fffdf6; }
+.windmill-chapters button > span { font-size: 13px; font-weight: 700; color: var(--wind-muted); }
+.windmill-chapters button > b { font-size: 16px; line-height: 1.4; }
+.windmill-chapters button > small { font-size: 12px; line-height: 1.4; color: var(--wind-muted); }
+.windmill-chapters button[aria-current="step"] { background: var(--wind-mint); border-color: #9bae8f; }
+.windmill-chapters button > i { position: absolute; height: 3px; background: #849d74; bottom: 0; left: 0; }
+.windmill-lab { display: grid; grid-template-columns: 1fr 1.3fr; align-items: center; gap: 17px 28px; padding: 24px; border-radius: 20px; background: #eef2e7; border: 1px solid var(--wind-edge); }
+.windmill-kicker { font-size: 11px; font-weight: 800; letter-spacing: .15em; color: #536e5e; }
+.windmill-page h2 { font-size: 25px; line-height: 1.3; }
+.windmill-page h2 small { font-size: 17px; font-weight: 500; margin-left: 8px; }
+.windmill-lab h2 { margin-top: 7px; }
+.windmill-lab > div > p { font-size: 16px; margin-top: 10px; line-height: 1.6; }
+.windmill-lab p > span, .windmill-voice p > span { display: block; font-size: 13px; color: var(--wind-muted); }
+.windmill-winds { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.windmill-winds button { display: flex; flex-direction: column; gap: 5px; align-items: center; justify-content: center; min-height: 104px; border-radius: 14px; border: 1px solid #c6d2bd; color: var(--wind-ink); background: #fbfcf6; padding: 9px 8px; min-width: 0; }
+.windmill-winds button > span { font-size: 24px; line-height: 1; font-weight: 700; }
+.windmill-winds button b { font-size: 18px; }
+.windmill-winds button small { font-size: 13px; color: #566c5f; }
+.windmill-winds button[aria-pressed="true"] { background: #527459; border-color: #527459; color: #fffef5; }
+.windmill-winds button[aria-pressed="true"] small { color: #fffef5; }
+.windmill-lab__note { grid-column: 1 / -1; border-top: 1px solid #bed0c1; padding-top: 12px; font-size: 13px; line-height: 1.6; color: #53695b; }
+.windmill-lab__note span { display: inline !important; margin-left: 8px; }
+.windmill-voice { display: grid; grid-template-columns: 1fr 1.3fr; gap: 12px 24px; align-items: center; padding: 22px 24px; border: 1px solid var(--wind-edge); border-radius: 20px; background: #fffdf6; }
+.windmill-voice h2 { font-size: 21px; }
+.windmill-voice p { font-size: 14px; line-height: 1.6; margin-top: 6px; }
+.windmill-voice > div[role="group"] { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.windmill-voice button { border-radius: 13px; border: 1px solid var(--wind-edge); min-height: 72px; padding: 9px 5px; display: flex; flex-direction: column; justify-content: center; gap: 6px; color: var(--wind-ink); background: var(--wind-cream); }
+.windmill-voice button b { font-size: 17px; }
+.windmill-voice button small { font-size: 13px; color: var(--wind-muted); }
+.windmill-voice button[aria-pressed="true"] { border-color: #9bae8f; box-shadow: inset 0 0 0 1px #9bae8f; background: var(--wind-mint); }
+.windmill-voice__note { grid-column: 1 / -1; font-size: 12px !important; color: var(--wind-muted); }
+.windmill-voice__note span { display: inline !important; margin-left: 6px; font-size: 12px !important; }
+.windmill-learn { border: 1px solid var(--wind-edge); border-radius: 20px; background: #fffdf6; overflow: hidden; }
+.windmill-learn summary { min-height: 86px; padding: 22px 24px; font-size: 23px; font-weight: 700; cursor: pointer; list-style: none; position: relative; padding-right: 64px; }
+.windmill-learn summary::-webkit-details-marker { display: none; }
+.windmill-learn summary small { display: block; margin-top: 5px; font-size: 15px; font-weight: 500; color: var(--wind-muted); }
+.windmill-learn summary > span { position: absolute; right: 25px; top: 30px; font-size: 25px; transition: transform 160ms ease; }
+.windmill-learn[open] summary > span { transform: rotate(45deg); }
+.windmill-quiz__questions { display: flex; flex-direction: column; gap: 26px; padding: 8px 24px 26px; }
+.windmill-quiz fieldset { border: 0; padding: 0; min-width: 0; }
+.windmill-quiz legend { font-size: 20px; line-height: 1.4; font-weight: 700; margin-bottom: 14px; }
+.windmill-quiz legend > span { color: #7da48c; }
+.windmill-quiz legend small { display: block; font-size: 16px; font-weight: 500; margin-top: 5px; }
+.windmill-quiz fieldset > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.windmill-quiz button { min-width: 0; min-height: 102px; display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 14px; text-align: left; border-radius: 13px; border: 1px solid #dedfcd; color: var(--wind-ink); background: var(--wind-cream); }
+.windmill-quiz button b { font-size: 17px; line-height: 1.4; }
+.windmill-quiz button small { font-size: 14px; line-height: 1.4; color: var(--wind-muted); }
+.windmill-quiz button.is-correct { background: var(--wind-mint); border-color: #7da48c; }
+.windmill-quiz button.is-try-again { background: #f8e4d4; border-color: #d4ad8e; }
+.windmill-quiz fieldset > p { display: flex; flex-direction: column; gap: 7px; padding: 14px 16px; margin-top: 12px; font-size: 16px; line-height: 1.6; border-radius: 14px; background: #f6eddf; }
+.windmill-quiz fieldset > p.is-correct { background: #e7efe1; }
+.windmill-quiz fieldset > p span { font-size: 14px; color: var(--wind-muted); }
+.windmill-words { padding: 23px 24px; }
+.windmill-words > div { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+.windmill-words > div > span { display: flex; flex-direction: column; gap: 6px; padding: 12px 10px; border-radius: 13px; background: #f0f1e3; }
+.windmill-words b { font-size: 23px; }
+.windmill-words small { font-size: 15px; color: var(--wind-muted); }
+.windmill-home > div { padding: 0 24px 25px; }
+.windmill-home h3 { font-size: 21px; line-height: 1.5; }
+.windmill-home h3 small { display: block; font-size: 16px; color: var(--wind-muted); font-weight: 500; margin-top: 5px; }
+.windmill-home p { font-size: 17px; line-height: 1.8; margin-top: 18px; }
+.windmill-home p span { display: block; font-size: 15px; color: var(--wind-muted); margin-top: 5px; line-height: 1.6; }
+.windmill-home__question { padding: 16px 18px; border-radius: 15px; background: #f7e6cf; font-weight: 700; }
+.windmill-home__question small { display: block; font-size: 15px; font-weight: 500; }
+.windmill-sources { padding: 5px 5px 10px; color: var(--wind-muted); }
+.windmill-sources summary { min-height: 64px; font-size: 14px; padding: 13px 0; cursor: pointer; }
+.windmill-sources summary small { margin-left: 8px; font-size: 12px; }
+.windmill-sources p { font-size: 13px; line-height: 1.7; margin-bottom: 12px; }
+.windmill-sources p span { display: block; }
+.windmill-sources a { display: block; font-size: 13px; line-height: 1.5; padding: 10px 0; color: #4d6d60; text-decoration: underline; text-underline-offset: 3px; overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .windmill-intro > span:last-child { flex-direction: column; gap: 3px; text-align: right; }
+  .windmill-chapters { grid-template-columns: repeat(5, 158px); overflow-x: auto; padding-bottom: 6px; }
+  .windmill-chapters button { min-height: 130px; }
+  .windmill-lab, .windmill-voice { grid-template-columns: 1fr; gap: 16px; }
+  .windmill-words > div { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .windmill-quiz fieldset > div { grid-template-columns: 1fr; }
+  .windmill-quiz button { min-height: 78px; }
+}
+@media (max-width: 480px) {
+  .windmill-page { padding-left: 12px; padding-right: 12px; }
+  .windmill-page .page-header { gap: 12px; }
+  .windmill-page .page-header h1 { font-size: 21px; }
+  .windmill-page .page-header h1 small { font-size: 12px; }
+  .windmill-age { display: none; }
+  .windmill-body { gap: 13px; margin-top: 10px; }
+  .windmill-intro { font-size: 10px; gap: 8px; }
+  .windmill-intro > span:first-child { display: flex; flex-direction: column; gap: 5px; }
+  .windmill-intro > span:first-child > span[aria-hidden] { display: none; }
+  .windmill-screen { border-radius: 20px; box-shadow: 0 8px 24px #394a1b0a; }
+  .windmill-observe { padding: 13px 12px 15px; }
+  .windmill-observe__heading { margin-bottom: 10px; }
+  .windmill-observe__heading h2 { font-size: 20px; }
+  .windmill-observe__heading h2 small { font-size: 12px; }
+  .windmill-observe__heading > button { padding: 8px 11px; font-size: 15px; }
+  .windmill-observe .windmill-winds button { min-height: 72px; gap: 3px 5px; }
+  .windmill-observe .windmill-winds button > span { font-size: 20px; }
+  .windmill-observe .windmill-winds button > b { font-size: 16px; }
+  .windmill-observe .windmill-winds button > small { font-size: 11px; }
+  .windmill-observe > p { font-size: 13px; margin-top: 9px; }
+  .windmill-observe > p > span { display: block; font-size: 11px; margin: 3px 0 0; }
+  .windmill-subtitles { padding: 16px 15px 20px; min-height: 252px; gap: 9px; }
+  .windmill-subtitles__chapter { gap: 5px 7px; }
+  .windmill-subtitles__chapter > span { flex-basis: 100%; font-size: 11px; }
+  .windmill-subtitles__chapter b { font-size: 15px; }
+  .windmill-subtitles p:first-of-type { font-size: 20px; line-height: 1.6; text-wrap: pretty; }
+  .windmill-subtitles p:last-of-type { font-size: 16px; line-height: 1.5; text-wrap: pretty; }
+  .windmill-transport { gap: 9px; grid-template-columns: 1fr 1.2fr 1fr; }
+  .windmill-transport .btn { padding: 10px 4px; min-height: 75px; border-radius: 16px; }
+  .windmill-transport b { font-size: 17px; white-space: nowrap; }
+  .windmill-transport small { font-size: 12px; }
+  .windmill-status { gap: 8px; }
+  .windmill-status p { font-size: 12px; }
+  .windmill-status p small { font-size: 11px; }
+  .windmill-status > button { padding: 7px 9px; font-size: 14px; }
+  .windmill-status > button small { font-size: 11px; }
+  .windmill-page h2 { font-size: 23px; }
+  .windmill-page h2 small { font-size: 16px; }
+  .windmill-lab, .windmill-voice { padding: 20px 17px; border-radius: 20px; }
+  .windmill-winds { gap: 8px; }
+  .windmill-winds button { min-height: 100px; padding: 9px 4px; }
+  .windmill-winds button b { font-size: 17px; }
+  .windmill-winds button small { font-size: 12px; }
+  .windmill-lab__note span { display: block !important; margin: 4px 0 0; font-size: 11px; }
+  .windmill-voice > div[role="group"] { gap: 7px; }
+  .windmill-voice button b { font-size: 15px; }
+  .windmill-voice button small { font-size: 12px; }
+  .windmill-voice__note span { display: block !important; margin: 3px 0 0; }
+  .windmill-learn { border-radius: 20px; }
+  .windmill-learn summary { padding: 20px 17px; padding-right: 50px; font-size: 21px; }
+  .windmill-learn summary > span { right: 18px; }
+  .windmill-learn summary small { font-size: 14px; }
+  .windmill-quiz__questions { padding: 4px 17px 22px; }
+  .windmill-quiz legend { font-size: 19px; }
+  .windmill-words { padding: 20px 17px; }
+  .windmill-words h2 small { display: block; margin: 6px 0 0; font-size: 15px; }
+  .windmill-words > div { gap: 8px; }
+  .windmill-words b { font-size: 21px; }
+  .windmill-home > div { padding: 0 17px 22px; }
+  .windmill-home h3 { font-size: 20px; }
+  .windmill-sources summary small { display: block; margin: 5px 0 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .windmill-learn summary > span { transition: none; }
+}

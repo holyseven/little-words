@@ -1,0 +1,133 @@
+{
+  "version": 2,
+  "sampleRate": 24000,
+  "aacBitrate": 64000,
+  "voices": {
+    "zh": {
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "zf_001",
+      "language": "cmn",
+      "speed": 0.85
+    },
+    "en": {
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "af_maple",
+      "language": "en-us",
+      "speed": 0.67
+    }
+  },
+  "clips": {
+    "blades-zh": {
+      "src": "/audio/windmill-blades-zh.m4a",
+      "text": "风正对叶轮吹来。从侧面看，来风和中心轴方向一致。纸叶让空气拐弯，空气也推着纸叶。一部分推力让风车绕轴转起来！",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "zf_001",
+      "language": "cmn",
+      "speed": 0.85,
+      "durationMs": 12089,
+      "hash": "2916cdbbc441bbd7"
+    },
+    "blades-en": {
+      "src": "/audio/windmill-blades-en.m4a",
+      "text": "In this side view, wind faces the wheel and flows parallel to its pin. Folded paper turns air aside. Air pushes back; part of that push makes the wheel spin.",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "af_maple",
+      "language": "en-us",
+      "speed": 0.67,
+      "durationMs": 13495,
+      "hash": "6ac256dbefeb5c4d"
+    },
+    "axis-zh": {
+      "src": "/audio/windmill-axis-zh.m4a",
+      "text": "中心的小轴托住风车，叶片能围着它转。风不停地推，风车就继续转动，好像推旋转门。",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "zf_001",
+      "language": "cmn",
+      "speed": 0.85,
+      "durationMs": 8709,
+      "hash": "e5aeb299ef54e638"
+    },
+    "axis-en": {
+      "src": "/audio/windmill-axis-en.m4a",
+      "text": "A little pin holds the wheel in place and lets it turn. The wind keeps pushing it around, like pushing a revolving door.",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "af_maple",
+      "language": "en-us",
+      "speed": 0.67,
+      "durationMs": 9506,
+      "hash": "2b86ba63ba46faeb"
+    },
+    "slowdown-zh": {
+      "src": "/audio/windmill-slowdown-zh.m4a",
+      "text": "风停了，风车不会马上停住。轴上的摩擦和空气的阻力让它越转越慢，最后停下来。",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "zf_001",
+      "language": "cmn",
+      "speed": 0.85,
+      "durationMs": 8044,
+      "hash": "5d20d553283ce610"
+    },
+    "slowdown-en": {
+      "src": "/audio/windmill-slowdown-en.m4a",
+      "text": "When the wind stops, the pinwheel keeps spinning for a while. Friction at the pin and air resistance slow it down.",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "af_maple",
+      "language": "en-us",
+      "speed": 0.67,
+      "durationMs": 7896,
+      "hash": "ff4649a9bf0e485a"
+    },
+    "energy-zh": {
+      "src": "/audio/windmill-energy-zh.m4a",
+      "text": "原来，风把一部分运动的能量传给了风车！空气在动，叶片受力，风车转圈：这就是能量传递。",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "zf_001",
+      "language": "cmn",
+      "speed": 0.85,
+      "durationMs": 8977,
+      "hash": "bb903ec7d3d7bd68"
+    },
+    "energy-en": {
+      "src": "/audio/windmill-energy-en.m4a",
+      "text": "The wind passes some of its movement energy to the pinwheel! Air moves, blades get a push, and the wheel spins.",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "af_maple",
+      "language": "en-us",
+      "speed": 0.67,
+      "durationMs": 8195,
+      "hash": "cf8059a197e47f74"
+    },
+    "air-zh": {
+      "src": "/audio/windmill-air-zh.m4a",
+      "text": "风，就是正在移动的空气。我们看不见空气，却能感觉到风轻轻吹过脸颊。",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "zf_001",
+      "language": "cmn",
+      "speed": 0.85,
+      "durationMs": 6848,
+      "hash": "17d97a4fa76d5ef5"
+    },
+    "air-en": {
+      "src": "/audio/windmill-air-en.m4a",
+      "text": "Wind is moving air. We cannot see the air, but we can feel a gentle breeze on our cheeks.",
+      "provider": "kokoro-onnx",
+      "model": "kokoro-v1.1-zh.fp16",
+      "voice": "af_maple",
+      "language": "en-us",
+      "speed": 0.67,
+      "durationMs": 6992,
+      "hash": "a574884f4c87c550"
+    }
+  }
+}

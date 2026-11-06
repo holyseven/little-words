@@ -32,8 +32,15 @@ export function Stories() {
         <p>{text('跟着 Momo 看一看、听一听，喜欢的那一句，再听一次。', 'Watch with Momo, listen, and hear your favorite line again.')}</p>
         <span className="stories__badge">{text(`${animatedStories.length} 段原创故事 · 角色配音`, `${animatedStories.length} original stories · Character voices`)}</span>
       </section>
+      <button type="button" className="stories-science" onClick={() => navigate('/science/windmill')}>
+        <span className="stories-science__picture" aria-hidden="true">
+          <img className="stories-science__meadow" src={`${import.meta.env.BASE_URL}images/windmill/meadow-scene-v2.png`} alt="" />
+          <span className="stories-science__pinwheel"><span className="stories-science__stick" /><img src={`${import.meta.env.BASE_URL}images/windmill/paper-pinwheel-v2.png`} alt="" /></span>
+        </span>
+        <span className="stories-science__text"><small>双语科普 · 8 岁 + <span lang="en">LITTLE SCIENTIST</span></small><b>风车为什么会转？</b><span lang="en">Why does a pinwheel spin?</span><p>看风推叶片，自己试试风力，发现转动的秘密。<span lang="en">Watch, change the wind, and discover why it spins.</span></p><strong>看科普动画 <span lang="en">Watch & explore</span> <span aria-hidden="true">→</span></strong></span>
+      </button>
       <div className="stories__grid">{animatedStories.map((story) => <button className={`story-card story-card--${story.id}`} key={story.id} onClick={() => navigate(`/stories/${story.id}`)}>
-        <div className="story-card__picture"><StoryStage storyId={story.id} lineIndex={0} speaking={false} running={false} label={settings.showZh ? story.zh : story.title} /><span className="story-card__play" aria-hidden="true">▶</span></div>
+        <div className="story-card__picture"><StoryStage storyId={story.id} lineIndex={0} speaking={false} running={false} showZh={settings.showZh} label={settings.showZh ? story.zh : story.title} /><span className="story-card__play" aria-hidden="true">▶</span></div>
         <div className="story-card__text"><small lang="en">UNIT {story.unitId.slice(-1)} / {story.themeId.replace('-', ' ').toUpperCase()}</small><h2>{settings.showZh ? story.zh : story.title}</h2>{settings.showZh && <span lang="en">{story.title}</span>}<p>{settings.showZh ? story.summary : story.summaryEn}</p><div className="story-card__words" lang="en">{story.learning.wordIds.map((id) => <span key={id}>{getWord(story.themeId, id)?.text}</span>)}</div><b>{text('看小故事', 'Watch story')} <span aria-hidden="true">→</span></b></div>
       </button>)}</div>
       <p className="stories__note">{text('围绕课本主题创作的小故事，和学校的原版动画分开收好。', 'Original little stories inspired by your textbook themes.')}</p>
@@ -137,10 +144,14 @@ function Player({ story, from }: { story: AnimatedStory; from?: 'course' | 'them
         <div>{storySpeeds.map((speed) => <button key={speed.rate} type="button" aria-pressed={settings.storyRate === speed.rate} disabled={pausedByPage} onClick={() => changeSpeed(speed.rate)}><b>{text(speed.zh, speed.en)}</b><span>{speed.rate}×</span></button>)}</div>
       </div>
       <section className="story-screen" aria-label={text('动画与字幕', 'Story and subtitles')}>
-        <StoryStage key={take} storyId={story.id} lineIndex={state.index} speaking={state.speaking && running} running={running} complete={ended} rate={settings.storyRate} label={settings.showZh ? story.zh : story.title} />
+        <StoryStage key={story.id} take={take} storyId={story.id} lineIndex={state.index} speaking={state.speaking && running} running={running} complete={ended} rate={settings.storyRate} showZh={settings.showZh} label={settings.showZh ? story.zh : story.title} />
         <div className={`story-subtitles${line.speaker === 'child' ? ' story-subtitles--child' : ''}`} aria-live="polite" aria-atomic="true">
           <span className="story-subtitles__speaker">{ended ? text('故事看完啦', 'The End') : line.speaker === 'momo' ? 'Momo' : text('小朋友', 'Little friend')}<i className={state.speaking && running ? 'is-speaking' : ''} aria-hidden="true"><b /><b /><b /></i></span>
-          <p lang="en">{line.en}</p>{settings.showZh && <span className="story-subtitles__zh">{line.zh}</span>}
+          <div className="story-subtitles__slot">
+            {/* Every line shares one footprint, so a longer sentence never moves the player. */}
+            {story.lines.map((item) => <div className="story-subtitles__line story-subtitles__reserve" key={item.id} aria-hidden="true"><p lang="en">{item.en}</p>{settings.showZh && <span className="story-subtitles__zh">{item.zh}</span>}</div>)}
+            <div className="story-subtitles__line story-subtitles__current" key={`current-${line.id}`}><p lang="en">{line.en}</p>{settings.showZh && <span className="story-subtitles__zh">{line.zh}</span>}</div>
+          </div>
         </div>
       </section>
       <div className="story-player__progress" aria-label={text(`第 ${state.index + 1} 句，共 ${story.lines.length} 句`, `Line ${state.index + 1} of ${story.lines.length}`)}><div aria-hidden="true">{story.lines.map((item, index) => <span key={item.id} className={index === state.index ? 'is-current' : index < state.index ? 'is-past' : ''} />)}</div><span>{ended ? '✓' : `${state.index + 1} / ${story.lines.length}`}</span></div>

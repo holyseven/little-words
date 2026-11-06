@@ -16,6 +16,7 @@ export type Route =
   | { name: 'dialogue'; sceneId: string; from?: 'course' | 'theme' }
   | { name: 'stories' }
   | { name: 'story'; storyId: string; from?: 'course' | 'theme' }
+  | { name: 'windmill' }
   | { name: 'games'; game?: ParkGameId }
   | { name: 'theme'; themeId: string }
   | { name: 'learn'; themeId: string; wordId?: string }
@@ -40,6 +41,9 @@ export function parseRoute(path: string): Route {
   const parts = path.split('?')[0]!.split('/').filter(Boolean)
 
   if (parts.length === 0) return { name: 'home' }
+  if (parts[0] === 'science') {
+    return parts.length === 2 && parts[1] === 'windmill' ? { name: 'windmill' } : { name: 'notfound', path }
+  }
   if (parts[0] === 'stories') {
     if (parts.length === 1) return { name: 'stories' }
     if (parts.length === 2) {
