@@ -157,4 +157,5 @@
 .windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__lesson--fold { width: 390px; }
 .windmill-stage .windmill-drawing__weather { will-change: transform; }
 .windmill-stage .windmill-drawing[data-chapter='1']:not(.is-experiment) .windmill-drawing__wheel { transition: none; }
+.windmill-stage .windmill-drawing[data-chapter='3']:not(.is-experiment) .windmill-drawing__key { display: none; }
 .windmill-stage .windmill-drawing--compact[data-chapter='1']:not(.is-experiment) .windmill-drawing__lesson--fold { top: 205px; left: 22px; width: 314px; }

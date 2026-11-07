@@ -445,3 +445,53 @@ direction and exact material-target continuity, pixel-stable pause and replay.
 Independent visual review confirms that the arrival now meets the visible fold,
 blue air bends there and orange push stays distinct; no must-fix crop or label
 collision was found. See `BladeForceDiagram.REHEARSAL.md` for film evidence.
+
+
+## V10 narrated coast-down, 2026-11-07
+
+The user found chapter four stopped before the narration finished. Its old
+exponential friction lost most visible motion in the first few seconds and
+reached the stop threshold around4.3s, compared with roughly8s of narration.
+The narrative now uses a10s absolute-clock coast within the same12s chapter,
+leaving the final2s for the stopped pose. A smoothstep speed decreases from100°/s
+to zero; its analytical integral keeps angle and speed consistent at any frame
+rate. At8s, speed is10.4°/s and it still moves visibly. No audio or wording changed.
+This authored teaching timing is distinct from the unchanged experiment model.
+
+The stage now receives the page's existing playback revision. Each chapter
+restart captures the retained angle and reseeds narrative motion; this also
+fixes same-chapter replay/voice switches after the wheel has stopped. Pause
+preserves the chapter clock and coast entry. The narrative bypasses ordinary
+step integration, while experiments keep the original wind/friction model.
+Reduced motion retains a completed static pose. Composition and art are unchanged;
+`payout-flow` remains the closest Stage choreography reference.
+
+All553 tests across47 files, TypeScript, content validation and production/PWA
+build pass. New motion checks cover visible travel through8s, exact stop at10s,
+final hold, monotone speed, CCW direction and sample independence. Independent
+code review found no blocking pause/replay/loop regression.
+
+Actual browser playback used the local Chinese AAC (decoded duration8.085s).
+At voice end the rotor still moved at22.94°/s and turned another9.91° over the
+following500ms. It reached exactly zero at the10s chapter mark and held the same
+angle. Pause/resume retained its pose and clock; same-chapter replay after the
+full stop, switching to English and returning from the next chapter all
+restarted the coast. Experiment friction retained its original behavior, and
+the browser reported no page errors. The audit script and start/speaking/stopped
+captures are under `/private/tmp/windmill-rehearsal/coast-timing-v10-*`.
+
+The Stage films cover1120px (eight frames through10.5s) and390px (six marked
+states through11s). Both layout rehearsals passed; fresh visual review found
+readable copy, intact bounds and the final stopped hold. Their motion verdict
+was inconclusive: headless sampling gaps and the rotating raster's changing
+bounding box prevent those sheets from establishing continuous motion. The
+absolute-clock motion tests and actual-playback audit above provide that
+timing/direction evidence.
+
+Review also found the old blue “wind blows onto the front” key contradicted the
+no-wind chapter. It is now hidden only for this narrative chapter. Final1120px
+and390px poster captures confirm the key is absent, the no-wind badge remains,
+and there is no overflow or layout regression; independent visual review
+confirms the fix. These final `coast-timing-v10-final-1120.png` and
+`coast-timing-v10-final-390.png` captures include this label-only cleanup; the
+earlier film sheets precede it. Production/PWA build passes after the cleanup.

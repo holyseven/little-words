@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import { Stage } from '../vendor/stageshow/stage'
 import type { Act } from '../vendor/stageshow/act'
-import { stepWindmill } from '../logic/windmillMotion'
+import { coastLessonMotion, stepWindmill } from '../logic/windmillMotion'
 import { bladeLessonAngle, bladeLessonPose, PAPER_ROTOR, SELECTED_BLADE } from '../logic/windmillGeometry'
 import { BladeForceDiagram } from './BladeForceDiagram'
 import type { BladeFrameRenderer } from './BladeForceDiagram'
@@ -14,6 +14,7 @@ export interface WindmillStageProps {
   experiment?: boolean
   elapsedMs?: number
   clockRef?: { current: number }
+  revision?: number
 }
 
 const scene = {}
@@ -59,7 +60,7 @@ function AirStream({ particlesRef, trailsRef, arrowId }: {
   </g>
 }
 
-function WindmillDrawing({ chapter, running, wind, experiment = false, elapsedMs = 0, clockRef, compact }: WindmillStageProps & { compact: boolean }) {
+function WindmillDrawing({ chapter, running, wind, experiment = false, elapsedMs = 0, clockRef, revision = 0, compact }: WindmillStageProps & { compact: boolean }) {
   const id = useId().replace(/:/g, '')
   const root = useRef<HTMLDivElement>(null)
   const rotor = useRef<SVGGElement>(null)
@@ -75,14 +76,10 @@ function WindmillDrawing({ chapter, running, wind, experiment = false, elapsedMs
   const environment = useRef({ time: 0, strength: 0 })
   const model = useRef({ angle: 348, speed: 0 })
   const lessonEntry = useRef({ active: false, angle: 348, elapsed: 0 })
+  const coastEntry = useRef({ active: false, angle: 348, revision: -1, elapsed: 0 })
   const flow = useRef(0)
   const [reduced, setReduced] = useState(() => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches)
   const [visible, setVisible] = useState(true)
-  useEffect(() => {
-    // Seeking to the coast-down chapter opens on an already-spinning wheel,
-    // the initial condition being explained; experiments never add this energy.
-    if (chapter === 3 && !experiment && model.current.speed === 0) model.current.speed = 100
-  }, [chapter])
   useEffect(() => {
     const media = matchMedia('(prefers-reduced-motion: reduce)')
     const change = () => setReduced(media.matches)
@@ -108,7 +105,19 @@ function WindmillDrawing({ chapter, running, wind, experiment = false, elapsedMs
         model.current.angle = reduced ? bladeLessonAngle(elapsed) : bladeLessonPose(elapsed, lessonEntry.current.angle)
         lessonEntry.current.elapsed = elapsed
       } else lessonEntry.current.active = false
+      if (chapter === 3 && !experiment) {
+        if (!coastEntry.current.active || coastEntry.current.revision !== revision || elapsed < coastEntry.current.elapsed - 120) {
+          coastEntry.current = { active: true, angle: model.current.angle, revision, elapsed }
+        }
+        model.current = coastLessonMotion(coastEntry.current.angle, elapsed)
+        coastEntry.current.elapsed = elapsed
+      } else if (chapter !== 3) coastEntry.current.active = false
       rotor.current?.setAttribute('transform', `rotate(${model.current.angle})`)
+      root.current?.setAttribute('data-rotor-speed', String(model.current.speed))
+      if (chapter === 3 && !experiment) {
+        root.current?.setAttribute('data-coast-time', String(Math.round(elapsed)))
+        root.current?.closest('.ss-stage')?.setAttribute('data-mark', elapsed < 8_000 ? 'coast-moving' : elapsed < 10_000 ? 'coast-settling' : 'coast-stopped')
+      } else root.current?.removeAttribute('data-coast-time')
       detailRenderer.current?.({ angle: model.current.angle, elapsedMs: elapsed })
       const { time, strength } = environment.current
       foliage.current?.setAttribute('transform', `rotate(${Math.sin(time * 1.35) * strength * 1.1} 85 215)`)
@@ -137,7 +146,7 @@ function WindmillDrawing({ chapter, running, wind, experiment = false, elapsedMs
       if (!live) return
       const delta = previous === null ? 0 : Math.min(100, Math.max(0, now - previous))
       previous = now
-      model.current = stepWindmill(model.current, wind, delta)
+      if (chapter !== 3 || experiment) model.current = stepWindmill(model.current, wind, delta)
       environment.current.time += delta / 1000
       environment.current.strength += (wind - environment.current.strength) * (1 - Math.exp(-delta / 550))
       if (wind > 0) flow.current += delta / (wind === 1 ? 3800 : 2150)
@@ -146,7 +155,7 @@ function WindmillDrawing({ chapter, running, wind, experiment = false, elapsedMs
     }
     if (running && !reduced && visible) frame = requestAnimationFrame(tick)
     return () => { live = false; cancelAnimationFrame(frame) }
-  }, [running, wind, reduced, visible, chapter, experiment])
+  }, [running, wind, reduced, visible, chapter, experiment, revision])
 
   useEffect(() => {
     root.current?.closest('.ss-stage')?.setAttribute('data-mark', experiment ? 'experiment' : ['air', 'blades', 'axis', 'slowdown', 'energy'][chapter])

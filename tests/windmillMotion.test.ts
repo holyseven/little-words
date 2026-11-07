@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { stepWindmill, WIND_SPEEDS, type WindLevel, type WindmillMotion } from '../src/logic/windmillMotion'
+import { coastLessonMotion, COAST_LESSON_DURATION_MS, stepWindmill, WIND_SPEEDS, type WindLevel, type WindmillMotion } from '../src/logic/windmillMotion'
 
 function simulate(motion: WindmillMotion, wind: WindLevel, totalMs: number, frameMs: number): WindmillMotion {
   let result = motion
@@ -84,5 +84,34 @@ describe('paper pinwheel motion', () => {
     expect(limited.angle).toBeLessThan(360)
     expect(limited.speed).toBe(WIND_SPEEDS[2])
     expect(stepWindmill({ angle: 30, speed: 0 }, 9 as WindLevel, 16)).toEqual({ angle: 30, speed: 0 })
+  })
+})
+
+describe('the narrated coast-down', () => {
+  it('keeps visibly turning through the eight-second voice, then holds a complete stop', () => {
+    const duringVoice = coastLessonMotion(220, 8_000)
+    const halfSecondLater = coastLessonMotion(220, 8_500)
+    expect(duringVoice.speed).toBeGreaterThan(10)
+    expect(duringVoice.angle - halfSecondLater.angle).toBeGreaterThan(4)
+    const stopped = coastLessonMotion(220, COAST_LESSON_DURATION_MS)
+    expect(stopped.speed).toBe(0)
+    expect(coastLessonMotion(220, 12_000)).toEqual(stopped)
+  })
+
+  it('loses speed smoothly without reversing or depending on earlier frame samples', () => {
+    let prior = coastLessonMotion(347, 0)
+    expect(prior.speed).toBe(WIND_SPEEDS[1])
+    for (let time = 100; time <= COAST_LESSON_DURATION_MS; time += 100) {
+      const next = coastLessonMotion(347, time)
+      expect(next.speed).toBeLessThanOrEqual(prior.speed)
+      const ccwTurn = (prior.angle - next.angle + 360) % 360
+      expect(ccwTurn).toBeGreaterThanOrEqual(0)
+      expect(ccwTurn).toBeLessThanOrEqual(WIND_SPEEDS[1] / 10)
+      prior = next
+    }
+    const atEightSeconds = coastLessonMotion(347, 8_000)
+    for (let time = 0; time < 8_000; time += 16) coastLessonMotion(347, time)
+    expect(coastLessonMotion(347, 8_000)).toEqual(atEightSeconds)
+    expect(coastLessonMotion(347, 0)).toEqual({ angle: 347, speed: WIND_SPEEDS[1] })
   })
 })

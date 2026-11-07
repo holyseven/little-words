@@ -223,7 +223,7 @@ export function Windmill() {
         <BigButton disabled={blocked || chapterIndex === windmillChapters.length - 1} onClick={() => seek(chapterIndex + 1)}><b>下一章 →</b><small lang="en">Next</small></BigButton>
       </div>
       <section ref={screen} className={`windmill-screen${experiment ? ' is-experimenting' : ''}`} aria-label="风车科普动画 / Pinwheel science animation">
-        <WindmillStage chapter={chapterIndex} running={(running || experiment) && !blocked} wind={wind} experiment={experiment} elapsedMs={elapsed} clockRef={elapsedRef} />
+        <WindmillStage chapter={chapterIndex} running={(running || experiment) && !blocked} wind={wind} experiment={experiment} elapsedMs={elapsed} clockRef={elapsedRef} revision={revision} />
         {experiment ? <div className="windmill-observe">
           <div className="windmill-observe__heading"><h2>观察小实验 <small lang="en">Watch & try</small></h2><button type="button" disabled={blocked} onClick={play}>{ended ? '重看讲解' : '继续讲解'}<small lang="en">{ended ? 'Watch lesson' : 'Continue'}</small><span aria-hidden="true">▶</span></button></div>
           <div className="windmill-winds" role="group" aria-label="观察实验风力 / Observation wind strength">{winds.map((item) => <button type="button" key={item.id} disabled={blocked} aria-pressed={experimentWind === item.id} onClick={() => tryWind(item.id)}><span aria-hidden="true">{item.id === 0 ? '·' : item.id === 1 ? '→' : '⇉'}</span><b>{item.zh}</b><small lang="en">{item.en}</small></button>)}</div>

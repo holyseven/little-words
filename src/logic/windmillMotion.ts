@@ -13,6 +13,9 @@ export const WIND_SPEEDS = { 0: 0, 1: 100, 2: 190 } as const
 // front-on wind calls for counterclockwise motion (negative SVG rotation).
 export const WINDMILL_DIRECTION = -1
 
+/** Give the narrated coast-down time to remain visible through both voices. */
+export const COAST_LESSON_DURATION_MS = 10_000
+
 const RESPONSE_RATE = 2.2
 const FRICTION_RATE = 1.4
 const STOP_SPEED = 0.25
@@ -21,6 +24,21 @@ const MAX_FRAME_MS = 100
 function normalizeAngle(angle: number): number {
   if (!Number.isFinite(angle)) return 0
   return ((angle % 360) + 360) % 360
+}
+
+/** A chapter-only slow-motion coast. Speed falls continuously to zero;
+ * integrating that speed gives a matching pose without frame-rate drift.
+ * Experiments continue to use the friction model in stepWindmill. */
+export function coastLessonMotion(entryAngle: number, elapsedMs: number): WindmillMotion {
+  const time = Number.isNaN(elapsedMs) ? 0 : elapsedMs
+  const progress = Math.max(0, Math.min(1, time / COAST_LESSON_DURATION_MS))
+  const remaining = 1 - progress
+  const durationSeconds = COAST_LESSON_DURATION_MS / 1000
+  const turn = WIND_SPEEDS[1] * durationSeconds * (progress - progress ** 3 + progress ** 4 / 2)
+  return {
+    angle: normalizeAngle(normalizeAngle(entryAngle) + WINDMILL_DIRECTION * turn),
+    speed: WIND_SPEEDS[1] * remaining * remaining * (1 + 2 * progress),
+  }
 }
 
 /**
